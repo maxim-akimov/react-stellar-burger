@@ -1,0 +1,23 @@
+.scroll_container {
+  height: 100%;
+  overflow-y: auto;
+  max-height: calc(100vh - 88px - 100px - 96px); /* 100 высоты экрана просмотра - 88 меню - 100 заголовок - 96 табы */
+}
+
+.list {
+  margin: 0;
+  padding-left: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+.subtitle {
+
+}
