@@ -1,42 +1,63 @@
 import React from "react";
 import styles from './burger-constructor.module.css';
-import {data} from '../../utils/data';
-import IngredientCard from "../ingredient-card/ingredient-card";
-import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, DragIcon, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {ingredientPropType} from '../../utils/prop-types'
+import PropTypes from "prop-types";
 
 
-function BurgerConstructor() {
+function BurgerConstructor(props) {
   return (
     <section className={styles.list}>
+      <div className="pl-8">
         <ConstructorElement
-          key={data[0]._id}
+          key={props.data[0]._id}
           type="top"
           isLocked={true}
-          text={data[0].name}
-          price={data[0].price}
-          thumbnail={data[0].image}
+          text={props.data[0].name}
+          price={props.data[0].price}
+          thumbnail={props.data[0].image}
         />
-        <ul className={`pb-10 ${styles.scroll_container} ${styles.list} custom-scroll`}>
-          {data.map((ingredient, i, arr) => (
+      </div>
+
+      <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`}>
+        {props.data.map((ingredient) => (
+          <li key={ingredient._id} className={styles.item}>
+            <DragIcon type="primary"/>
             <ConstructorElement
-              key={ingredient._id}
               text={ingredient.name}
               price={ingredient.price}
               thumbnail={ingredient.image}
             />
-          ))}
-        </ul>
+          </li>
+        ))}
+      </ul>
+      <div className="pl-8">
         <ConstructorElement
-          key={data[0]._id}
+          key={props.data[0]._id}
           type="bottom"
           isLocked={true}
-          text={data[0].name}
-          price={data[0].price}
-          thumbnail={data[0].image}
+          text={props.data[0].name}
+          price={props.data[0].price}
+          thumbnail={props.data[0].image}
         />
+      </div>
+      <div className={`pt-10 ${styles.total_container}`}>
+        <p className={`text text_type_digits-medium ${styles.total_price}`}>
+          610
+
+        </p>
+        <Button htmlType="button" type="primary" size="large">
+          Оформить заказ
+        </Button>
+      </div>
     </section>
   )
 }
+
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropType)
+};
 
 
 export default BurgerConstructor;

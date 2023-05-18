@@ -1,13 +1,14 @@
 import React from "react";
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css';
-import {data} from '../../utils/data';
 import IngredientCard from "../ingredient-card/ingredient-card";
+import {ingredientPropType} from "../../utils/prop-types";
+import PropTypes from "prop-types";
 
 
-function BurgerIngredients() {
+function BurgerIngredients(props) {
   const [current, setCurrent] = React.useState('one')
-
+  console.log(props.data)
   return (
     <section>
       <div className={`pb-10 ${styles.tabs}`}>
@@ -26,7 +27,7 @@ function BurgerIngredients() {
           Булки
         </h2>
         <ul className={`${styles.list} pb-10`}>
-          {data.filter(item => item.type === 'bun').map((ingredient) => (
+          {props.data.filter(item => item.type === 'bun').map((ingredient) => (
             <IngredientCard key={ingredient._id} {...ingredient} />
           ))}
         </ul>
@@ -34,7 +35,7 @@ function BurgerIngredients() {
           Соусы
         </h2>
         <ul className={`pb-10 ${styles.list}`}>
-          {data.filter(item => item.type === 'sauce').map((ingredient) => (
+          {props.data.filter(item => item.type === 'sauce').map((ingredient) => (
             <IngredientCard key={ingredient._id} {...ingredient} />
           ))}
         </ul>
@@ -42,7 +43,7 @@ function BurgerIngredients() {
           Начинки
         </h2>
         <ul className={`pb-10 ${styles.list}`}>
-          {data.filter(item => item.type === 'main').map((ingredient) => (
+          {props.data.filter(item => item.type === 'main').map((ingredient) => (
             <IngredientCard key={ingredient._id} {...ingredient} />
           ))}
         </ul>
@@ -50,6 +51,11 @@ function BurgerIngredients() {
     </section>
   )
 }
+
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropType)
+};
 
 
 export default BurgerIngredients;
