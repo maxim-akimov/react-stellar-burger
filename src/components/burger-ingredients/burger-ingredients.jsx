@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 function BurgerIngredients(props) {
   const [current, setCurrent] = React.useState('one')
-  console.log(props.data)
+
   return (
     <section>
       <div className={`pb-10 ${styles.tabs}`}>
