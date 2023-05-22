@@ -1,11 +1,33 @@
 import React from "react";
 import styles from './burger-constructor.module.css';
-import {Button, DragIcon, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, DragIcon, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientPropType} from '../../utils/prop-types'
 import PropTypes from "prop-types";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 
 function BurgerConstructor(props) {
+  const [isOpenedModal, setIsOpenedModal] = React.useState(false);
+
+
+  const handleOpenModal = () => {
+    setIsOpenedModal(true);
+  }
+
+
+  const handleCloseModal = () => {
+    setIsOpenedModal(false);
+  }
+
+
+  const modal = (
+    <Modal onClose={handleCloseModal}>
+      <OrderDetails/>
+    </Modal>
+  );
+
+
   return (
     <section className={styles.list}>
       <div className="pl-8">
@@ -46,10 +68,11 @@ function BurgerConstructor(props) {
           610
 
         </p>
-        <Button htmlType="button" type="primary" size="large">
+        <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>
           Оформить заказ
         </Button>
       </div>
+      {isOpenedModal && modal}
     </section>
   )
 }

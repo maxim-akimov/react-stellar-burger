@@ -14,7 +14,7 @@ function App() {
   });
 
   React.useEffect(() => {
-    fetch(ingredientsApiUrl)
+    fetch(ingredientsApiUrl + '/api/ingredients')
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -50,7 +50,6 @@ function App() {
           }
         </main>
       </div>
-      <ModalOverlay />
     </>
   );
 }

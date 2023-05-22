@@ -1,36 +1,55 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './modal.module.css';
-import OrderDetails from "../order-details/order-details";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import ModalOverlay from "../modal-overlay/modal-overlay";
+import PropTypes from "prop-types";
 
-const data = {
-  "_id":"60666c42cc7b410027a1a9b1",
-  "name":"Краторная булка N-200i",
-  "type":"bun",
-  "proteins":80,
-  "fat":24,
-  "carbohydrates":53,
-  "calories":420,
-  "price":1255,
-  "image":"https://code.s3.yandex.net/react/code/bun-02.png",
-  "image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-  "image_large":"https://code.s3.yandex.net/react/code/bun-02-large.png",
-  "__v":0
+
+function Modal(props) {
+  const modalRoot = document.getElementById('modal-root');
+
+
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleEsc);
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    }
+  }, []);
+
+
+  const handleEsc = (evt) => {
+    if (evt.key === 'Escape') {
+      props.onClose();
+    }
+  }
+
+
+  return ReactDOM.createPortal(
+    (
+      <>
+        <ModalOverlay onClose={props.onClose}>
+          <div className={` ${styles.container}`}>
+            <button className={`${styles.close_btn}`} onClick={props.onClose}>
+              <CloseIcon type="primary"/>
+            </button>
+            <div className={styles.content}>
+              {props.children}
+            </div>
+          </div>
+        </ModalOverlay>
+      </>
+    ),
+    modalRoot
+  );
 }
 
-function Modal() {
-  return (
-    <div className={` ${styles.container}`}>
-      <button className={`${styles.close_btn}`}>
-        <CloseIcon type="primary" />
-      </button>
-      <div className={styles.content}>
-        <IngredientDetails data={data} />
-      </div>
-    </div>
-  )
-}
+
+Modal.propTypes = {
+  onClose: PropTypes.func.isRequired
+};
+
 
 
 export default Modal;

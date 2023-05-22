@@ -1,11 +1,22 @@
+.modal {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
 .container {
   background: #1C1C21;
   border: 1px solid rgba(76, 76, 255, 0.2);
   border-radius: 40px;
   box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04);
   max-width: 720px;
-  width: 100%;
   position: relative;
+  width: 100%;
 }
 
 .close_btn {
@@ -13,12 +24,12 @@
   border: none;
   outline: none;
   position: absolute;
-  top: 60px;
   right: 40px;
+  top: 60px;
 }
 
 .content {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }

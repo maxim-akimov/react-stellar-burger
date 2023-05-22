@@ -7,7 +7,9 @@ import PropTypes from "prop-types";
 
 
 function BurgerIngredients(props) {
-  const [current, setCurrent] = React.useState('one')
+  const {data} = props;
+  const [current, setCurrent] = React.useState('one');
+
 
   return (
     <section>
@@ -23,27 +25,27 @@ function BurgerIngredients(props) {
         </Tab>
       </div>
       <div className={`${styles.scroll_container} custom-scroll`}>
-        <h2 className={`text text_type_main-medium ${styles.subtitle}`}>
+        <h2 className="text text_type_main-medium">
           Булки
         </h2>
         <ul className={`${styles.list} pb-10`}>
-          {props.data.filter(item => item.type === 'bun').map((ingredient) => (
+          {data.filter(item => item.type === 'bun').map((ingredient) => (
             <IngredientCard key={ingredient._id} {...ingredient} />
           ))}
         </ul>
-        <h2 className={`text text_type_main-medium ${styles.subtitle}`}>
+        <h2 className="text text_type_main-medium">
           Соусы
         </h2>
         <ul className={`pb-10 ${styles.list}`}>
-          {props.data.filter(item => item.type === 'sauce').map((ingredient) => (
+          {data.filter(item => item.type === 'sauce').map((ingredient) => (
             <IngredientCard key={ingredient._id} {...ingredient} />
           ))}
         </ul>
-        <h2 className={`text text_type_main-medium ${styles.subtitle}`}>
+        <h2 className="text text_type_main-medium">
           Начинки
         </h2>
         <ul className={`pb-10 ${styles.list}`}>
-          {props.data.filter(item => item.type === 'main').map((ingredient) => (
+          {data.filter(item => item.type === 'main').map((ingredient) => (
             <IngredientCard key={ingredient._id} {...ingredient} />
           ))}
         </ul>
