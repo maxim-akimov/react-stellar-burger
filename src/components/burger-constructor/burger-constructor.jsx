@@ -8,6 +8,9 @@ import OrderDetails from "../order-details/order-details";
 
 
 function BurgerConstructor(props) {
+  const {data} = props;
+
+
   const [isOpenedModal, setIsOpenedModal] = React.useState(false);
 
 
@@ -32,17 +35,17 @@ function BurgerConstructor(props) {
     <section className={styles.list}>
       <div className="pl-8">
         <ConstructorElement
-          key={props.data[0]._id}
+          key={data[0]._id}
           type="top"
           isLocked={true}
-          text={props.data[0].name}
-          price={props.data[0].price}
-          thumbnail={props.data[0].image}
+          text={`${data[0].name} (верх)`}
+          price={data[0].price}
+          thumbnail={data[0].image}
         />
       </div>
 
       <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`}>
-        {props.data.map((ingredient) => (
+        {data.map((ingredient) => (
           <li key={ingredient._id} className={styles.item}>
             <DragIcon type="primary"/>
             <ConstructorElement
@@ -55,18 +58,17 @@ function BurgerConstructor(props) {
       </ul>
       <div className="pl-8">
         <ConstructorElement
-          key={props.data[0]._id}
+          key={data[0]._id}
           type="bottom"
           isLocked={true}
-          text={props.data[0].name}
-          price={props.data[0].price}
-          thumbnail={props.data[0].image}
+          text={`${data[0].name} (низ)`}
+          price={data[0].price}
+          thumbnail={data[0].image}
         />
       </div>
       <div className={`pt-10 ${styles.total_container}`}>
         <p className={`text text_type_digits-medium ${styles.total_price}`}>
           610
-
         </p>
         <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>
           Оформить заказ
@@ -79,7 +81,7 @@ function BurgerConstructor(props) {
 
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropType)
+  data: PropTypes.arrayOf(ingredientPropType).isRequired
 };
 
 

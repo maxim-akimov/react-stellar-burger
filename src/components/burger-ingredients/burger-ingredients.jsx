@@ -8,19 +8,27 @@ import PropTypes from "prop-types";
 
 function BurgerIngredients(props) {
   const {data} = props;
-  const [current, setCurrent] = React.useState('one');
+
+
+  const [tab, setTab] = React.useState('one');
+
+
+  const bun = data.filter(item => item.type === 'bun');
+  const sauce = data.filter(item => item.type === 'sauce');
+  const main = data.filter(item => item.type === 'main');
+
 
 
   return (
     <section>
       <div className={`pb-10 ${styles.tabs}`}>
-        <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+        <Tab value="one" active={tab === 'one'} onClick={setTab}>
           Булки
         </Tab>
-        <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+        <Tab value="two" active={tab === 'two'} onClick={setTab}>
           Соусы
         </Tab>
-        <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+        <Tab value="three" active={tab === 'three'} onClick={setTab}>
           Начинки
         </Tab>
       </div>
@@ -29,7 +37,7 @@ function BurgerIngredients(props) {
           Булки
         </h2>
         <ul className={`${styles.list} pb-10`}>
-          {data.filter(item => item.type === 'bun').map((ingredient) => (
+          {bun.map((ingredient) => (
             <IngredientCard key={ingredient._id} {...ingredient} />
           ))}
         </ul>
@@ -37,7 +45,7 @@ function BurgerIngredients(props) {
           Соусы
         </h2>
         <ul className={`pb-10 ${styles.list}`}>
-          {data.filter(item => item.type === 'sauce').map((ingredient) => (
+          {sauce.map((ingredient) => (
             <IngredientCard key={ingredient._id} {...ingredient} />
           ))}
         </ul>
@@ -45,7 +53,7 @@ function BurgerIngredients(props) {
           Начинки
         </h2>
         <ul className={`pb-10 ${styles.list}`}>
-          {data.filter(item => item.type === 'main').map((ingredient) => (
+          {main.map((ingredient) => (
             <IngredientCard key={ingredient._id} {...ingredient} />
           ))}
         </ul>
@@ -56,7 +64,7 @@ function BurgerIngredients(props) {
 
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropType)
+  data: PropTypes.arrayOf(ingredientPropType).isRequired
 };
 
 

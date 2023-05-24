@@ -28,6 +28,9 @@ function IngredientCard(props) {
   )
 
 
+  const quantity = Math.random().toFixed();
+
+
   return (
     <>
       <li className={styles.card} onClick={handleOpenModal}>
@@ -39,7 +42,7 @@ function IngredientCard(props) {
         <p className={`text text_type_main-default ${styles.title}`}>
           {name}
         </p>
-        {__v > 0 && <Counter count={1} size="default" extraClass="m-1" />}
+        {quantity > 0 && <Counter count={1} size="default" extraClass="m-1" />}
       </li>
       {isOpenedModal && modal}
     </>
