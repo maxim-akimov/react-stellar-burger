@@ -1,7 +1,31 @@
 .app {
+  background-color: #131316;
+  box-sizing: border-box;
+  color: #F2F2F3;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background-color: #131316;
-  color: #f2f2f3;
+  font-family: 'JetBrains Mono', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  margin: 0 auto;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  width: 100%;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 100px auto;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  column-gap: 40px;
+}
+
+.heading {
+  grid-column: 1 / -1;
 }
