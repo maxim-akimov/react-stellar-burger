@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css';
 import IngredientCard from "../ingredient-card/ingredient-card";
 import {ingredientPropType} from "../../utils/prop-types";
 import PropTypes from "prop-types";
+
 
 
 function BurgerIngredients(props) {

@@ -1,12 +1,16 @@
-import React from "react";
+import React, {useContext} from "react";
 import styles from './order-details.module.css';
+import { OrderDetailsContext } from "../../services/app-context";
 
 
 function OrderDetails() {
+  const { orderDetails } = useContext(OrderDetailsContext);
+
+  console.log(orderDetails.order.number)
   return (
     <>
       <p className={`pt-30 pb-8 text text_type_digits-large ${styles.number}`}>
-        1234567
+        { orderDetails.order.number }
       </p>
       <p className="pb-15 text text_type_main-medium">идентификатор заказа</p>
       <div className={`pb-15 ${styles.confirm_icon}`}></div>

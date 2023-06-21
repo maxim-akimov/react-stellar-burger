@@ -1,19 +1,25 @@
-import React, {useContext} from "react";
+import React, {useContext, useReducer, useState} from "react";
 import styles from './burger-constructor.module.css';
 import {Button, DragIcon, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientPropType} from '../../utils/prop-types'
 import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { BurgerConstructorDataContext } from "../../services/burger-constructor-context";
+import { DataContext } from "../../services/app-context";
+import { ConstructorContext } from "../../services/app-context";
+import { OrderDetailsContext } from "../../services/app-context";
+import {sendOrder} from "../../utils/burger-api";
+
 
 
 function BurgerConstructor() {
-  const { burgerConstructorItems } = useContext(BurgerConstructorDataContext);
+  const data = useContext(DataContext);
+  const { totalPriceState } = useContext(ConstructorContext);
 
-  console.log(burgerConstructorItems);
 
-  const [isOpenedModal, setIsOpenedModal] = React.useState(false);
+
+  const [isOpenedModal, setIsOpenedModal] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
 
 
   const handleOpenModal = () => {
@@ -26,58 +32,76 @@ function BurgerConstructor() {
   }
 
 
+  const handleOrderSend = () => {
+    sendOrder({
+      ingredients: data.map((ingredient) => ingredient._id),
+    })
+      .then((res) => {
+        if (res && res.success) {
+          setOrderDetails(res);
+          setIsOpenedModal(true);
+        }
+      })
+      .catch((e) => {
+        setOrderDetails(true);
+        console.error(e)
+      })
+  }
+
   const modal = (
     <Modal onClose={handleCloseModal}>
-      <OrderDetails/>
+      <OrderDetailsContext.Provider value={{orderDetails, setOrderDetails}}>
+        <OrderDetails/>
+      </OrderDetailsContext.Provider>
     </Modal>
   );
 
 
   return (
-    <section className={styles.list}>
-      <div className="pl-8">
-        <ConstructorElement
-          key={burgerConstructorItems[0]._id}
-          type="top"
-          isLocked={true}
-          text={`${burgerConstructorItems[0].name} (верх)`}
-          price={burgerConstructorItems[0].price}
-          thumbnail={burgerConstructorItems[0].image}
-        />
-      </div>
+      <section className={styles.list}>
+        <div className="pl-8">
+          <ConstructorElement
+            key={data[0]._id}
+            type="top"
+            isLocked={true}
+            text={`${data[0].name} (верх)`}
+            price={data[0].price}
+            thumbnail={data[0].image}
+          />
+        </div>
 
-      <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`}>
-        {burgerConstructorItems.map((ingredient) => (
-          <li key={ingredient._id} className={styles.item}>
-            <DragIcon type="primary"/>
-            <ConstructorElement
-              text={ingredient.name}
-              price={ingredient.price}
-              thumbnail={ingredient.image}
-            />
-          </li>
-        ))}
-      </ul>
-      <div className="pl-8">
-        <ConstructorElement
-          key={burgerConstructorItems[0]._id}
-          type="bottom"
-          isLocked={true}
-          text={`${burgerConstructorItems[0].name} (низ)`}
-          price={burgerConstructorItems[0].price}
-          thumbnail={burgerConstructorItems[0].image}
-        />
-      </div>
-      <div className={`pt-10 ${styles.total_container}`}>
-        <p className={`text text_type_digits-medium ${styles.total_price}`}>
-          610
-        </p>
-        <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>
-          Оформить заказ
-        </Button>
-      </div>
-      {isOpenedModal && modal}
-    </section>
+        <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`}>
+          {data.map((ingredient) => (
+            <li key={ingredient._id} className={styles.item}>
+              <DragIcon type="primary"/>
+              <ConstructorElement
+                text={ingredient.name}
+                price={ingredient.price}
+                thumbnail={ingredient.image}
+              />
+            </li>
+          ))}
+        </ul>
+        <div className="pl-8">
+          <ConstructorElement
+            key={data[0]._id}
+            type="bottom"
+            isLocked={true}
+            text={`${data[0].name} (низ)`}
+            price={data[0].price}
+            thumbnail={data[0].image}
+          />
+        </div>
+        <div className={`pt-10 ${styles.total_container}`}>
+          <p className={`text text_type_digits-medium ${styles.total_price}`}>
+            {totalPriceState.totalPrice}
+          </p>
+          <Button htmlType="button" type="primary" size="large" onClick={handleOrderSend}>
+            Оформить заказ
+          </Button>
+        </div>
+        {isOpenedModal && modal}
+      </section>
   )
 }
 

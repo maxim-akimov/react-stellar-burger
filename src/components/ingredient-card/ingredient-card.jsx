@@ -1,14 +1,17 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ingredient-card.module.css';
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
+import {ConstructorContext} from "../../services/app-context";
 
 
 function IngredientCard(props) {
   const {image, price, name, __v} = props;
   const [isOpenedModal, setIsOpenedModal] = React.useState(false);
+  const { totalPriceState, totalPriceDispatcher } = useContext(ConstructorContext);
+
 
 
   const handleOpenModal = () => {
@@ -18,6 +21,10 @@ function IngredientCard(props) {
 
   const handleCloseModal = () => {
     setIsOpenedModal(false);
+  }
+
+  const handleAddIngredient = (price) => {
+    totalPriceDispatcher({type: 'add', payload: price});
   }
 
 
@@ -33,7 +40,7 @@ function IngredientCard(props) {
 
   return (
     <>
-      <li className={styles.card} onClick={handleOpenModal}>
+      <li className={styles.card} onClick={() => handleAddIngredient(price)}>
         <img src={image} alt="props.name"/>
         <div className={styles.price}>
           {price}

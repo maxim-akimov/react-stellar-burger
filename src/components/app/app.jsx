@@ -1,20 +1,32 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useReducer, useState} from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import {getIngredients} from "../../utils/burger-api";
-import {BurgerConstructorDataContext} from '../../services/burger-constructor-context';
+import { DataContext } from '../../services/app-context';
+import { ConstructorContext } from "../../services/app-context";
+
+
+
+const totalPriceInitialState = { totalPrice: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "add":
+      return { totalPrice: state.totalPrice + action.payload };
+    case "delete":
+      return { totalPrice: state.totalPrice - action.payload };
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
 
 
 function App() {
   // Стейт для хранения списка ингредиентов, доступных для добавления в бургер
   const [data, setData] = useState(false);
-
-  // Стейт для хранения состояний процесса загрузки информации с сервера
-  // (на случай добавления лоадера
-  const [itemsRequest, setItemsRequest] = useState(false);
 
   // Стейт для хранения состояния ошибки загрузки информации с сервера
   // (на случай добавления дополнительной обработки ошибок)
@@ -24,7 +36,8 @@ function App() {
   const [isOpenedModal, setIsOpenedModal] = useState(false);
 
 
-  const [burgerConstructorItems, setBurgerConstructorItems] = useState(null);
+  // Редьюсер для динамического расчета стоимости
+  const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
 
 
   // Обработка закрытия модального окна
@@ -34,17 +47,13 @@ function App() {
 
 
   useEffect(() => {
-    setItemsRequest(true);
     getIngredients()
       .then((res) => {
         if (res && res.success) {
-          setBurgerConstructorItems(res.data);
           setData(res.data);
-          setItemsRequest(false);
         }
       })
       .catch((e) => {
-        setItemsRequest(false);
         setItemsRequestFailed(true);
         setIsOpenedModal(true);
         console.error(e)
@@ -73,11 +82,12 @@ function App() {
           {
             data &&
             <>
-              <BurgerConstructorDataContext.Provider
-                value={burgerConstructorItems}>
-                <BurgerIngredients data={data}/>
-                <BurgerConstructor/>
-              </BurgerConstructorDataContext.Provider>
+              <DataContext.Provider value={data}>
+                <ConstructorContext.Provider value={{totalPriceState, totalPriceDispatcher}}>
+                  <BurgerIngredients data={data}/>
+                  <BurgerConstructor/>
+                </ConstructorContext.Provider>
+              </DataContext.Provider>
             </>
           }
         </main>
