@@ -1,15 +1,17 @@
-import React from "react";
+import React, {useContext} from "react";
 import styles from './burger-constructor.module.css';
 import {Button, DragIcon, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientPropType} from '../../utils/prop-types'
 import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import { BurgerConstructorDataContext } from "../../services/burger-constructor-context";
 
 
-function BurgerConstructor(props) {
-  const {data} = props;
+function BurgerConstructor() {
+  const { burgerConstructorItems } = useContext(BurgerConstructorDataContext);
 
+  console.log(burgerConstructorItems);
 
   const [isOpenedModal, setIsOpenedModal] = React.useState(false);
 
@@ -35,17 +37,17 @@ function BurgerConstructor(props) {
     <section className={styles.list}>
       <div className="pl-8">
         <ConstructorElement
-          key={data[0]._id}
+          key={burgerConstructorItems[0]._id}
           type="top"
           isLocked={true}
-          text={`${data[0].name} (верх)`}
-          price={data[0].price}
-          thumbnail={data[0].image}
+          text={`${burgerConstructorItems[0].name} (верх)`}
+          price={burgerConstructorItems[0].price}
+          thumbnail={burgerConstructorItems[0].image}
         />
       </div>
 
       <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`}>
-        {data.map((ingredient) => (
+        {burgerConstructorItems.map((ingredient) => (
           <li key={ingredient._id} className={styles.item}>
             <DragIcon type="primary"/>
             <ConstructorElement
@@ -58,12 +60,12 @@ function BurgerConstructor(props) {
       </ul>
       <div className="pl-8">
         <ConstructorElement
-          key={data[0]._id}
+          key={burgerConstructorItems[0]._id}
           type="bottom"
           isLocked={true}
-          text={`${data[0].name} (низ)`}
-          price={data[0].price}
-          thumbnail={data[0].image}
+          text={`${burgerConstructorItems[0].name} (низ)`}
+          price={burgerConstructorItems[0].price}
+          thumbnail={burgerConstructorItems[0].image}
         />
       </div>
       <div className={`pt-10 ${styles.total_container}`}>
@@ -80,9 +82,11 @@ function BurgerConstructor(props) {
 }
 
 
+/*
 BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(ingredientPropType).isRequired
 };
+ */
 
 
 export default BurgerConstructor;
