@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useReducer, useState} from "react";
+import React, {useContext, useEffect, useMemo, useReducer, useState} from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -71,6 +71,11 @@ function App() {
   )
 
 
+  const ConstructorContextValue = useMemo(() => {
+    return { totalPriceState, totalPriceDispatcher };
+  }, [totalPriceState, totalPriceDispatcher]);
+
+
   return (
     <>
       <div className={styles.app}>
@@ -83,8 +88,8 @@ function App() {
             data &&
             <>
               <DataContext.Provider value={data}>
-                <ConstructorContext.Provider value={{totalPriceState, totalPriceDispatcher}}>
-                  <BurgerIngredients data={data}/>
+                <ConstructorContext.Provider value={ ConstructorContextValue }>
+                  <BurgerIngredients/>
                   <BurgerConstructor/>
                 </ConstructorContext.Provider>
               </DataContext.Provider>

@@ -4,11 +4,12 @@ import styles from './burger-ingredients.module.css';
 import IngredientCard from "../ingredient-card/ingredient-card";
 import {ingredientPropType} from "../../utils/prop-types";
 import PropTypes from "prop-types";
+import {DataContext} from "../../services/app-context";
 
 
 
 function BurgerIngredients(props) {
-  const {data} = props;
+  const data = useContext(DataContext);
 
 
   const [tab, setTab] = React.useState('one');
@@ -63,10 +64,11 @@ function BurgerIngredients(props) {
   )
 }
 
-
+/*
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(ingredientPropType).isRequired
 };
+ */
 
 
 export default BurgerIngredients;
