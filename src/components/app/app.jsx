@@ -1,46 +1,61 @@
-import React from "react";
+import React, {useContext, useEffect, useMemo, useReducer, useState} from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import {getIngredients} from "../../utils/burger-api";
+import { DataContext } from '../../services/app-context';
+import { ConstructorContext } from "../../services/app-context";
+
+
+
+const totalPriceInitialState = { totalPrice: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "add":
+      return { totalPrice: state.totalPrice + action.payload };
+    case "delete":
+      return { totalPrice: state.totalPrice - action.payload };
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
 
 
 function App() {
-  const [state, setState] = React.useState({
-    isLoaded: false,
-    isError: false,
-    error: '',
-    data: []
-  });
+  // Стейт для хранения списка ингредиентов, доступных для добавления в бургер
+  const [data, setData] = useState(false);
+
+  // Стейт для хранения состояния ошибки загрузки информации с сервера
+  // (на случай добавления дополнительной обработки ошибок)
+  const [itemsRequestFailed, setItemsRequestFailed] = useState(false);
+
+  // Стейт для хранения состояния модального окна (открыто/закрыто)
+  const [isOpenedModal, setIsOpenedModal] = useState(false);
 
 
-  const [isOpenedModal, setIsOpenedModal] = React.useState(false);
+  // Редьюсер для динамического расчета стоимости
+  const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
 
 
+  // Обработка закрытия модального окна
   const handleCloseModal = () => {
     setIsOpenedModal(false);
   }
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     getIngredients()
       .then((res) => {
-        setState({
-          isLoaded: true,
-          data: res.data
-        });
+        if (res && res.success) {
+          setData(res.data);
+        }
       })
       .catch((e) => {
-        setState({
-          isLoaded: false,
-          isError: true,
-          error: e
-        })
-
+        setItemsRequestFailed(true);
         setIsOpenedModal(true);
-
         console.error(e)
       })
   }, []);
@@ -52,11 +67,13 @@ function App() {
       <p className={`p-10 text text_type_main-default`}>
         При загрузке данных с сервера произошла ошибка. Попробуйте повторить попвтку позже.
       </p>
-      <p className={`p-10 text text_type_main-default`}>
-        {state.error}
-      </p>
     </Modal>
   )
+
+
+  const ConstructorContextValue = useMemo(() => {
+    return { totalPriceState, totalPriceDispatcher };
+  }, [totalPriceState, totalPriceDispatcher]);
 
 
   return (
@@ -68,10 +85,14 @@ function App() {
             Собери бургер
           </h1>
           {
-            state.isLoaded &&
+            data &&
             <>
-              <BurgerIngredients data={state.data}/>
-              <BurgerConstructor data={state.data}/>
+              <DataContext.Provider value={data}>
+                <ConstructorContext.Provider value={ ConstructorContextValue }>
+                  <BurgerIngredients/>
+                  <BurgerConstructor/>
+                </ConstructorContext.Provider>
+              </DataContext.Provider>
             </>
           }
         </main>

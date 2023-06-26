@@ -48,11 +48,11 @@ function Modal(props) {
 
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.element
-  ]).isRequired,
+  // children: PropTypes.oneOfType([
+  //   PropTypes.string,
+  //   PropTypes.number,
+  //   PropTypes.element
+  // ]).isRequired,
 };
 
 
