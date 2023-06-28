@@ -8,16 +8,15 @@ import OrderDetails from "../order-details/order-details";
 import { DataContext } from "../../services/app-context";
 import { ConstructorContext } from "../../services/app-context";
 import { OrderDetailsContext } from "../../services/app-context";
-import {sendOrder} from "../../utils/burger-api";
 
 
 
 function BurgerConstructor() {
-  const data = useContext(DataContext);
-  const { totalPriceState } = useContext(ConstructorContext);
+  //const data = useContext(DataContext);
+  //const { totalPriceState } = useContext(ConstructorContext);
 
 
-
+/*
   const [isOpenedModal, setIsOpenedModal] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
 
@@ -103,6 +102,8 @@ function BurgerConstructor() {
         {isOpenedModal && modal}
       </section>
   )
+
+ */
 }
 
 

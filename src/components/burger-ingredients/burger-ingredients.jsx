@@ -1,23 +1,35 @@
-import React, {useContext} from "react";
-import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
+import React, {useContext, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+
 import styles from './burger-ingredients.module.css';
+
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientCard from "../ingredient-card/ingredient-card";
 import {ingredientPropType} from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import {DataContext} from "../../services/app-context";
+import { getIngredients } from "../../services/actions/ingredients";
 
 
 
-function BurgerIngredients(props) {
-  const data = useContext(DataContext);
+function BurgerIngredients() {
+  const { items, ingredientsRequest, ingredientsFailed } = useSelector(state => state.ingredients);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      getIngredients()
+    );
+  }, []);
 
 
   const [tab, setTab] = React.useState('one');
 
 
-  const bun = data.filter(item => item.type === 'bun');
-  const sauce = data.filter(item => item.type === 'sauce');
-  const main = data.filter(item => item.type === 'main');
+  const bun = items.filter(item => item.type === 'bun');
+  const sauce = items.filter(item => item.type === 'sauce');
+  const main = items.filter(item => item.type === 'main');
 
 
 

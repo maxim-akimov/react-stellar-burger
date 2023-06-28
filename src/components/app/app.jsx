@@ -1,13 +1,16 @@
 import React, {useContext, useEffect, useMemo, useReducer, useState} from "react";
+import {useDispatch} from "react-redux";
+
 import styles from "./app.module.css";
+
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
-import {getIngredients} from "../../utils/burger-api";
+
 import { DataContext } from '../../services/app-context';
 import { ConstructorContext } from "../../services/app-context";
-
+import {getIngredients} from "../../services/actions/ingredients";
 
 
 const totalPriceInitialState = { totalPrice: 0 };
@@ -46,6 +49,7 @@ function App() {
   }
 
 
+  /*
   useEffect(() => {
     getIngredients()
       .then((res) => {
@@ -59,7 +63,7 @@ function App() {
         console.error(e)
       })
   }, []);
-
+*/
 
   const modal = (
     <Modal onClose={handleCloseModal}>
@@ -87,12 +91,8 @@ function App() {
           {
             data &&
             <>
-              <DataContext.Provider value={data}>
-                <ConstructorContext.Provider value={ ConstructorContextValue }>
-                  <BurgerIngredients/>
-                  <BurgerConstructor/>
-                </ConstructorContext.Provider>
-              </DataContext.Provider>
+              <BurgerIngredients/>
+              <BurgerConstructor/>
             </>
           }
         </main>

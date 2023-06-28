@@ -2,7 +2,7 @@ export const API_URL = 'https://norma.nomoreparties.space';
 
 
 
-export function getIngredients() {
+export function getIngredientsRequest() {
   return fetch(`${API_URL}/api/ingredients`)
     .then((response) => {
       if (response.ok) {
