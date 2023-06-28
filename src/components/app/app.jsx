@@ -8,39 +8,15 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 
-import { DataContext } from '../../services/app-context';
-import { ConstructorContext } from "../../services/app-context";
-import {getIngredients} from "../../services/actions/ingredients";
-
 
 const totalPriceInitialState = { totalPrice: 0 };
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "add":
-      return { totalPrice: state.totalPrice + action.payload };
-    case "delete":
-      return { totalPrice: state.totalPrice - action.payload };
-    default:
-      throw new Error(`Wrong type of action: ${action.type}`);
-  }
-}
+
 
 
 function App() {
-  // Стейт для хранения списка ингредиентов, доступных для добавления в бургер
-  const [data, setData] = useState(false);
-
-  // Стейт для хранения состояния ошибки загрузки информации с сервера
-  // (на случай добавления дополнительной обработки ошибок)
-  const [itemsRequestFailed, setItemsRequestFailed] = useState(false);
-
   // Стейт для хранения состояния модального окна (открыто/закрыто)
   const [isOpenedModal, setIsOpenedModal] = useState(false);
-
-
-  // Редьюсер для динамического расчета стоимости
-  const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
 
 
   // Обработка закрытия модального окна
@@ -48,22 +24,6 @@ function App() {
     setIsOpenedModal(false);
   }
 
-
-  /*
-  useEffect(() => {
-    getIngredients()
-      .then((res) => {
-        if (res && res.success) {
-          setData(res.data);
-        }
-      })
-      .catch((e) => {
-        setItemsRequestFailed(true);
-        setIsOpenedModal(true);
-        console.error(e)
-      })
-  }, []);
-*/
 
   const modal = (
     <Modal onClose={handleCloseModal}>
@@ -75,11 +35,6 @@ function App() {
   )
 
 
-  const ConstructorContextValue = useMemo(() => {
-    return { totalPriceState, totalPriceDispatcher };
-  }, [totalPriceState, totalPriceDispatcher]);
-
-
   return (
     <>
       <div className={styles.app}>
@@ -89,7 +44,6 @@ function App() {
             Собери бургер
           </h1>
           {
-            data &&
             <>
               <BurgerIngredients/>
               <BurgerConstructor/>

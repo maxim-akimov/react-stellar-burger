@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { applyMiddleware, compose, createStore } from 'redux';
-import { Provider } from "react-redux";
+import {applyMiddleware, compose, createStore} from 'redux';
+import {Provider} from "react-redux";
 import thunk from "redux-thunk";
-
 
 
 import "./index.css";
@@ -11,7 +10,7 @@ import "./index.css";
 import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 
-import { rootReducer } from './services/reducers';
+import {rootReducer} from './services/reducers';
 
 
 const composeEnhancers =
@@ -21,24 +20,19 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
 
-// const initialState = {
-//   ingredients: {
-//     ingredientsRequest: false,
-//     ingredientsFailed: false,
-//     items: false
-//   },
-//   constructorIngredients: false,
-//   currentIngredient: {},
-//   order: {}
-// }
-
-const store = createStore(rootReducer, enhancer);
+const initialState = {
+  burgerIngredients: {},
+  burgerConstructorItems: [],
+  currentIngredient: null,
+  order: null
+}
+const store = createStore(rootReducer, initialState, enhancer);
 
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <App/>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

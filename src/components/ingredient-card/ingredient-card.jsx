@@ -5,27 +5,38 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
 import {ConstructorContext} from "../../services/app-context";
+import {useDispatch, useSelector} from "react-redux";
+import {
+  RESET_CURRENT_INGREDIENT,
+  SET_CURRENT_INGREDIENT
+} from "../../services/reducers/ingredient";
 
 
 function IngredientCard(props) {
-  const {image, price, name, __v} = props;
+  const {image, price, name} = props;
   const [isOpenedModal, setIsOpenedModal] = React.useState(false);
-  const { totalPriceState, totalPriceDispatcher } = useContext(ConstructorContext);
+  //const { totalPriceState, totalPriceDispatcher } = useContext(ConstructorContext);
+  const ingredient = useSelector((state) => state.currentIngredient);
 
+  const dispatch = useDispatch();
 
 
   const handleOpenModal = () => {
+    dispatch({
+      type: SET_CURRENT_INGREDIENT,
+      ingredient: props
+    })
     setIsOpenedModal(true);
   }
 
 
   const handleCloseModal = () => {
+    dispatch({
+      type: RESET_CURRENT_INGREDIENT
+    })
     setIsOpenedModal(false);
   }
 
-  const handleAddIngredient = (price) => {
-    totalPriceDispatcher({type: 'add', payload: price});
-  }
 
 
   const modal = (
@@ -40,7 +51,7 @@ function IngredientCard(props) {
 
   return (
     <>
-      <li className={styles.card} onClick={() => handleAddIngredient(price)}>
+      <li className={styles.card} onClick={() => handleOpenModal(price)}>
         <img src={image} alt="props.name"/>
         <div className={styles.price}>
           {price}
