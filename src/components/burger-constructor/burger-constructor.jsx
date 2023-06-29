@@ -13,7 +13,7 @@ import {sendOrderRequest} from "../../services/api";
 
 function BurgerConstructor() {
   const burgerConstructorItems = useSelector(state => state.burgerIngredients.items);
-  console.log(burgerConstructorItems)
+
   const dispatch = useDispatch();
 
   const [isOpenedModal, setIsOpenedModal] = useState(false);

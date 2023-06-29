@@ -5,7 +5,6 @@ const initialState = null;
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_ORDER: {
-      console.log(action.orderData)
       return action.orderData
     }
 

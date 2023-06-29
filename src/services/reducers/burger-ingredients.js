@@ -8,6 +8,7 @@ const initialState = {
   ingredientsRequest: false,
   ingredientsFailed: false,
   items: [],
+  currentTab: 'one',
 }
 
 export const burgerIngredientsReducer = (state = initialState, action) => {
