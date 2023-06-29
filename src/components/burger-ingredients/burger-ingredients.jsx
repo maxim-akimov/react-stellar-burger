@@ -5,12 +5,13 @@ import styles from './burger-ingredients.module.css';
 
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientCard from "../ingredient-card/ingredient-card";
-import {getBurgerIngredients, SET_CURRENT_TAB} from "../../services/actions/burger-ingredients";
+import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
 
 
 
 function BurgerIngredients() {
   const {items, ingredientsRequest, ingredientsFailed} = useSelector(state => state.burgerIngredients);
+
 
   const dispatch = useDispatch();
   const tabsRef = useRef();
@@ -79,9 +80,9 @@ function BurgerIngredients() {
   }, [tab])
 
 
-  const bun = (items) ? items.filter(item => item.type === 'bun') : undefined;
-  const sauce = (items) ? items.filter(item => item.type === 'sauce') : undefined;
-  const main = (items) ? items.filter(item => item.type === 'main') : undefined;
+  const buns = (items) ? items.filter(item => item.type === 'bun') : undefined;
+  const sauces = (items) ? items.filter(item => item.type === 'sauce') : undefined;
+  const mains = (items) ? items.filter(item => item.type === 'main') : undefined;
 
   const loadingContent = <p className="text text_type_main-default text_color_inactive">Загрузка...</p>;
 
@@ -102,7 +103,7 @@ function BurgerIngredients() {
         Булки
       </h2>
       <ul className={`${styles.list} pb-10`}>
-        {bun && bun.map((ingredient) => (
+        {buns && buns.map((ingredient) => (
           <IngredientCard key={ingredient._id} {...ingredient} />
         ))}
       </ul>
@@ -110,7 +111,7 @@ function BurgerIngredients() {
         Соусы
       </h2>
       <ul className={`pb-10 ${styles.list}`}>
-        {sauce && sauce.map((ingredient) => (
+        {sauces && sauces.map((ingredient) => (
           <IngredientCard key={ingredient._id} {...ingredient} />
         ))}
       </ul>
@@ -118,7 +119,7 @@ function BurgerIngredients() {
         Начинки
       </h2>
       <ul className={`pb-10 ${styles.list}`}>
-        {main && main.map((ingredient) => (
+        {mains && mains.map((ingredient) => (
           <IngredientCard key={ingredient._id} {...ingredient} />
         ))}
       </ul>

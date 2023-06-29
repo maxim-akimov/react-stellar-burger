@@ -14,6 +14,17 @@
   row-gap: 16px;
 }
 
+.drag_target {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  flex-direction: column;
+  border-radius: 40px;
+  row-gap: 16px;
+  background: none;
+}
+
 .item {
   align-items: center;
   column-gap: 8px;

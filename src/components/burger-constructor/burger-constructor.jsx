@@ -8,13 +8,29 @@ import OrderDetails from "../order-details/order-details";
 import {useDispatch, useSelector} from "react-redux";
 import {SET_ORDER} from "../../services/reducers/order";
 import {sendOrderRequest} from "../../services/api";
-
+import {useDrop} from "react-dnd";
+import {ADD_IN_CONSTRUCTOR, DELETE_FROM_CONSTRUCTOR} from "../../services/actions/burger-constructor";
 
 
 function BurgerConstructor() {
-  const burgerConstructorItems = useSelector(state => state.burgerIngredients.items);
+  const {bun, other} = useSelector(state => state.burgerConstructor);
 
   const dispatch = useDispatch();
+
+  const [{isHover, isTarget}, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(itemId) {
+      dispatch({
+        type: ADD_IN_CONSTRUCTOR,
+        ingredientType: '',
+        ingredient: itemId
+      })
+    },
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+      isTarget: monitor.canDrop()
+    })
+  });
 
   const [isOpenedModal, setIsOpenedModal] = useState(false);
 
@@ -25,22 +41,31 @@ function BurgerConstructor() {
 
 
   const handleOrderSend = () => {
-      sendOrderRequest({
-        ingredients: burgerConstructorItems.map((ingredient) => ingredient._id),
+    sendOrderRequest({
+      //ingredients: burgerConstructorItems.map((ingredient) => ingredient._id),
+    })
+      .then((res) => {
+        if (res && res.success) {
+          dispatch({
+            type: SET_ORDER,
+            orderData: res
+          })
+          setIsOpenedModal(true);
+        }
       })
-        .then((res) => {
-          if (res && res.success) {
-            dispatch({
-              type: SET_ORDER,
-              orderData: res
-            })
-            setIsOpenedModal(true);
-          }
-        })
-        .catch((e) => {
-          console.error(e)
-        })
+      .catch((e) => {
+        console.error(e)
+      })
   }
+
+
+  const handleRemove = (uuid) => {
+    dispatch({
+      type: DELETE_FROM_CONSTRUCTOR,
+      uuid: uuid
+    });
+  }
+
 
   const modal = (
     <Modal onClose={handleCloseModal}>
@@ -49,52 +74,66 @@ function BurgerConstructor() {
   );
 
 
+  let background = '';
+
+  if (isTarget) {
+    background = 'rgba(255,255,255,.03)';
+    if (isHover) {
+      background = 'rgba(255,255,255,.05)';
+    }
+  } else {
+    background = 'transparent';
+  }
+
   return (
-      <section className={styles.list}>
-        <div className="pl-8">
+    <section className={styles.list}>
+      <div className={styles.drag_target} ref={dropTarget} style={{background}}>
+
+        {bun === null && other.length === 0 && <p>Перетащите ингредиенты сюда</p>}
+        {bun && <div className="pl-8">
           <ConstructorElement
             type="top"
-            // key={data[0]._id}
-            // isLocked={true}
-            // text={`${data[0].name} (верх)`}
-            // price={data[0].price}
-            // thumbnail={data[0].image}
+            key={bun._id}
+            isLocked={true}
+            text={`${bun.name} (верх)`}
+            price={bun.price}
+            thumbnail={bun.image}
           />
-        </div>
-
-        { burgerConstructorItems && burgerConstructorItems > 0 &&
-          <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`}>
-            { burgerConstructorItems.map((ingredient) => (
-            <li key={ingredient._id} className={styles.item}>
-              <DragIcon type="primary"/>
-              <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-              />
-            </li>
-          ))}
-        </ul>}
-        <div className="pl-8">
-          <ConstructorElement
-            type="bottom"
-            // key={data[0]._id}
-            // isLocked={true}
-            // text={`${data[0].name} (низ)`}
-            // price={data[0].price}
-            // thumbnail={data[0].image}
-          />
-        </div>
-        <div className={`pt-10 ${styles.total_container}`}>
-          <p className={`text text_type_digits-medium ${styles.total_price}`}>
-            {/*totalPriceState.totalPrice*/}
-          </p>
-          <Button htmlType="button" type="primary" size="large" onClick={handleOrderSend}>
-            Оформить заказ
-          </Button>
-        </div>
-        {isOpenedModal && modal}
-      </section>
+        </div>}
+        <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`}>
+              {other && other.length > 0 && other.map((ingredient) => (
+                <li key={ingredient.uuid} className={styles.item}>
+                  <DragIcon type="primary"/>
+                  <ConstructorElement
+                    text={ingredient.name}
+                    price={ingredient.price}
+                    thumbnail={ingredient.image}
+                    handleClose={() => handleRemove(ingredient.uuid)}
+                  />
+                </li>
+              ))}
+        </ul>
+          {bun && <div className="pl-8">
+            <ConstructorElement
+              type="bottom"
+              key={bun._id}
+              isLocked={true}
+              text={`${bun.name} (ybp)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          </div>}
+      </div>
+      <div className={`pt-10 ${styles.total_container}`}>
+        <p className={`text text_type_digits-medium ${styles.total_price}`}>
+          {/*totalPriceState.totalPrice*/}
+        </p>
+        <Button htmlType="button" type="primary" size="large" onClick={handleOrderSend}>
+          Оформить заказ
+        </Button>
+      </div>
+      {isOpenedModal && modal}
+    </section>
   )
 }
 

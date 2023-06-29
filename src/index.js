@@ -22,7 +22,10 @@ const enhancer = composeEnhancers(applyMiddleware(thunk));
 
 const initialState = {
   burgerIngredients: {},
-  burgerConstructorItems: [],
+  burgerConstructor: {
+    bun: null,
+    other: [],
+  },
   currentIngredient: null,
   order: null
 }

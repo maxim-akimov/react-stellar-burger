@@ -14,12 +14,10 @@ export function getBurgerIngredients() {
     getBurgerIngredientsRequest()
       .then(res => {
         if (res && res.success) {
-          setTimeout(() => {
-            dispatch({
-              type: GET_BURGER_INGREDIENTS_SUCCESS,
-              items: res.data
-            })
-          }, 1500)
+          dispatch({
+            type: GET_BURGER_INGREDIENTS_SUCCESS,
+            items: res.data
+          })
         } else {
           dispatch({
             type: GET_BURGER_INGREDIENTS_FAILED
