@@ -1,49 +1,24 @@
-import React from "react";
+import React,{useState} from "react";
+
 import styles from "./app.module.css";
+
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
-import {getIngredients} from "../../utils/burger-api";
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
 
 
 function App() {
-  const [state, setState] = React.useState({
-    isLoaded: false,
-    isError: false,
-    error: '',
-    data: []
-  });
+  // Стейт для хранения состояния модального окна (открыто/закрыто)
+  const [isOpenedModal, setIsOpenedModal] = useState(false);
 
 
-  const [isOpenedModal, setIsOpenedModal] = React.useState(false);
-
-
+  // Обработка закрытия модального окна
   const handleCloseModal = () => {
     setIsOpenedModal(false);
   }
-
-
-  React.useEffect(() => {
-    getIngredients()
-      .then((res) => {
-        setState({
-          isLoaded: true,
-          data: res.data
-        });
-      })
-      .catch((e) => {
-        setState({
-          isLoaded: false,
-          isError: true,
-          error: e
-        })
-
-        setIsOpenedModal(true);
-
-        console.error(e)
-      })
-  }, []);
 
 
   const modal = (
@@ -51,9 +26,6 @@ function App() {
       <h2 className={`pt-20 pb-1 text text_type_main-large`}>Ошибка!</h2>
       <p className={`p-10 text text_type_main-default`}>
         При загрузке данных с сервера произошла ошибка. Попробуйте повторить попвтку позже.
-      </p>
-      <p className={`p-10 text text_type_main-default`}>
-        {state.error}
       </p>
     </Modal>
   )
@@ -68,10 +40,11 @@ function App() {
             Собери бургер
           </h1>
           {
-            state.isLoaded &&
             <>
-              <BurgerIngredients data={state.data}/>
-              <BurgerConstructor data={state.data}/>
+              <DndProvider backend={HTML5Backend}>
+                <BurgerIngredients/>
+                <BurgerConstructor/>
+              </DndProvider>
             </>
           }
         </main>

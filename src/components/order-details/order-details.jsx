@@ -1,12 +1,14 @@
-import React from "react";
 import styles from './order-details.module.css';
+import {useSelector} from "react-redux";
 
 
 function OrderDetails() {
+  const order = useSelector((state) => state.order.orderData);
+
   return (
     <>
       <p className={`pt-30 pb-8 text text_type_digits-large ${styles.number}`}>
-        1234567
+        { order.order.number }
       </p>
       <p className="pb-15 text text_type_main-medium">идентификатор заказа</p>
       <div className={`pb-15 ${styles.confirm_icon}`}></div>
