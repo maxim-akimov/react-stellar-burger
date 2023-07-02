@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import PropTypes from "prop-types";
 import {useDrag} from "react-dnd";
@@ -20,11 +20,13 @@ function IngredientCard(props) {
   const [isOpenedModal, setIsOpenedModal] = React.useState(false);
   const {bun, other} = useSelector(state => state.burgerConstructor);
 
-  const quantity = (type === 'bun' && bun && bun._id === _id)
-    ? 1
-    : other.reduce((counter, item) => {
-      return (item._id === _id) ? counter + 1 : counter;
-    }, 0);
+  const quantity = useMemo(() => {
+    return (type === 'bun' && bun && bun._id === _id)
+      ? 1
+      : other.reduce((counter, item) => {
+        return (item._id === _id) ? counter + 1 : counter;
+      }, 0);
+  }, [bun, other])
 
 
   const dispatch = useDispatch();

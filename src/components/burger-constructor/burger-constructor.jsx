@@ -51,6 +51,8 @@ function BurgerConstructor() {
     },
     [cards],
   )
+
+
   const moveCard = useCallback(
     (uuid, atIndex) => {
       const {card, index} = findCard(uuid)
@@ -62,6 +64,8 @@ function BurgerConstructor() {
     },
     [findCard, cards],
   )
+
+
   const [, orderingDropRef] = useDrop(() => ({accept: 'ingredients-ordering'}))
 
 
@@ -111,15 +115,15 @@ function BurgerConstructor() {
   );
 
 
-  let background = '';
+  let backgroundClass = '';
 
   if (isTarget) {
-    background = 'rgba(255,255,255,.03)';
+    backgroundClass = styles.is_target;
     if (isHover) {
-      background = 'rgba(255,255,255,.05)';
+      backgroundClass = styles.is_hover;
     }
   } else {
-    background = 'transparent';
+    backgroundClass = styles.default;
   }
 
 
@@ -134,7 +138,7 @@ function BurgerConstructor() {
 
   return (
     <section className={styles.list}>
-      <div className={styles.drag_target} ref={dropTarget} style={{background}}>
+      <div className={`${styles.drag_target} ${backgroundClass}`} ref={dropTarget}>
 
         {bun === null && other.length === 0 && <p>Перетащите ингредиенты сюда</p>}
         {bun && <div className="pl-8">

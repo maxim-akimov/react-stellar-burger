@@ -4,3 +4,11 @@
   display: flex;
   flex-direction: row;
 }
+
+.is_dragging {
+  opacity: 0;
+}
+
+.default {
+  opacity: 1;
+}

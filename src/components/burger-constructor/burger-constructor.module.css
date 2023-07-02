@@ -38,3 +38,15 @@
   background: url(../../images/currency-icon.svg) no-repeat right center;
   padding-right: 44px;
 }
+
+.default {
+  background: transparent;
+}
+
+.is_target {
+  background: rgba(255,255,255,.03);
+}
+
+.is_hover {
+  background: rgba(255,255,255,.05);
+}

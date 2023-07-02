@@ -46,7 +46,7 @@ function ConstructorListItem(props) {
     }),
     [findCard, moveCard],
   )
-  const opacity = orderingIsDragging ? 0 : 1
+  const opacityClass = orderingIsDragging ? styles.is_dragging : styles.default;
 
 
   const handleRemove = (uuid) => {
@@ -58,8 +58,8 @@ function ConstructorListItem(props) {
 
 
   return (
-    <li key={uuid} className={styles.item}
-        ref={(node) => orderingDragRef(orderingDropRef(node))} style={{ opacity }}>
+    <li key={uuid} className={`${styles.item} ${opacityClass}`}
+        ref={(node) => orderingDragRef(orderingDropRef(node))}>
       <DragIcon type="primary"/>
       <ConstructorElement
         text={name}
