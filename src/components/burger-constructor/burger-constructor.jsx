@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 
-import {sendOrderRequest} from "../../services/api";
+import {sendOrderRequest} from "../../utils/api";
 
 import styles from './burger-constructor.module.css';
 
@@ -15,7 +15,7 @@ import {
   ADD_IN_CONSTRUCTOR,
   ORDER_INGREDIENTS
 } from "../../services/actions/burger-constructor";
-import {SET_ORDER} from "../../services/actions/order";
+import {SET_ORDER, SET_ORDER_FAILED, SET_ORDER_REQUEST, SET_ORDER_SUCCESS} from "../../services/actions/order";
 
 
 
@@ -73,6 +73,9 @@ function BurgerConstructor() {
 
 
   const handleOrderSend = () => {
+    dispatch({
+      type: SET_ORDER_REQUEST
+    })
     sendOrderRequest({
       ingredients: [
         bun._id,
@@ -86,10 +89,16 @@ function BurgerConstructor() {
             type: SET_ORDER,
             orderData: res
           })
+          dispatch({
+            type: SET_ORDER_SUCCESS
+          })
           setIsOpenedModal(true);
         }
       })
       .catch((e) => {
+        dispatch({
+          type: SET_ORDER_FAILED
+        })
         console.error(e)
       })
   }

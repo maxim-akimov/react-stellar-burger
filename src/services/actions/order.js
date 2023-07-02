@@ -1,1 +1,4 @@
 export const SET_ORDER = 'SET_ORDER';
+export const SET_ORDER_REQUEST = 'SET_ORDER_REQUEST';
+export const SET_ORDER_SUCCESS = 'SET_ORDER_SUCCESS';
+export const SET_ORDER_FAILED = 'SET_ORDER_FAILED';

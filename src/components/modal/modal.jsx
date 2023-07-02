@@ -15,19 +15,18 @@ function Modal(props) {
 
 
   useEffect(() => {
+    const handleEsc = (evt) => {
+      if (evt.key === 'Escape') {
+        props.onClose();
+      }
+    }
+
     document.addEventListener('keydown', handleEsc);
 
     return () => {
       document.removeEventListener('keydown', handleEsc);
     }
   }, []);
-
-
-  const handleEsc = (evt) => {
-    if (evt.key === 'Escape') {
-      props.onClose();
-    }
-  }
 
 
   return ReactDOM.createPortal(
@@ -52,9 +51,7 @@ function Modal(props) {
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.element
+    PropTypes.any
   ]).isRequired,
 };
 

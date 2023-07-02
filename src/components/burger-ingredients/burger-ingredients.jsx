@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import styles from './burger-ingredients.module.css';
@@ -7,7 +7,6 @@ import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientCard from "../ingredient-card/ingredient-card";
 
 import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
-
 
 
 function BurgerIngredients() {
@@ -49,7 +48,7 @@ function BurgerIngredients() {
     const tabsNames = ['one', 'two', 'three'];
     const results = [];
 
-    for(const titleIndex in titlesPositions) {
+    for (const titleIndex in titlesPositions) {
       results.push(
         Math.abs(containerPosition - titlesPositions[titleIndex])
       );
@@ -65,25 +64,14 @@ function BurgerIngredients() {
   }, [titlesPositions])
 
 
-  useEffect(() => {
-    // const container = scrollContainerRef.current;
-    // console.log(container)
-    //   container.querySelectorAll('h2').forEach((title) => {
-    //   console.log(title, tab)
-    //
-    //   if (title.id === tab) {
-    //     console.log(title, tab)
-    //     title.scrollIntoView({
-    //       behavior: 'smooth'
-    //     })
-    //   }
-    // });
-  }, [tab])
+  const ingredients = useMemo(() => {
+    return {
+      buns: (items) ? items.filter(item => item.type === 'bun') : undefined,
+      sauces: (items) ? items.filter(item => item.type === 'sauce') : undefined,
+      mains: (items) ? items.filter(item => item.type === 'main') : undefined,
+    }
+  }, [items])
 
-
-  const buns = (items) ? items.filter(item => item.type === 'bun') : undefined;
-  const sauces = (items) ? items.filter(item => item.type === 'sauce') : undefined;
-  const mains = (items) ? items.filter(item => item.type === 'main') : undefined;
 
   const loadingContent = <p className="text text_type_main-default text_color_inactive">Загрузка...</p>;
 
@@ -99,12 +87,13 @@ function BurgerIngredients() {
         Начинки
       </Tab>
     </div>
-    <div className={`${styles.scroll_container} custom-scroll`} ref={scrollContainerRef} onScroll={handleContainerScroll}>
+    <div className={`${styles.scroll_container} custom-scroll`} ref={scrollContainerRef}
+         onScroll={handleContainerScroll}>
       <h2 className="text text_type_main-medium" id="one">
         Булки
       </h2>
       <ul className={`${styles.list} pb-10`}>
-        {buns && buns.map((ingredient) => (
+        {ingredients.buns && ingredients.buns.map((ingredient) => (
           <IngredientCard key={ingredient._id} {...ingredient} />
         ))}
       </ul>
@@ -112,7 +101,7 @@ function BurgerIngredients() {
         Соусы
       </h2>
       <ul className={`pb-10 ${styles.list}`}>
-        {sauces && sauces.map((ingredient) => (
+        {ingredients.sauces && ingredients.sauces.map((ingredient) => (
           <IngredientCard key={ingredient._id} {...ingredient} />
         ))}
       </ul>
@@ -120,7 +109,7 @@ function BurgerIngredients() {
         Начинки
       </h2>
       <ul className={`pb-10 ${styles.list}`}>
-        {mains && mains.map((ingredient) => (
+        {ingredients.mains && ingredients.mains.map((ingredient) => (
           <IngredientCard key={ingredient._id} {...ingredient} />
         ))}
       </ul>

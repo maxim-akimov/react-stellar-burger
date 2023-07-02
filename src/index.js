@@ -20,16 +20,8 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
 
-const initialState = {
-  burgerIngredients: {},
-  burgerConstructor: {
-    bun: null,
-    other: [],
-  },
-  currentIngredient: null,
-  order: null
-}
-const store = createStore(rootReducer, initialState, enhancer);
+
+const store = createStore(rootReducer, enhancer);
 
 
 ReactDOM.render(

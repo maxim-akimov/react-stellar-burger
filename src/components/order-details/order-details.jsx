@@ -1,12 +1,9 @@
-import React, {useContext} from "react";
 import styles from './order-details.module.css';
-import { OrderDetailsContext } from "../../services/app-context";
 import {useSelector} from "react-redux";
 
 
 function OrderDetails() {
-  //const { orderDetails } = useContext(OrderDetailsContext);
-  const order = useSelector((state) => state.order);
+  const order = useSelector((state) => state.order.orderData);
 
   return (
     <>
