@@ -1,4 +1,4 @@
-export const SET_ORDER = 'SET_ORDER';
+import {SET_ORDER} from "../actions/order";
 
 const initialState = null;
 

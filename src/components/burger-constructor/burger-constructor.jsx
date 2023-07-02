@@ -1,15 +1,22 @@
-import React, {useContext, useReducer, useState} from "react";
-import styles from './burger-constructor.module.css';
-import {Button, DragIcon, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ingredientPropType} from '../../utils/prop-types'
-import PropTypes from "prop-types";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
+import React, {useCallback, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {SET_ORDER} from "../../services/reducers/order";
-import {sendOrderRequest} from "../../services/api";
 import {useDrop} from "react-dnd";
-import {ADD_IN_CONSTRUCTOR, DELETE_FROM_CONSTRUCTOR} from "../../services/actions/burger-constructor";
+
+import {sendOrderRequest} from "../../services/api";
+
+import styles from './burger-constructor.module.css';
+
+import {Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
+import Modal from "../modal/modal";
+import ConstructorListItem from "../constructor-list-item/constructor-list-item";
+import OrderDetails from "../order-details/order-details";
+
+import {
+  ADD_IN_CONSTRUCTOR,
+  ORDER_INGREDIENTS
+} from "../../services/actions/burger-constructor";
+import {SET_ORDER} from "../../services/actions/order";
+
 
 
 function BurgerConstructor() {
@@ -32,8 +39,33 @@ function BurgerConstructor() {
     })
   });
 
-  const [isOpenedModal, setIsOpenedModal] = useState(false);
 
+  const cards = useSelector((state) => state.burgerConstructor.other)
+  const findCard = useCallback(
+    (uuid) => {
+      const card = cards.filter((c) => `${c.uuid}` === uuid)[0]
+      return {
+        card,
+        index: cards.indexOf(card),
+      }
+    },
+    [cards],
+  )
+  const moveCard = useCallback(
+    (uuid, atIndex) => {
+      const {card, index} = findCard(uuid)
+      dispatch({
+        type: ORDER_INGREDIENTS,
+        fromIndex: index,
+        toIndex: atIndex
+      })
+    },
+    [findCard, cards],
+  )
+  const [, orderingDropRef] = useDrop(() => ({accept: 'ingredients-ordering'}))
+
+
+  const [isOpenedModal, setIsOpenedModal] = useState(false);
 
   const handleCloseModal = () => {
     setIsOpenedModal(false);
@@ -42,7 +74,11 @@ function BurgerConstructor() {
 
   const handleOrderSend = () => {
     sendOrderRequest({
-      //ingredients: burgerConstructorItems.map((ingredient) => ingredient._id),
+      ingredients: [
+        bun._id,
+        ...other.map((ingredient) => ingredient._id),
+        bun._id,
+      ],
     })
       .then((res) => {
         if (res && res.success) {
@@ -56,14 +92,6 @@ function BurgerConstructor() {
       .catch((e) => {
         console.error(e)
       })
-  }
-
-
-  const handleRemove = (uuid) => {
-    dispatch({
-      type: DELETE_FROM_CONSTRUCTOR,
-      uuid: uuid
-    });
   }
 
 
@@ -85,6 +113,16 @@ function BurgerConstructor() {
     background = 'transparent';
   }
 
+
+  const totalPrice = useMemo(() => {
+    const bunPrice = (bun && bun.price) ? bun.price * 2 : 0;
+
+    return bunPrice + other.reduce((sum, ingredient) => {
+      return (ingredient && ingredient.price) ? sum + ingredient.price : sum;
+    }, 0)
+  }, [bun, other])
+
+
   return (
     <section className={styles.list}>
       <div className={styles.drag_target} ref={dropTarget} style={{background}}>
@@ -100,33 +138,30 @@ function BurgerConstructor() {
             thumbnail={bun.image}
           />
         </div>}
-        <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`}>
-              {other && other.length > 0 && other.map((ingredient) => (
-                <li key={ingredient.uuid} className={styles.item}>
-                  <DragIcon type="primary"/>
-                  <ConstructorElement
-                    text={ingredient.name}
-                    price={ingredient.price}
-                    thumbnail={ingredient.image}
-                    handleClose={() => handleRemove(ingredient.uuid)}
-                  />
-                </li>
-              ))}
-        </ul>
-          {bun && <div className="pl-8">
-            <ConstructorElement
-              type="bottom"
-              key={bun._id}
-              isLocked={true}
-              text={`${bun.name} (ybp)`}
-              price={bun.price}
-              thumbnail={bun.image}
-            />
-          </div>}
+        {other && other.length > 0 &&
+          <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`} ref={orderingDropRef}>
+            {other.map((ingredient) => (
+              <ConstructorListItem
+                key={ingredient.uuid}
+                {...ingredient}
+                findCard={findCard}
+                moveCard={moveCard}/>
+            ))}
+          </ul>}
+        {bun && <div className="pl-8">
+          <ConstructorElement
+            type="bottom"
+            key={bun._id}
+            isLocked={true}
+            text={`${bun.name} (ybp)`}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </div>}
       </div>
       <div className={`pt-10 ${styles.total_container}`}>
         <p className={`text text_type_digits-medium ${styles.total_price}`}>
-          {/*totalPriceState.totalPrice*/}
+          {totalPrice}
         </p>
         <Button htmlType="button" type="primary" size="large" onClick={handleOrderSend}>
           Оформить заказ
@@ -136,13 +171,6 @@ function BurgerConstructor() {
     </section>
   )
 }
-
-
-/*
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropType).isRequired
-};
- */
 
 
 export default BurgerConstructor;

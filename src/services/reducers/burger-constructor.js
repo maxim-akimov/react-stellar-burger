@@ -1,5 +1,5 @@
 import {v4 as uuidV4} from 'uuid';
-import {ADD_IN_CONSTRUCTOR, DELETE_FROM_CONSTRUCTOR} from "../actions/burger-constructor";
+import {ADD_IN_CONSTRUCTOR, DELETE_FROM_CONSTRUCTOR, ORDER_INGREDIENTS} from "../actions/burger-constructor";
 
 
 const initialState = {
@@ -35,6 +35,15 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       return {
         ...state,
         other: state.other.filter((element) => element.uuid !== action.uuid)
+      }
+    }
+
+    case ORDER_INGREDIENTS: {
+      const ingredients = [...state.other];
+      ingredients.splice(action.toIndex, 0, ingredients.splice(action.fromIndex, 1)[0])
+      return {
+        ...state,
+        other: ingredients,
       }
     }
 

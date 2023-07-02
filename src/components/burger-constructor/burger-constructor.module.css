@@ -18,18 +18,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 50vh;
+  min-height: 270px;
   flex-direction: column;
   border-radius: 40px;
   row-gap: 16px;
   background: none;
-}
-
-.item {
-  align-items: center;
-  column-gap: 8px;
-  display: flex;
-  flex-direction: row;
 }
 
 .total_container {

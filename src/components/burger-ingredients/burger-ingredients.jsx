@@ -1,10 +1,11 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import styles from './burger-ingredients.module.css';
 
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientCard from "../ingredient-card/ingredient-card";
+
 import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
 
 

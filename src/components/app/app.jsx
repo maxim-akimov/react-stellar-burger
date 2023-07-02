@@ -1,5 +1,4 @@
-import React, {useContext, useEffect, useMemo, useReducer, useState} from "react";
-import {useDispatch} from "react-redux";
+import React,{useState} from "react";
 
 import styles from "./app.module.css";
 
@@ -9,11 +8,6 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
-
-
-const totalPriceInitialState = { totalPrice: 0 };
-
-
 
 
 function App() {

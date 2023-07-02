@@ -1,23 +1,23 @@
-import React, {useContext} from "react";
-import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import React from "react";
+import {useDispatch, useSelector} from "react-redux";
+import PropTypes from "prop-types";
+import {useDrag} from "react-dnd";
+
 import styles from './ingredient-card.module.css';
+
+import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import PropTypes from "prop-types";
-import {ConstructorContext} from "../../services/app-context";
-import {useDispatch, useSelector} from "react-redux";
+
 import {
   RESET_CURRENT_INGREDIENT,
   SET_CURRENT_INGREDIENT
 } from "../../services/reducers/ingredient";
-import {useDrag} from "react-dnd";
 
 
 function IngredientCard(props) {
   const {_id, type, image, price, name} = props;
   const [isOpenedModal, setIsOpenedModal] = React.useState(false);
-  //const { totalPriceState, totalPriceDispatcher } = useContext(ConstructorContext);
-  const ingredient = useSelector((state) => state.currentIngredient);
   const {bun, other} = useSelector(state => state.burgerConstructor);
 
   const quantity = (type === 'bun' && bun && bun._id === _id)
@@ -29,7 +29,6 @@ function IngredientCard(props) {
 
   const dispatch = useDispatch();
   const [, dragRef] = useDrag({
-    //type: (type === 'bun') ? 'bun' : 'other',
     type: 'ingredient',
     item: props
   });
@@ -82,6 +81,8 @@ function IngredientCard(props) {
 
 
 IngredientCard.propTypes = {
+  _id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired
