@@ -1,30 +1,32 @@
-import React from "react";
+import {useEffect} from "react";
 import ReactDOM from "react-dom";
-import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './modal.module.css';
-import ModalOverlay from "../modal-overlay/modal-overlay";
 import PropTypes from "prop-types";
+
 import {modalRoot} from "../../utils/constaints";
+
+import styles from './modal.module.css';
+
+import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import ModalOverlay from "../modal-overlay/modal-overlay";
 
 
 function Modal(props) {
   const {children} = props;
 
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const handleEsc = (evt) => {
+      if (evt.key === 'Escape') {
+        props.onClose();
+      }
+    }
+
     document.addEventListener('keydown', handleEsc);
 
     return () => {
       document.removeEventListener('keydown', handleEsc);
     }
   }, []);
-
-
-  const handleEsc = (evt) => {
-    if (evt.key === 'Escape') {
-      props.onClose();
-    }
-  }
 
 
   return ReactDOM.createPortal(
@@ -49,9 +51,7 @@ function Modal(props) {
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.element
+    PropTypes.any
   ]).isRequired,
 };
 

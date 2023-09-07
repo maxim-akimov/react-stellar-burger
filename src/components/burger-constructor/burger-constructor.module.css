@@ -14,11 +14,15 @@
   row-gap: 16px;
 }
 
-.item {
-  align-items: center;
-  column-gap: 8px;
+.drag_target {
   display: flex;
-  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  min-height: 270px;
+  flex-direction: column;
+  border-radius: 40px;
+  row-gap: 16px;
+  background: none;
 }
 
 .total_container {
@@ -33,4 +37,16 @@
 .total_price {
   background: url(../../images/currency-icon.svg) no-repeat right center;
   padding-right: 44px;
+}
+
+.default {
+  background: transparent;
+}
+
+.is_target {
+  background: rgba(255,255,255,.03);
+}
+
+.is_hover {
+  background: rgba(255,255,255,.05);
 }
