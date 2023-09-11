@@ -25,7 +25,3 @@
   margin: 0 auto;
   column-gap: 40px;
 }
-
-.heading {
-  grid-column: 1 / -1;
-}
