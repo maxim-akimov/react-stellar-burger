@@ -9,13 +9,15 @@ import {HTML5Backend} from "react-dnd-html5-backend";
 function Home() {
   return (
     <>
-      <h1 className={`text text_type_main-large pt-10 pb-5 ${styles.heading}`}>
-        Собери бургер
-      </h1>
-      <DndProvider backend={HTML5Backend}>
-        <BurgerIngredients/>
-        <BurgerConstructor/>
-      </DndProvider>
+      <main className={styles.main}>
+        <h1 className={`text text_type_main-large pt-10 pb-5 ${styles.heading}`}>
+          Собери бургер
+        </h1>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients/>
+          <BurgerConstructor/>
+        </DndProvider>
+      </main>
     </>
   );
 }

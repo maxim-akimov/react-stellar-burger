@@ -1,5 +1,5 @@
-import React,{useState} from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, {useState} from "react";
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 import styles from "./app.module.css";
 
@@ -13,6 +13,7 @@ import Profile from "../../pages/profile";
 import Ingredient from "../../pages/ingredient";
 import NotFound404 from "../../pages/not-found-404";
 import ProtectedRouteElement from "../protected-route-element/protected-rote-element";
+import Login from "../../pages/login";
 
 
 function App() {
@@ -40,39 +41,41 @@ function App() {
     <Router>
       <div className={styles.app}>
         <AppHeader/>
-        <main className={styles.main}>
-            <Routes>
-              <Route
-                path="/"
-                element={<Home />}/>
+        <Routes>
+          <Route
+            path="/"
+            element={<Home/>}/>
 
-              <Route
-                path="/ingredients/:ingredientId"
-                element={<Ingredient />}/>
+          <Route
+            path="/ingredients/:ingredientId"
+            element={<Ingredient/>}/>
 
-              <Route
-                path="/register"
-                element={<Register />} />
+          <Route
+            path="/login"
+            element={<Login/>}/>
 
-              <Route
-                path="/forgot-password"
-                element={<ProtectedRouteElement element={<ForgotPassword />}/>} />
+          <Route
+            path="/register"
+            element={<Register/>}/>
 
-              <Route
-                path="/reset-password"
-                element={<ProtectedRouteElement element={<ResetPassword />}/>} />
+          <Route
+            path="/forgot-password"
+            element={<ProtectedRouteElement element={<ForgotPassword/>}/>}/>
 
-              <Route
-                path="/profile"
-                element={<ProtectedRouteElement element={<Profile />}/>} />
+          <Route
+            path="/reset-password"
+            element={<ProtectedRouteElement element={<ResetPassword/>}/>}/>
 
-              <Route
-                path="/profile/*"
-                element={<ProtectedRouteElement element={<Profile />}/>} />
+          <Route
+            path="/profile"
+            element={<ProtectedRouteElement element={<Profile/>}/>}/>
 
-              <Route path="*" element={<NotFound404/>}/>
-            </Routes>
-        </main>
+          <Route
+            path="/profile/*"
+            element={<ProtectedRouteElement element={<Profile/>}/>}/>
+
+          <Route path="*" element={<NotFound404/>}/>
+        </Routes>
       </div>
       {isOpenedModal && modal}
     </Router>
