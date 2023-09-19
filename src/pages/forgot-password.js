@@ -1,14 +1,54 @@
 import styles from "./forgot-password.module.css";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import React, {useState} from "react";
+import {sendForgotPasswordRequest} from "../utils/api";
+import {
+  SET_FORGOT_PASSWORD, SET_FORGOT_PASSWORD_FAILED,
+  SET_FORGOT_PASSWORD_REQUEST,
+  SET_FORGOT_PASSWORD_SUCCESS
+} from "../services/actions/forgot-password";
+import {useDispatch} from "react-redux";
 
 
 
 function ForgotPassword() {
-  const [values, setValues] = useState({
+  const [form, setValues] = useState({
     email: '',
   })
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+
+
+  const handleForgotPasswordSend = () => {
+    dispatch({
+      type: SET_FORGOT_PASSWORD_REQUEST
+    })
+    sendForgotPasswordRequest({
+      email: form.email,
+    })
+      .then((res) => {
+        if (res && res.success) {
+          dispatch({
+            type: SET_FORGOT_PASSWORD,
+            data: res
+          })
+          dispatch({
+            type: SET_FORGOT_PASSWORD_SUCCESS
+          })
+          navigate('/reset-password');
+        }
+      })
+      .catch((e) => {
+        dispatch({
+          type: SET_FORGOT_PASSWORD_FAILED
+        })
+        console.error(e)
+      })
+  }
 
 
 
@@ -19,14 +59,14 @@ function ForgotPassword() {
           Восстановление пароля
         </h1>
         <EmailInput
-          onChange={e => setValues({...values, email: e.target.value})}
-          value={values.email}
+          onChange={e => setValues({...form, email: e.target.value})}
+          value={form.email}
           name={'email'}
           isIcon={false}
           extraClass="pt-6"
         />
 
-        <Button htmlType="button" type="primary" size="medium" extraClass={'mt-6 mb-20'}>
+        <Button htmlType="button" type="primary" size="medium" extraClass={'mt-6 mb-20'} onClick={handleForgotPasswordSend}>
           Восстановить
         </Button>
 

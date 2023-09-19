@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 
 
 function Register() {
-  const [values, setValues] = useState({
+  const [form, setValues] = useState({
     name: '',
     email: '',
     password: ''
@@ -22,8 +22,8 @@ function Register() {
         <Input
           type={'text'}
           placeholder={'Имя'}
-          onChange={e => setValues({...values, name: e.target.value})}
-          value={values.name}
+          onChange={e => setValues({...form, name: e.target.value})}
+          value={form.name}
           name={'name'}
           error={false}
           errorText={'Ошибка'}
@@ -31,16 +31,16 @@ function Register() {
         />
 
         <EmailInput
-          onChange={e => setValues({...values, email: e.target.value})}
-          value={values.email}
+          onChange={e => setValues({...form, email: e.target.value})}
+          value={form.email}
           name={'email'}
           isIcon={false}
           extraClass="pt-6"
         />
 
         <PasswordInput
-          onChange={e => setValues({...values, password: e.target.value})}
-          value={values.password}
+          onChange={e => setValues({...form, password: e.target.value})}
+          value={form.password}
           name={'password'}
           extraClass="pt-6"
         />

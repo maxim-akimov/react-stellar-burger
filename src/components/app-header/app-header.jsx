@@ -2,6 +2,7 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon  } from '@ya.praktikum/react-de
 
 
 import styles from "./app-header.module.css";
+import {Link} from "react-router-dom";
 
 function AppHeader() {
   return (
@@ -26,11 +27,11 @@ function AppHeader() {
           </ul>
         </nav>
         <Logo />
-        <a href="#"
+        <Link to={'/profile'}
            className={`text text_type_main-small pl-5 pr-5 pb-4 pt-4 ${styles.link} ${styles.link_lk}`}>
           <ProfileIcon  type="secondary" />
           Личный кабинет
-        </a>
+        </Link>
       </div>
     </header>
   );
