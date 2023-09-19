@@ -50,10 +50,10 @@ function Login() {
           Войти
         </Button>
         <p className={'text text_type_main-default text_color_inactive'}>
-          Вы — новый пользователь? <Link class={styles.link}>Зарегистрироваться</Link>
+          Вы — новый пользователь? <Link to={'/register'} class={styles.link}>Зарегистрироваться</Link>
         </p>
         <p className={'text text_type_main-default text_color_inactive pt-4'}>
-          Забыли пароль? <Link class={styles.link}>Восстановить пароль</Link>
+          Забыли пароль? <Link to={'/forgot-password'} class={styles.link}>Восстановить пароль</Link>
         </p>
       </main>
     </>

@@ -10,6 +10,8 @@ function ForgotPassword() {
     email: '',
   })
 
+
+
   return (
     <>
       <main className={styles.main}>
@@ -29,7 +31,7 @@ function ForgotPassword() {
         </Button>
 
         <p className={'text text_type_main-default text_color_inactive'}>
-          Уже зарегистрированы? <Link class={styles.link}>войти</Link>
+          Вспомнили пароль? <Link to={'/login'} class={styles.link}>Войти</Link>
         </p>
       </main>
     </>

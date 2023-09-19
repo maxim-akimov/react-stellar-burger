@@ -12,7 +12,7 @@ import ResetPassword from "../../pages/reset-password";
 import Profile from "../../pages/profile";
 import Ingredient from "../../pages/ingredient";
 import NotFound404 from "../../pages/not-found-404";
-import ProtectedRouteElement from "../protected-route-element/protected-rote-element";
+import { OnlyGuest, OnlyAuth } from "../protected-route-element/protected-rote-element";
 import Login from "../../pages/login";
 
 
@@ -52,27 +52,27 @@ function App() {
 
           <Route
             path="/login"
-            element={<Login/>}/>
+            element={<OnlyGuest element={<Login/>}/>}/>
 
           <Route
             path="/register"
-            element={<Register/>}/>
+            element={<OnlyGuest element={<Register/>}/>}/>
 
           <Route
             path="/forgot-password"
-            element={<ProtectedRouteElement element={<ForgotPassword/>}/>}/>
+            element={<OnlyGuest element={<ForgotPassword/>}/>}/>
 
           <Route
             path="/reset-password"
-            element={<ProtectedRouteElement element={<ResetPassword/>}/>}/>
+            element={<OnlyGuest element={<ResetPassword/>}/>}/>
 
           <Route
             path="/profile"
-            element={<ProtectedRouteElement element={<Profile/>}/>}/>
+            element={<OnlyAuth element={<Profile/>}/>}/>
 
           <Route
             path="/profile/*"
-            element={<ProtectedRouteElement element={<Profile/>}/>}/>
+            element={<OnlyAuth element={<Profile/>}/>}/>
 
           <Route path="*" element={<NotFound404/>}/>
         </Routes>

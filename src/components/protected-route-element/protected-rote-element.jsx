@@ -8,4 +8,8 @@ function ProtectedRouteElement({ element }) {
 }
 
 
-export default ProtectedRouteElement;
+export const OnlyAuth = ProtectedRouteElement;
+
+export const OnlyGuest =({ element }) => (
+  <ProtectedRouteElement onlyGuest={true} element={element} />
+);
