@@ -3,7 +3,15 @@ import React, {useState} from "react";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./register.module.css";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {
+  SET_REGISTER,
+  SET_REGISTER_FAILED,
+  SET_REGISTER_REQUEST,
+  SET_REGISTER_SUCCESS
+} from "../services/actions/register";
+import {sendRegisterRequest} from "../utils/api";
 
 
 function Register() {
@@ -12,6 +20,41 @@ function Register() {
     email: '',
     password: ''
   })
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+
+
+  const handleRegisterSend = () => {
+    dispatch({
+      type: SET_REGISTER_REQUEST
+    })
+    sendRegisterRequest({
+      name: form.name,
+      email: form.email,
+      password: form.password,
+    })
+      .then((res) => {
+        if (res && res.success) {
+          dispatch({
+            type: SET_REGISTER,
+            data: res
+          })
+          dispatch({
+            type: SET_REGISTER_SUCCESS
+          })
+          navigate('/login');
+        }
+      })
+      .catch((e) => {
+        dispatch({
+          type: SET_REGISTER_FAILED
+        })
+        console.error(e)
+      })
+  }
 
   return (
     <>
@@ -45,7 +88,7 @@ function Register() {
           extraClass="pt-6"
         />
 
-        <Button htmlType="button" type="primary" size="medium" extraClass={'mt-6 mb-20'}>
+        <Button htmlType="button" type="primary" size="medium" extraClass={'mt-6 mb-20'} onClick={handleRegisterSend}>
           Зарегистрироваться
         </Button>
 

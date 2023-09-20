@@ -13,6 +13,7 @@ export function getBurgerIngredientsRequest() {
 }
 
 
+
 export function sendOrderRequest(data) {
   return fetch(`${API_URL}/api/orders`, {
     method: 'POST',
@@ -28,6 +29,7 @@ export function sendOrderRequest(data) {
       return Promise.reject(`Ошибка: ${response.status}`);
     })
 }
+
 
 
 export function sendForgotPasswordRequest(data) {
@@ -52,6 +54,7 @@ export function sendForgotPasswordRequest(data) {
 }
 
 
+
 export function sendResetPasswordRequest(data) {
   return fetch(`${API_URL}/api/password-reset/reset`, {
     method: 'POST',
@@ -72,6 +75,8 @@ export function sendResetPasswordRequest(data) {
       return Promise.reject(`Ошибка: ${response.status}`);
     })
 }
+
+
 
 export function sendRegisterRequest(data) {
   return fetch(`${API_URL}/api/auth/register`, {

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 
 
 import styles from "./profile.module.css";
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 
 
@@ -19,13 +19,24 @@ function Profile() {
         <nav>
           <ul className={styles.menu}>
             <li className={styles.menu__item}>
-              <Link to={'/profile'} className={`text text_type_main-medium ${styles.menu__link} ${styles.menu__link_active}`}>Профиль</Link>
+              <NavLink
+                to={`/profile`}
+                className={({isActive}) => 'text text_type_main-medium ' + styles.menu__link + (isActive ? ' ' + styles.menu__link_active : '')}>
+                Профиль
+              </NavLink>
             </li>
             <li className={`text text_type_main-medium ${styles.menu__item}`}>
-              <Link className={styles.menu__link}>История заказов</Link>
+              <NavLink
+                to={'/profile/orders'}
+                className={({isActive}) => 'text text_type_main-medium ' + styles.menu__link + (isActive ? ' ' + styles.menu__link_active : '')}>
+                История заказов
+              </NavLink>
             </li>
             <li className={`text text_type_main-medium ${styles.menu__item}`}>
-              <Link className={styles.menu__link}>Выход</Link>
+              <NavLink
+                to={'/'}
+                className={({isActive}) => 'text text_type_main-medium ' + styles.menu__link + (isActive ? ' ' + styles.menu__link_active : '')}
+              >Выход</NavLink>
             </li>
           </ul>
         </nav>
