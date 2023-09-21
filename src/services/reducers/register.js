@@ -1,5 +1,4 @@
 import {
-  SET_REGISTER,
   SET_REGISTER_REQUEST,
   SET_REGISTER_SUCCESS,
   SET_REGISTER_FAILED
@@ -8,18 +7,11 @@ import {
 const initialState = {
   registerRequest: false,
   registerFailed: false,
-  registerData: {},
+  registerErrorMessage: '',
 };
 
 export const registerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_REGISTER: {
-      return {
-        ...state,
-        registerData: action.data
-      }
-    }
-
     case SET_REGISTER_REQUEST: {
       return {
         ...state,
@@ -40,6 +32,7 @@ export const registerReducer = (state = initialState, action) => {
         ...state,
         registerFailed: true,
         registerRequest: false,
+        registerErrorMessage: action.data
       };
     }
 

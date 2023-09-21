@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 import styles from "./app.module.css";
@@ -14,11 +14,19 @@ import Ingredient from "../../pages/ingredient";
 import NotFound404 from "../../pages/not-found-404";
 import { OnlyGuest, OnlyAuth } from "../protected-route-element/protected-rote-element";
 import Login from "../../pages/login";
+import {useDispatch} from "react-redux";
+import {checkUserAuth} from "../../services/actions/autentication";
 
 
 function App() {
   // Стейт для хранения состояния модального окна (открыто/закрыто)
   const [isOpenedModal, setIsOpenedModal] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
+  }, []);
 
 
   // Обработка закрытия модального окна

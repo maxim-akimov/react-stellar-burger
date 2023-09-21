@@ -4,17 +4,19 @@ import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-deve
 
 import styles from "./register.module.css";
 import {Link, useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
-  SET_REGISTER,
   SET_REGISTER_FAILED,
   SET_REGISTER_REQUEST,
   SET_REGISTER_SUCCESS
 } from "../services/actions/register";
 import {sendRegisterRequest} from "../utils/api";
+import {setUser} from "../services/actions/autentication";
 
 
 function Register() {
+  const {registerErrorMessage, registerFailed} = useSelector(state => state.register);
+
   const [form, setValues] = useState({
     name: '',
     email: '',
@@ -31,6 +33,7 @@ function Register() {
     dispatch({
       type: SET_REGISTER_REQUEST
     })
+
     sendRegisterRequest({
       name: form.name,
       email: form.email,
@@ -38,19 +41,19 @@ function Register() {
     })
       .then((res) => {
         if (res && res.success) {
-          dispatch({
-            type: SET_REGISTER,
-            data: res
-          })
-          dispatch({
-            type: SET_REGISTER_SUCCESS
-          })
-          navigate('/login');
+          setUser(res.user)
+
+          localStorage.setItem('accessToken', res.accessToken);
+          localStorage.setItem('refreshToken', res.refreshToken);
+
+          dispatch({ type: SET_REGISTER_SUCCESS })
+          navigate('/');
         }
       })
-      .catch((e) => {
+      .catch((e, res) => {
         dispatch({
-          type: SET_REGISTER_FAILED
+          type: SET_REGISTER_FAILED,
+          data: e.message
         })
         console.error(e)
       })
@@ -62,6 +65,12 @@ function Register() {
         <h1 className={`text text_type_main-medium pt-10 pb-5`}>
           Регистрация
         </h1>
+        {
+          (registerFailed) &&
+          <p className={'text text_type_main-default pt-6 pb-6'}>
+            Во время выполнения запроса произошла ошибка. {registerErrorMessage}
+          </p>
+        }
         <Input
           type={'text'}
           placeholder={'Имя'}
@@ -93,7 +102,7 @@ function Register() {
         </Button>
 
         <p className={'text text_type_main-default text_color_inactive'}>
-          Уже зарегистрированы? <Link to={'/login'} class={styles.link}>Войти</Link>
+          Уже зарегистрированы? <Link to={'/login'} className={styles.link}>Войти</Link>
         </p>
       </main>
     </>

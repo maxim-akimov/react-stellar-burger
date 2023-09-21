@@ -6,7 +6,7 @@ export const GET_BURGER_INGREDIENTS_FAILED = 'GET_BURGER_INGREDIENTS_FAILED';
 
 
 export function getBurgerIngredients() {
-  return function (dispatch) {
+  return (dispatch) => {
     dispatch({
       type: GET_BURGER_INGREDIENTS_REQUEST
     })
