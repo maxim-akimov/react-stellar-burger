@@ -1,4 +1,4 @@
-import {Navigate, Route, useLocation} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router-dom';
 import {useSelector} from "react-redux";
 
 
@@ -23,6 +23,7 @@ function ProtectedRouteElement({ onlyGuest = false,  element }) {
   }
 
 
+
   // Авторизованный пользователь пытается попасть в раздел,
   // предназначенный только для неавторизованных пользователей
   if (onlyGuest && user) {
@@ -35,7 +36,6 @@ function ProtectedRouteElement({ onlyGuest = false,  element }) {
   // Пользователь не авторизован, маршрут предназначен только для авторизованных
   if (!onlyGuest && !user) {
     // Перенаправление на страницу авторизации
-    //todo проверить state={{ from: location }}
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
@@ -47,6 +47,6 @@ function ProtectedRouteElement({ onlyGuest = false,  element }) {
 
 export const OnlyAuth = ProtectedRouteElement;
 
-export const OnlyGuest =({ element }) => (
+export const OnlyGuest = ({ element }) => (
   <ProtectedRouteElement onlyGuest={true} element={element} />
 );

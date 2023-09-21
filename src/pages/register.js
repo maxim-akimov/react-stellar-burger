@@ -29,7 +29,9 @@ function Register() {
 
 
 
-  const handleRegisterSend = () => {
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+
     dispatch({
       type: SET_REGISTER_REQUEST
     })
@@ -65,42 +67,43 @@ function Register() {
         <h1 className={`text text_type_main-medium pt-10 pb-5`}>
           Регистрация
         </h1>
-        {
-          (registerFailed) &&
-          <p className={'text text_type_main-default pt-6 pb-6'}>
-            Во время выполнения запроса произошла ошибка. {registerErrorMessage}
-          </p>
-        }
-        <Input
-          type={'text'}
-          placeholder={'Имя'}
-          onChange={e => setValues({...form, name: e.target.value})}
-          value={form.name}
-          name={'name'}
-          error={false}
-          errorText={'Ошибка'}
-          size={'default'}
-        />
+        <form onSubmit={handleRegisterSubmit}>
+          {
+            (registerFailed) &&
+            <p className={'text text_type_main-default pt-6 pb-6'}>
+              Во время выполнения запроса произошла ошибка. {registerErrorMessage}
+            </p>
+          }
+          <Input
+            type={'text'}
+            placeholder={'Имя'}
+            onChange={e => setValues({...form, name: e.target.value})}
+            value={form.name}
+            name={'name'}
+            error={false}
+            errorText={'Ошибка'}
+            size={'default'}
+          />
 
-        <EmailInput
-          onChange={e => setValues({...form, email: e.target.value})}
-          value={form.email}
-          name={'email'}
-          isIcon={false}
-          extraClass="pt-6"
-        />
+          <EmailInput
+            onChange={e => setValues({...form, email: e.target.value})}
+            value={form.email}
+            name={'email'}
+            isIcon={false}
+            extraClass="pt-6"
+          />
 
-        <PasswordInput
-          onChange={e => setValues({...form, password: e.target.value})}
-          value={form.password}
-          name={'password'}
-          extraClass="pt-6"
-        />
+          <PasswordInput
+            onChange={e => setValues({...form, password: e.target.value})}
+            value={form.password}
+            name={'password'}
+            extraClass="pt-6"
+          />
 
-        <Button htmlType="button" type="primary" size="medium" extraClass={'mt-6 mb-20'} onClick={handleRegisterSend}>
-          Зарегистрироваться
-        </Button>
-
+          <Button htmlType="submit" type="primary" size="medium" extraClass={'mt-6 mb-20'}>
+            Зарегистрироваться
+          </Button>
+        </form>
         <p className={'text text_type_main-default text_color_inactive'}>
           Уже зарегистрированы? <Link to={'/login'} className={styles.link}>Войти</Link>
         </p>

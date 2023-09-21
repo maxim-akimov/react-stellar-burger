@@ -4,14 +4,19 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILED,
-  SET_LOGIN,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILED
 } from "../actions/autentication";
 
 const initialState = {
   isAuthChecked: false,
   userRequest: false,
   userFailed: false,
-  user: {}
+  user: null,
+  loginRequest: false,
+  loginFailed: false,
+  loginError: null
 };
 
 export const authenticationReducer = (state = initialState, action) => {
@@ -20,13 +25,6 @@ export const authenticationReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload
-      }
-    }
-
-    case SET_LOGIN: {
-      return {
-        ...state,
-          //
       }
     }
 
@@ -57,6 +55,30 @@ export const authenticationReducer = (state = initialState, action) => {
         ...state,
         userRequest: false,
         userFailed: true
+      };
+    }
+
+    case LOGIN_REQUEST: {
+      return {
+        ...state,
+        loginRequest: true,
+        loginFailed: false
+      };
+    }
+
+    case LOGIN_SUCCESS: {
+      return {
+        ...state,
+        loginRequest: false
+      };
+    }
+
+    case LOGIN_FAILED: {
+      return {
+        ...state,
+        loginRequest: false,
+        loginFailed: true,
+        loginError: action.payload
       };
     }
 

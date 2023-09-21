@@ -19,7 +19,7 @@ function ResetPassword() {
     token: ''
   })
 
-  const {resetPasswordData, resetPasswordRequest, resetPasswordFailed} = useSelector(state => state.resetPassword);
+  const resetPasswordFailed = useSelector(state => state.resetPassword.resetPasswordFailed);
 
   const dispatch = useDispatch();
 

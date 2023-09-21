@@ -21,7 +21,8 @@ export function sendOrderRequest(data) {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      authorization: localStorage.getItem('accessToken'),
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
@@ -106,6 +107,32 @@ export function sendRegisterRequest(data) {
 
 
 
+export function sendUserUpdateRequest(data) {
+  return fetch(`${API_URL}/api/auth/user`, {
+    method: 'PATCH',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: localStorage.getItem('accessToken'),
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data)
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      return response.json()
+        .then((err) => {
+          return Promise.reject(err);
+        })    })
+}
+
+
+
 export function sendUserRequest() {
   return fetch(`${API_URL}/api/auth/user`, {
     method: 'GET',
@@ -127,7 +154,6 @@ export function sendUserRequest() {
         .then((err) => {
           return Promise.reject(err);
         })
-      //return Promise.reject(response);
     })
 }
 
@@ -159,7 +185,7 @@ export function sendRefreshTokenRequest() {
 
 
 export function sendLoginRequest(data) {
-  return fetch(`${API_URL}/api/auth/token `, {
+  return fetch(`${API_URL}/api/auth/login `, {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -175,6 +201,35 @@ export function sendLoginRequest(data) {
       if (response.ok) {
         return response.json();
       }
-      return Promise.reject(`Ошибка: ${response.status}`);
+      return response.json()
+        .then((err) => {
+          return Promise.reject(err);
+        })
+    })
+}
+
+
+
+export function sendLogoutRequest(data) {
+  return fetch(`${API_URL}/api/auth/logout`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data)
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      return response.json()
+        .then((err) => {
+          return Promise.reject(err);
+        })
     })
 }

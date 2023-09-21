@@ -1,59 +1,76 @@
-import React, { useState, useRef } from "react";
+import React, {useState} from "react";
 
 import {Button, EmailInput, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from "./login.module.css";
 import {Link} from "react-router-dom";
-
-
+import {useDispatch, useSelector} from "react-redux";
+import {
+  logIn,
+  LOGIN_FAILED,
+  LOGIN_REQUEST,
+} from "../services/actions/autentication";
 
 
 function Login() {
-  const [values, setValues] = useState({
+  const [form, setValues] = useState({
     email: '',
     password: '',
   })
 
-  const [pwdVisibility, setPwdVisibility] = useState({
-    isVisible: false
-  });
+  const {loginFailed, loginError} = useSelector(state => state.user);
 
-  const inputRef = useRef(null)
 
-  const changeVisibility = () => {
-    setPwdVisibility({
-      isVisible: !pwdVisibility.isVisible
-    })
+  const dispatch = useDispatch();
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch({type: LOGIN_REQUEST});
+
+    dispatch(logIn(form))
+      .catch((err) => {
+        dispatch({
+          type: LOGIN_FAILED,
+          payload: err.message
+        })
+      });
   }
 
   return (
     <>
-      <main className={styles.main}>
+      <main className={styles.main} onSubmit={handleLoginSubmit}>
         <h1 className={`text text_type_main-medium pt-10 pb-5`}>
           Вход
         </h1>
-        <EmailInput
-          onChange={e => setValues({...values, email: e.target.value})}
-          value={values.email}
-          name={'email'}
-          isIcon={false}
-        />
-
-        <PasswordInput
-          onChange={e => setValues({...values, password: e.target.value})}
-          value={values.password}
-          name={'password'}
-          extraClass="pt-6"
-        />
-
-        <Button htmlType="button" type="primary" size="medium" extraClass={'mt-6 mb-20'}>
-          Войти
-        </Button>
+        <form onSubmit={handleLoginSubmit}>
+          {
+            (loginFailed) &&
+            <p className={'text text_type_main-default pt-6 pb-6'}>
+              {loginError}
+            </p>
+          }
+          <EmailInput
+            onChange={e => setValues({...form, email: e.target.value})}
+            value={form.email}
+            name={'email'}
+            isIcon={false}
+          />
+          <PasswordInput
+            onChange={e => setValues({...form, password: e.target.value})}
+            value={form.password}
+            name={'password'}
+            extraClass="pt-6"
+          />
+          <Button htmlType="submit" type="primary" size="medium" extraClass={'mt-6 mb-20'}>
+            Войти
+          </Button>
+        </form>
         <p className={'text text_type_main-default text_color_inactive'}>
-          Вы — новый пользователь? <Link to={'/register'} class={styles.link}>Зарегистрироваться</Link>
+          Вы — новый пользователь? <Link to={'/register'} className={styles.link}>Зарегистрироваться</Link>
         </p>
         <p className={'text text_type_main-default text_color_inactive pt-4'}>
-          Забыли пароль? <Link to={'/forgot-password'} class={styles.link}>Восстановить пароль</Link>
+          Забыли пароль? <Link to={'/forgot-password'} className={styles.link}>Восстановить пароль</Link>
         </p>
       </main>
     </>

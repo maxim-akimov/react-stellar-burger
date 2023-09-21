@@ -23,10 +23,13 @@ function ForgotPassword() {
 
 
 
-  const handleForgotPasswordSend = () => {
+  const handleForgotPasswordSubmit = (e) => {
+    e.preventDefault();
+
     dispatch({
       type: SET_FORGOT_PASSWORD_REQUEST
     })
+
     sendForgotPasswordRequest({
       email: form.email,
     })
@@ -58,20 +61,20 @@ function ForgotPassword() {
         <h1 className={`text text_type_main-medium pt-10 pb-5`}>
           Восстановление пароля
         </h1>
-        <EmailInput
-          onChange={e => setValues({...form, email: e.target.value})}
-          value={form.email}
-          name={'email'}
-          isIcon={false}
-          extraClass="pt-6"
-        />
-
-        <Button htmlType="button" type="primary" size="medium" extraClass={'mt-6 mb-20'} onClick={handleForgotPasswordSend}>
-          Восстановить
-        </Button>
-
+        <form onSubmit={handleForgotPasswordSubmit}>
+          <EmailInput
+            onChange={e => setValues({...form, email: e.target.value})}
+            value={form.email}
+            name={'email'}
+            isIcon={false}
+            extraClass="pt-6"
+          />
+          <Button htmlType="submit" type="primary" size="medium" extraClass={'mt-6 mb-20'}>
+            Восстановить
+          </Button>
+        </form>
         <p className={'text text_type_main-default text_color_inactive'}>
-          Вспомнили пароль? <Link to={'/login'} class={styles.link}>Войти</Link>
+          Вспомнили пароль? <Link to={'/login'} className={styles.link}>Войти</Link>
         </p>
       </main>
     </>

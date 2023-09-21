@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import React, {useEffect} from "react";
+import {Routes, Route, useLocation, useNavigate,} from 'react-router-dom';
 
 import styles from "./app.module.css";
 
@@ -10,83 +10,94 @@ import Register from "../../pages/register";
 import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
 import Profile from "../../pages/profile";
-import Ingredient from "../../pages/ingredient";
 import NotFound404 from "../../pages/not-found-404";
-import { OnlyGuest, OnlyAuth } from "../protected-route-element/protected-rote-element";
+import {OnlyGuest, OnlyAuth} from "../protected-route-element/protected-rote-element";
 import Login from "../../pages/login";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {checkUserAuth} from "../../services/actions/autentication";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
+import Orders from "../../pages/orders";
+
 
 
 function App() {
-  // Стейт для хранения состояния модального окна (открыто/закрыто)
-  const [isOpenedModal, setIsOpenedModal] = useState(false);
-
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const background = location.state && location.state.background;
+  const burgerIngredients = useSelector((store) => store.burgerIngredients.items)
 
   useEffect(() => {
+    dispatch(
+      getBurgerIngredients()
+    );
+
     dispatch(checkUserAuth());
   }, []);
 
 
+
   // Обработка закрытия модального окна
   const handleCloseModal = () => {
-    setIsOpenedModal(false);
+    navigate(-1);
   }
 
 
-  const modal = (
-    <Modal onClose={handleCloseModal}>
-      <h2 className={`pt-20 pb-1 text text_type_main-large`}>Ошибка!</h2>
-      <p className={`p-10 text text_type_main-default`}>
-        При загрузке данных с сервера произошла ошибка. Попробуйте повторить попвтку позже.
-      </p>
-    </Modal>
-  )
-
-
   return (
-    <Router>
-      <div className={styles.app}>
-        <AppHeader/>
+    (burgerIngredients && burgerIngredients.length > 0 &&
+    <div className={styles.app}>
+      <AppHeader/>
+      <Routes location={background || location}>
+        <Route
+          path="/"
+          element={<Home/>}/>
+
+        <Route
+          path="/login"
+          element={<OnlyGuest element={<Login/>}/>}/>
+
+        <Route
+          path="/register"
+          element={<OnlyGuest element={<Register/>}/>}/>
+
+        <Route
+          path="/forgot-password"
+          element={<OnlyGuest element={<ForgotPassword/>}/>}/>
+
+        <Route
+          path="/reset-password"
+          element={<OnlyGuest element={<ResetPassword/>}/>}/>
+
+        <Route
+          path="/profile"
+          element={<OnlyAuth element={<Profile/>}/>}>
+          <Route
+            path="orders"
+            element={<OnlyAuth element={<Orders/>}/>}/>
+        </Route>
+
+        <Route
+          path='/ingredients/:ingredientId'
+          element={<IngredientDetails />}/>
+
+        <Route path="*" element={<NotFound404/>}/>
+      </Routes>
+
+
+      {background && (
         <Routes>
           <Route
-            path="/"
-            element={<Home/>}/>
-
-          <Route
-            path="/ingredients/:ingredientId"
-            element={<Ingredient/>}/>
-
-          <Route
-            path="/login"
-            element={<OnlyGuest element={<Login/>}/>}/>
-
-          <Route
-            path="/register"
-            element={<OnlyGuest element={<Register/>}/>}/>
-
-          <Route
-            path="/forgot-password"
-            element={<OnlyGuest element={<ForgotPassword/>}/>}/>
-
-          <Route
-            path="/reset-password"
-            element={<OnlyGuest element={<ResetPassword/>}/>}/>
-
-          <Route
-            path="/profile"
-            element={<OnlyAuth element={<Profile/>}/>}/>
-
-          <Route
-            path="/profile/*"
-            element={<OnlyAuth element={<Profile/>}/>}/>
-
-          <Route path="*" element={<NotFound404/>}/>
+            path='/ingredients/:ingredientId'
+            element={
+              <Modal onClose={handleCloseModal}>
+                {<IngredientDetails />}
+              </Modal>
+            }
+          />
         </Routes>
-      </div>
-      {isOpenedModal && modal}
-    </Router>
+      )}
+    </div>)
   );
 }
 

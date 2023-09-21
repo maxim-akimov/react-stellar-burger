@@ -35,15 +35,6 @@ function BurgerIngredients() {
     })
     setTitlesPositions(tp)
   }
-
-
-  useEffect(() => {
-    dispatch(
-      getBurgerIngredients()
-    );
-  }, []);
-
-
   useEffect(() => {
     const tabsNames = ['one', 'two', 'three'];
     const results = [];
