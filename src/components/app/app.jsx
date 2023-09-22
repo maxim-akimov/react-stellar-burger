@@ -18,6 +18,7 @@ import {checkUserAuth} from "../../services/actions/autentication";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
 import Orders from "../../pages/orders";
+import User from "../../pages/user";
 
 
 
@@ -50,6 +51,7 @@ function App() {
       <AppHeader/>
       <Routes location={background || location}>
         <Route
+          index
           path="/"
           element={<Home/>}/>
 
@@ -71,7 +73,10 @@ function App() {
 
         <Route
           path="/profile"
-          element={<OnlyAuth element={<Profile/>}/>}>
+          element={<OnlyAuth element={<User/>}/>}>
+          <Route
+            index
+            element={<OnlyAuth element={<Profile/>}/>}/>
           <Route
             path="orders"
             element={<OnlyAuth element={<Orders/>}/>}/>

@@ -1,3 +1,10 @@
+.main {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .link {
   text-decoration: none;
   color: #4C4CFF;
