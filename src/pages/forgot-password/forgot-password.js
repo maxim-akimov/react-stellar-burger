@@ -2,12 +2,12 @@ import styles from "./forgot-password.module.css";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
 import React, {useState} from "react";
-import {sendForgotPasswordRequest} from "../utils/api";
+import {sendForgotPasswordRequest} from "../../utils/api";
 import {
   SET_FORGOT_PASSWORD, SET_FORGOT_PASSWORD_FAILED,
   SET_FORGOT_PASSWORD_REQUEST,
   SET_FORGOT_PASSWORD_SUCCESS
-} from "../services/actions/forgot-password";
+} from "../../services/actions/forgot-password";
 import {useDispatch} from "react-redux";
 
 
@@ -39,9 +39,12 @@ function ForgotPassword() {
             type: SET_FORGOT_PASSWORD,
             data: res
           })
+
           dispatch({
             type: SET_FORGOT_PASSWORD_SUCCESS
           })
+
+          localStorage.setItem('isEmailChecked', 'true');
           navigate('/reset-password');
         }
       })

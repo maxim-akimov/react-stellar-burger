@@ -5,20 +5,20 @@ import styles from "./app.module.css";
 
 import AppHeader from "../app-header/app-header";
 import Modal from "../modal/modal";
-import Home from "../../pages/home";
-import Register from "../../pages/register";
-import ForgotPassword from "../../pages/forgot-password";
-import ResetPassword from "../../pages/reset-password";
-import Profile from "../../pages/profile";
-import NotFound404 from "../../pages/not-found-404";
+import Home from "../../pages/home/home";
+import Register from "../../pages/register/register";
+import ForgotPassword from "../../pages/forgot-password/forgot-password";
+import ResetPassword from "../../pages/reset-password/reset-password";
+import Profile from "../../pages/profile/profile";
+import NotFound404 from "../../pages/not-found-404/not-found-404";
 import {OnlyGuest, OnlyAuth} from "../protected-route-element/protected-rote-element";
-import Login from "../../pages/login";
+import Login from "../../pages/login/login";
 import {useDispatch, useSelector} from "react-redux";
 import {checkUserAuth} from "../../services/actions/autentication";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
-import Orders from "../../pages/orders";
-import User from "../../pages/user";
+import Orders from "../../pages/orders/orders";
+import User from "../../pages/profile/user";
 
 
 

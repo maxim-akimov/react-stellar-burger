@@ -9,7 +9,7 @@ import {
   logIn,
   LOGIN_FAILED,
   LOGIN_REQUEST,
-} from "../services/actions/autentication";
+} from "../../services/actions/autentication";
 
 
 function Login() {
@@ -18,7 +18,7 @@ function Login() {
     password: '',
   })
 
-  const {loginFailed, loginError} = useSelector(state => state.user);
+  const user = useSelector(state => state.user);
 
 
   const dispatch = useDispatch();
@@ -45,9 +45,9 @@ function Login() {
         </h1>
         <form onSubmit={handleLoginSubmit}>
           {
-            (loginFailed) &&
+            (user.loginFailed) &&
             <p className={'text text_type_main-default pt-6 pb-6'}>
-              {loginError}
+              {user.loginError}
             </p>
           }
           <EmailInput

@@ -4,7 +4,7 @@ import React from "react";
 import styles from "./user.module.css";
 import {Link, NavLink, Outlet, redirect} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {logOut} from "../services/actions/autentication";
+import {logOut} from "../../services/actions/autentication";
 
 
 function User() {

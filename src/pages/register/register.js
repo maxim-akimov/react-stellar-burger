@@ -9,9 +9,9 @@ import {
   SET_REGISTER_FAILED,
   SET_REGISTER_REQUEST,
   SET_REGISTER_SUCCESS
-} from "../services/actions/register";
-import {sendRegisterRequest} from "../utils/api";
-import {setUser} from "../services/actions/autentication";
+} from "../../services/actions/register";
+import {sendRegisterRequest} from "../../utils/api";
+import {setUser} from "../../services/actions/autentication";
 
 
 function Register() {

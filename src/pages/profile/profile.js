@@ -5,13 +5,13 @@ import styles from "./profile.module.css";
 import {Link, NavLink, redirect} from "react-router-dom";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
-import {sendUserUpdateRequest} from "../utils/api";
+import {sendUserUpdateRequest} from "../../utils/api";
 import {
   SET_USER_UPDATE_FAILED,
   SET_USER_UPDATE_REQUEST,
   SET_USER_UPDATE_SUCCESS
-} from "../services/actions/user-update";
-import {logOut, setUser} from "../services/actions/autentication";
+} from "../../services/actions/user-update";
+import {logOut, setUser} from "../../services/actions/autentication";
 
 
 function Profile() {
