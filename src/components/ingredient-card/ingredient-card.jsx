@@ -6,18 +6,18 @@ import {useDrag} from "react-dnd";
 import styles from './ingredient-card.module.css';
 
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+
 
 import {
-  RESET_CURRENT_INGREDIENT,
   SET_CURRENT_INGREDIENT
 } from "../../services/reducers/ingredient";
+import {Link, useLocation} from "react-router-dom";
 
 
 function IngredientCard(props) {
+  const location = useLocation();
+
   const {_id, type, image, price, name} = props;
-  const [isOpenedModal, setIsOpenedModal] = React.useState(false);
   const {bun, other} = useSelector(state => state.burgerConstructor);
 
   const quantity = useMemo(() => {
@@ -41,42 +41,33 @@ function IngredientCard(props) {
       type: SET_CURRENT_INGREDIENT,
       ingredient: props
     })
-    setIsOpenedModal(true);
   }
-
-
-  const handleCloseModal = () => {
-    dispatch({
-      type: RESET_CURRENT_INGREDIENT
-    })
-    setIsOpenedModal(false);
-  }
-
-
-
-  const modal = (
-    <Modal onClose={handleCloseModal}>
-      <IngredientDetails {...props} />
-    </Modal>
-  )
-
 
 
 
   return (
     <>
       <li className={styles.card} onClick={() => handleOpenModal(price)} ref={dragRef}>
-        <img src={image} alt="props.name"/>
-        <div className={styles.price}>
-          {price}
-          <CurrencyIcon type="primary"/>
-        </div>
-        <p className={`text text_type_main-default ${styles.title}`}>
-          {name}
-        </p>
-        {quantity > 0 && <Counter count={quantity} size="default" extraClass="m-1" />}
+        <Link
+          key={_id}
+          // Тут мы формируем динамический путь для нашего ингредиента
+          to={`/ingredients/${_id}`}
+          // а также сохраняем в свойство background роут,
+          // на котором была открыта наша модалка
+          state={{background: location}}
+          className={styles.link}
+        >
+          <img src={image} alt="props.name"/>
+          <div className={styles.price}>
+            {price}
+            <CurrencyIcon type="primary"/>
+          </div>
+          <p className={`text text_type_main-default ${styles.title}`}>
+            {name}
+          </p>
+          {quantity > 0 && <Counter count={quantity} size="default" extraClass="m-1"/>}
+        </Link>
       </li>
-      {isOpenedModal && modal}
     </>
   )
 }

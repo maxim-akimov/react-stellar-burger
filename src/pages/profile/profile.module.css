@@ -1,0 +1,43 @@
+.link {
+  text-decoration: none;
+  color: #4C4CFF;
+}
+
+.link:hover {
+  opacity: .8;
+}
+
+.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu__item {
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.menu__link {
+  text-decoration: none;
+  color: #8585AD;
+}
+
+.menu__link:hover {
+  opacity: .9;
+}
+
+.menu__link_active {
+  color: #fff;
+}
+
+.hint {
+  opacity: .4;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+}

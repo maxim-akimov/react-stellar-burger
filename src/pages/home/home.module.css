@@ -1,0 +1,13 @@
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 100px auto;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  column-gap: 40px;
+}
+
+.heading {
+  grid-column: 1 / -1;
+}
