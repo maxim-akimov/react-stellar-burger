@@ -16,12 +16,16 @@
   margin: 0;
   padding: 0;
   flex-direction: column;
+  max-height: 260px;
+  overflow-y: auto;
+  row-gap: 16px;
 }
 
 .item {
   display: flex;
   flex-direction: row;
   gap: 16px;
+  align-items: center;
 }
 
 .row {
@@ -34,4 +38,5 @@
 .totalBlock {
   display: flex;
   align-items: center;
+  margin-left: auto;
 }

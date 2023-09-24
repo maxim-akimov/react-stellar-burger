@@ -7,7 +7,7 @@ import {
 const initialState = {
   orderDetailsRequest: false,
   orderDetailsFailed: false,
-  orderDetails: null,
+  data: null,
 }
 
 export const orderDetailsReducer = (state = initialState, action) => {
@@ -21,10 +21,11 @@ export const orderDetailsReducer = (state = initialState, action) => {
     }
 
     case GET_ORDER_DETAILS_SUCCESS: {
+      console.log('--', action.payload)
       return {
         ...state,
         orderDetailsRequest: false,
-        items: action.items,
+        data: action.payload,
       };
     }
 

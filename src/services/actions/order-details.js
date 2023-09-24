@@ -10,14 +10,12 @@ export function getOrderDetails(number) {
     dispatch({
       type: GET_ORDER_DETAILS_REQUEST
     })
-    console.log(123)
     sendOrderDetailsRequest(number)
       .then(res => {
-        console.log(res)
         if (res && res.success) {
           dispatch({
             type: GET_ORDER_DETAILS_SUCCESS,
-            orderDetails: res.data
+            payload: res
           })
         } else {
           dispatch({

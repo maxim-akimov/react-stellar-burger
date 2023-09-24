@@ -1,6 +1,7 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
+import {useNavigate} from 'react-router-dom';
 
 import {sendOrderRequest} from "../../utils/api";
 
@@ -16,10 +17,13 @@ import {
   ORDER_INGREDIENTS
 } from "../../services/actions/burger-constructor";
 import {SET_ORDER, SET_ORDER_FAILED, SET_ORDER_REQUEST, SET_ORDER_SUCCESS} from "../../services/actions/order";
+import {checkUserAuth} from "../../services/actions/autentication";
 
 
 
 function BurgerConstructor() {
+  const navigate = useNavigate();
+  const user = useSelector((store) => store.user.user);
   const {bun, other} = useSelector(state => state.burgerConstructor);
 
   const dispatch = useDispatch();
@@ -77,6 +81,12 @@ function BurgerConstructor() {
 
 
   const handleOrderSend = () => {
+    dispatch(checkUserAuth());
+
+    if (!user) {
+      return navigate('/login');
+    }
+
     dispatch({
       type: SET_ORDER_REQUEST
     })

@@ -34,7 +34,7 @@ function OrderItem(props) {
     <Link
       key={_id}
       // Тут мы формируем динамический путь для нашего ингредиента
-      to={`/orders/${number}`}
+      to={`/profile/orders/${number}`}
       // а также сохраняем в свойство background роут,
       // на котором была открыта наша модалка
       state={{background: location}}

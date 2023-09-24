@@ -10,10 +10,9 @@ import {WS_URL} from "../../utils/api";
 
 function Feed() {
   const dispatch = useDispatch();
-  const token = localStorage.getItem('accessToken').split('Bearer ')[1];
 
   useEffect(() => {
-    dispatch(connect(WS_URL + '/all?token=' + token));
+    dispatch(connect(WS_URL + '/all'));
   }, [])
 
 

@@ -20,12 +20,12 @@ function OrderDetails() {
   const orderDetails = useSelector((store) => store.orderDetails);
   const ingredients = useSelector(state => state.burgerIngredients.items);
 
-  if (!orderDetails) {
+  if (!orderDetails.data) {
     return null;
   }
 
-  const order = orderDetails.orderDetails
-  console.log(order)
+  const order = orderDetails.data.orders[0];
+  console.log(orderDetails)
 
 
   const quantity = {};
@@ -41,7 +41,6 @@ function OrderDetails() {
     })
   });
 
-  console.log(quantity)
 
   const total = burgerIngredients.reduce((sum, current) => {
     return sum + current.price;
@@ -56,18 +55,18 @@ function OrderDetails() {
 
 
   return (
-    <section className={`pt-30 ${styles.container}`}>
+    <section className={`pt-30 pb-15 ${styles.container}`}>
       <p className={`text text_type_digits-default pb-10 ${styles.number}`}>{order.number}</p>
       <h1 className={`text text_type_main-medium pb-3${styles.title}`}>{order.name}</h1>
       <p
         className={`text text_type_main-default pb-15 ${styles.status} ${(order.status === 'done' ? styles.status_done : '')}`}>{statuses[order.status]}</p>
       <h2 className={`text text_type_main-medium pb-6 ${styles.title}`}>Состав:</h2>
-      <ul className={`${styles.list}`}>
+      <ul className={`${styles.list} custom-scroll`}>
         {burgerIngredients.map((ingredient) => (
           <li key={ingredient._id} className={`${styles.item}`}>
             <IngredientIcon src={ingredient.image_mobile} alt={ingredient.name}/>
             <p className={`text text_type_main-default`}>{ingredient.name}</p>
-            <p className={`text text_type_digits-default`}>
+            <p className={`text text_type_digits-default ${styles.totalBlock}`}>
               <span className={`pr-2 ${styles.price}`}>{quantity[ingredient._id]} x {ingredient.price}</span>
               <CurrencyIcon type="primary"/>
             </p>
