@@ -12,6 +12,17 @@ import reportWebVitals from "./reportWebVitals";
 
 import {rootReducer} from './services/reducers';
 import {BrowserRouter as Router} from 'react-router-dom';
+import {socketMiddleware} from "./services/middlewar/socketMiddleware";
+import {
+  WS_CONNECT,
+  WS_DISCONNECT,
+  WS_CONNECTING,
+  WS_OPEN,
+  WS_CLOSE,
+  WS_ERROR,
+  WS_MESSAGE
+} from "./services/actions/ws";
+import {WS_URL} from "./utils/api";
 
 
 const composeEnhancers =
@@ -19,7 +30,17 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const wsActions = {
+  wsConnect: WS_CONNECT,
+  wsDisconnect: WS_DISCONNECT,
+  wsConnecting: WS_CONNECTING,
+  onOpen: WS_OPEN,
+  onClose: WS_CLOSE,
+  onError: WS_ERROR,
+  onMessage: WS_MESSAGE
+};
+
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions)));
 
 
 const store = createStore(rootReducer, enhancer);

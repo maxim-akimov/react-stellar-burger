@@ -1,4 +1,5 @@
 export const API_URL = 'https://norma.nomoreparties.space';
+export const WS_URL = 'wss://norma.nomoreparties.space/orders';
 
 
 
@@ -222,6 +223,35 @@ export function sendLogoutRequest(data) {
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     body: JSON.stringify(data)
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      return response.json()
+        .then((err) => {
+          return Promise.reject(err);
+        })
+    })
+}
+
+
+
+
+
+
+export function sendOrderDetailsRequest(number) {
+  return fetch(`${API_URL}/api/orders/${number}`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: localStorage.getItem('accessToken'),
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
   })
     .then((response) => {
       if (response.ok) {

@@ -9,7 +9,7 @@ import styles from './burger-constructor.module.css';
 import {Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import ConstructorListItem from "../constructor-list-item/constructor-list-item";
-import OrderDetails from "../order-details/order-details";
+import OrderDetails from "../order-confirmation/order-confirmation";
 
 import {
   ADD_IN_CONSTRUCTOR,

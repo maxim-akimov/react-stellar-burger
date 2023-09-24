@@ -19,6 +19,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
 import Orders from "../../pages/orders/orders";
 import User from "../../pages/profile/user";
+import Feed from "../../pages/feed/feed";
+import OrderDetails from "../order-details/order-details";
 
 
 
@@ -80,6 +82,17 @@ function App() {
           <Route
             path="orders"
             element={<OnlyAuth element={<Orders/>}/>}/>
+          <Route
+            path="orders/:orderNumber"
+            element={<OnlyAuth element={<OrderDetails/>}/>}/>
+        </Route>
+
+        <Route
+          path="/feed"
+          element={<Feed />}>
+          <Route
+            path="/feed/:id"
+            element={<OrderDetails />}/>
         </Route>
 
         <Route
@@ -97,6 +110,15 @@ function App() {
             element={
               <Modal onClose={handleCloseModal}>
                 {<IngredientDetails />}
+              </Modal>
+            }
+          />
+
+          <Route
+            path='/orders/:orderNumber'
+            element={
+              <Modal onClose={handleCloseModal}>
+                {<OrderDetails />}
               </Modal>
             }
           />

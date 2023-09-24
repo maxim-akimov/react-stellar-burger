@@ -1,8 +1,8 @@
-import styles from './order-details.module.css';
+import styles from './order-confirmation.module.css';
 import {useSelector} from "react-redux";
 
 
-function OrderDetails() {
+function OrderConfirmation() {
   const order = useSelector((state) => state.order.orderData);
 
   return (
@@ -19,4 +19,4 @@ function OrderDetails() {
 }
 
 
-export default OrderDetails;
+export default OrderConfirmation;
