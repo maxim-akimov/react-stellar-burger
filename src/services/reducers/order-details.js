@@ -1,7 +1,8 @@
 import {
   GET_ORDER_DETAILS_SUCCESS,
   GET_ORDER_DETAILS_FAILED,
-  GET_ORDER_DETAILS_REQUEST
+  GET_ORDER_DETAILS_REQUEST,
+  RESET_ORDER_DETAILS
 } from "../actions/order-details";
 
 const initialState = {
@@ -21,7 +22,6 @@ export const orderDetailsReducer = (state = initialState, action) => {
     }
 
     case GET_ORDER_DETAILS_SUCCESS: {
-      console.log('--', action.payload)
       return {
         ...state,
         orderDetailsRequest: false,
@@ -35,6 +35,10 @@ export const orderDetailsReducer = (state = initialState, action) => {
         orderDetailsRequest: false,
         orderDetailsFailed: true,
       };
+    }
+
+    case RESET_ORDER_DETAILS: {
+      return initialState;
     }
 
     default: {

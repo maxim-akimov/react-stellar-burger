@@ -1,6 +1,4 @@
 import {
-  WS_CONNECT,
-  WS_DISCONNECT,
   WS_CONNECTING,
   WS_OPEN,
   WS_CLOSE,

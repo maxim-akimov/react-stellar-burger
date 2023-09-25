@@ -1,5 +1,6 @@
 import {Navigate, useLocation} from 'react-router-dom';
 import {useSelector} from "react-redux";
+import Preloader from "../preloader/preloader";
 
 
 
@@ -17,9 +18,7 @@ function ProtectedRouteElement({ onlyGuest = false,  element }) {
 
   // Если проверка авторизации еще не производитась
   if (!isAuthChecked) {
-    //TODO
-    // Запуск прелоадера
-    return null;
+    return <Preloader />;
   }
 
 

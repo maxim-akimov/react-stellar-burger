@@ -44,31 +44,28 @@ function IngredientCard(props) {
   }
 
 
-
   return (
-    <>
-      <li className={styles.card} onClick={() => handleOpenModal(price)} ref={dragRef}>
-        <Link
-          key={_id}
-          // Тут мы формируем динамический путь для нашего ингредиента
-          to={`/ingredients/${_id}`}
-          // а также сохраняем в свойство background роут,
-          // на котором была открыта наша модалка
-          state={{background: location}}
-          className={styles.link}
-        >
-          <img src={image} alt="props.name"/>
-          <div className={styles.price}>
-            {price}
-            <CurrencyIcon type="primary"/>
-          </div>
-          <p className={`text text_type_main-default ${styles.title}`}>
-            {name}
-          </p>
-          {quantity > 0 && <Counter count={quantity} size="default" extraClass="m-1"/>}
-        </Link>
-      </li>
-    </>
+    <li className={styles.card} onClick={() => handleOpenModal(price)} ref={dragRef}>
+      <Link
+        key={_id}
+        // Тут мы формируем динамический путь для нашего ингредиента
+        to={`/ingredients/${_id}`}
+        // а также сохраняем в свойство background роут,
+        // на котором была открыта наша модалка
+        state={{background: location}}
+        className={styles.link}
+      >
+        <img src={image} alt="props.name"/>
+        <div className={styles.price}>
+          {price}
+          <CurrencyIcon type="primary"/>
+        </div>
+        <p className={`text text_type_main-default ${styles.title}`}>
+          {name}
+        </p>
+        {quantity > 0 && <Counter count={quantity} size="default" extraClass="m-1"/>}
+      </Link>
+    </li>
   )
 }
 

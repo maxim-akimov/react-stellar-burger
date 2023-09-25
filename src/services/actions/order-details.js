@@ -1,8 +1,9 @@
-import {getBurgerIngredientsRequest, sendOrderDetailsRequest} from "../../utils/api";
+import {getOrderDetailsRequest} from "../../utils/api";
 
 export const GET_ORDER_DETAILS_REQUEST = 'GET_ORDER_DETAILS_REQUEST';
 export const GET_ORDER_DETAILS_SUCCESS = 'GET_ORDER_DETAILS_SUCCESS';
 export const GET_ORDER_DETAILS_FAILED = 'GET_ORDER_DETAILS_FAILED';
+export const RESET_ORDER_DETAILS = 'RESET_ORDER_DETAILS';
 
 
 export function getOrderDetails(number) {
@@ -10,7 +11,7 @@ export function getOrderDetails(number) {
     dispatch({
       type: GET_ORDER_DETAILS_REQUEST
     })
-    sendOrderDetailsRequest(number)
+    getOrderDetailsRequest(number)
       .then(res => {
         if (res && res.success) {
           dispatch({

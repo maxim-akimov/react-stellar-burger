@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 
 
 import styles from "./orders.module.css";
@@ -6,10 +6,12 @@ import OrderItem from "../../components/order-item/order-item";
 import {useDispatch, useSelector} from "react-redux";
 import {connect, disconnect} from "../../services/actions/ws";
 import {WS_URL} from "../../utils/api";
+import {Link, useLocation} from "react-router-dom";
 
 
 function Orders() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const token = localStorage.getItem('accessToken').split('Bearer ')[1];
 
   useEffect(() => {
@@ -31,15 +33,19 @@ function Orders() {
   const orders = ordersData.orders;
 
   return (
-    <>
-      <ul className={`${styles.list}`}>
-        {orders.map((order) => (
-          <li key={order._id} className={styles.item}>
+    <ul className={`${styles.list}`}>
+      {orders.map((order) => (
+        <li key={order._id} className={styles.item}>
+          <Link
+            to={`/profile/orders/${order.number}`}
+            state={{background: location}}
+            className={styles.link}
+          >
             <OrderItem showStatus={true} {...order} />
-          </li>
-        ))}
-      </ul>
-    </>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 

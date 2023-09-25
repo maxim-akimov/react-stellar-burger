@@ -1,4 +1,4 @@
-import {sendLoginRequest, sendLogoutRequest, sendRefreshTokenRequest, sendUserRequest} from "../../utils/api";
+import {sendLoginRequest, sendLogoutRequest, sendRefreshTokenRequest, getUserRequest} from "../../utils/api";
 
 export const SET_USER = 'SET_USER';
 export const SET_AUTH_CHECKED = 'SET_AUTH_CHECKED';
@@ -27,7 +27,7 @@ export const setUser = (userData) => ({
 const getUser = () => {
   return (dispatch) => {
     // Отправка запроса на получение информации с сервера
-    return sendUserRequest()
+    return getUserRequest()
       .then((res) => {
         // Запись информации о пользователе в хранилище
         dispatch(setUser(res.user))
@@ -41,7 +41,7 @@ const getUser = () => {
                 if (refreshRes.success) {
                   localStorage.setItem('accessToken', refreshRes.accessToken);
                   localStorage.setItem('refreshToken', refreshRes.refreshToken);
-                  sendUserRequest()
+                  getUserRequest()
                     .then((res) => {
                       dispatch(setUser(res.user))
                     })

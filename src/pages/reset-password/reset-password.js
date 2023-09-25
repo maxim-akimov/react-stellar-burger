@@ -1,5 +1,3 @@
-import React, {useState} from "react";
-
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "../register/register.module.css";
@@ -11,19 +9,14 @@ import {
   SET_RESET_PASSWORD_SUCCESS
 } from "../../services/actions/reset-password";
 import {sendResetPasswordRequest} from "../../utils/api";
+import {useForm} from "../../hooks/useForm";
 
 
 function ResetPassword() {
-  const [form, setValues] = useState({
-    password: '',
-    token: ''
-  })
-
-  const resetPasswordFailed = useSelector(state => state.resetPassword.resetPasswordFailed);
-
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+  const {resetPasswordFailed} = useSelector(state => state.resetPassword);
+  const [values, handleChange] = useForm({});
 
 
   if (!localStorage.getItem('isEmailChecked')) {
@@ -38,10 +31,7 @@ function ResetPassword() {
       type: SET_RESET_PASSWORD_REQUEST
     })
 
-    sendResetPasswordRequest({
-      password: form.password,
-      token: form.token
-    })
+    sendResetPasswordRequest(values)
       .then((res) => {
         if (res && res.success) {
           dispatch({
@@ -51,6 +41,7 @@ function ResetPassword() {
           dispatch({
             type: SET_RESET_PASSWORD_SUCCESS
           })
+          localStorage.removeItem('isEmailChecked');
           navigate('/login');
         }
       })
@@ -64,40 +55,38 @@ function ResetPassword() {
 
 
   return (
-    <>
-      <main className={styles.main}>
-        <h1 className={`text text_type_main-medium pt-10 pb-5`}>
-          Восстановление пароля
-        </h1>
-        <form onSubmit={handleResetPasswordSubmit}>
-          {
-            (resetPasswordFailed) &&
-            <p className={'text text_type_main-default'}>
-              Во время выполнения запроса произошла ошибка. Проверьте данные в форме и повторите попытку.
-            </p>
-          }
-          <PasswordInput
-            onChange={e => setValues({...form, password: e.target.value})}
-            value={form.password}
-            name={'password'}
-            extraClass="pt-6"
-          />
-          <Input
-            onChange={e => setValues({...form, token: e.target.value})}
-            value={form.token}
-            name={'token'}
-            extraClass={"pt-6"}
-            placeholder={'Код из письма'}
-          />
-          <Button htmlType="submit" type="primary" size="medium" extraClass={'mt-6 mb-20'}>
-            Сохранить
-          </Button>
-        </form>
-        <p className={'text text_type_main-default text_color_inactive'}>
-          Вспомнили пароль? <Link to={'/login'} className={styles.link}>Войти</Link>
-        </p>
-      </main>
-    </>
+    <main className={styles.main}>
+      <h1 className={`text text_type_main-medium pt-10 pb-5`}>
+        Восстановление пароля
+      </h1>
+      <form onSubmit={handleResetPasswordSubmit}>
+        {
+          (resetPasswordFailed) &&
+          <p className={'text text_type_main-default'}>
+            Во время выполнения запроса произошла ошибка. Проверьте данные в форме и повторите попытку.
+          </p>
+        }
+        <PasswordInput
+          onChange={handleChange}
+          value={values.password || ''}
+          name={'password'}
+          extraClass="pt-6"
+        />
+        <Input
+          onChange={handleChange}
+          value={values.token || ''}
+          name={'token'}
+          extraClass={"pt-6"}
+          placeholder={'Код из письма'}
+        />
+        <Button htmlType="submit" type="primary" size="medium" extraClass={'mt-6 mb-20'}>
+          Сохранить
+        </Button>
+      </form>
+      <p className={'text text_type_main-default text_color_inactive'}>
+        Вспомнили пароль? <Link to={'/login'} className={styles.link}>Войти</Link>
+      </p>
+    </main>
   );
 }
 

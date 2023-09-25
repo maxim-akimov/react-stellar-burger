@@ -1,16 +1,11 @@
-import React from "react";
-
 import styles from './order-item.module.css';
 import {useSelector} from "react-redux";
 import {FormattedDate, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientIcon from "../ingredient-icon/ingredient-icon";
-import {Link, useLocation} from "react-router-dom";
 
 
 function OrderItem(props) {
-  const location = useLocation();
-
-  const {showStatus, _id, status, name, number, createdAt, updatedAt, ingredients} = props;
+  const {showStatus, status, name, number, createdAt, ingredients} = props;
 
   const burgerIngredients = useSelector(state => state.burgerIngredients.items)
     .filter((ingredient) => {
@@ -31,15 +26,7 @@ function OrderItem(props) {
 
 
   return (
-    <Link
-      key={_id}
-      // Тут мы формируем динамический путь для нашего ингредиента
-      to={`/profile/orders/${number}`}
-      // а также сохраняем в свойство background роут,
-      // на котором была открыта наша модалка
-      state={{background: location}}
-      className={styles.container}
-    >
+      <div className={styles.container}>
       <div className={`pb-6 ${styles.heading}`}>
         <p className={`text text_type_digits-default ${styles.number}`}>#{number}</p>
         <p className={`text text_type_main-default text_color_inactive ${styles.date}`}>
@@ -61,7 +48,7 @@ function OrderItem(props) {
           <span className={`text text_type_digits-default ${styles.total}`}>{total}</span>
           <CurrencyIcon type="primary"/></p>
       </div>
-    </Link>
+      </div>
   )
 }
 

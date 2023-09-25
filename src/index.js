@@ -12,7 +12,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import {rootReducer} from './services/reducers';
 import {BrowserRouter as Router} from 'react-router-dom';
-import {socketMiddleware} from "./services/middlewar/socketMiddleware";
+import {socketMiddleware} from "./services/middleware/socketMiddleware";
 import {
   WS_CONNECT,
   WS_DISCONNECT,
@@ -22,7 +22,6 @@ import {
   WS_ERROR,
   WS_MESSAGE
 } from "./services/actions/ws";
-import {WS_URL} from "./utils/api";
 
 
 const composeEnhancers =

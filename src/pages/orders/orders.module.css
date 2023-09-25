@@ -6,3 +6,8 @@
   margin: 0;
   padding: 40px 0 0 0;
 }
+
+.link {
+  color: #fff;
+  text-decoration: none;
+}

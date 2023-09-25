@@ -1,17 +1,16 @@
-import React, {useEffect} from "react";
-
 import styles from './feed-list.module.css';
 import OrderItem from "../order-item/order-item";
 import {useSelector} from "react-redux";
-
-
+import Preloader from "../preloader/preloader";
+import {Link, useLocation} from "react-router-dom";
 
 
 function FeedList() {
+  const location = useLocation();
   const ordersData = useSelector((store) => store.ws.ordersData);
 
   if (!ordersData) {
-    return null
+    return <Preloader/>;
   }
 
   const orders = ordersData.orders;
@@ -21,7 +20,13 @@ function FeedList() {
       <ul className={styles.list}>
         {orders.map(order => (
           <li key={order._id}>
-            <OrderItem showStatus={false} key={order._id} {...order}/>
+            <Link
+              to={`/feed/${order.number}`}
+              state={{background: location}}
+              className={styles.link}
+            >
+              <OrderItem showStatus={false} key={order._id} {...order}/>
+            </Link>
           </li>
         ))}
       </ul>

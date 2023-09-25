@@ -31,6 +31,7 @@ function App() {
   const background = location.state && location.state.background;
   const burgerIngredients = useSelector((store) => store.burgerIngredients.items)
 
+
   useEffect(() => {
     dispatch(
       getBurgerIngredients()
@@ -91,10 +92,11 @@ function App() {
         <Route
           path="/feed"
           element={<Feed />}>
-          <Route
-            path="/feed/:id"
-            element={<OrderDetails />}/>
         </Route>
+
+        <Route
+          path="/feed/:orderNumber"
+          element={<OrderDetails />}/>
 
         <Route
           path='/ingredients/:ingredientId'
@@ -117,6 +119,15 @@ function App() {
 
           <Route
             path='/profile/orders/:orderNumber'
+            element={
+              <Modal onClose={handleCloseModal}>
+                {<OrderDetails />}
+              </Modal>
+            }
+          />
+
+          <Route
+            path='/feed/:orderNumber'
             element={
               <Modal onClose={handleCloseModal}>
                 {<OrderDetails />}

@@ -1,10 +1,11 @@
 import styles from './order-details.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import IngredientIcon from "../ingredient-icon/ingredient-icon";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useLocation, useParams} from "react-router-dom";
-import {getOrderDetails} from "../../services/actions/order-details";
+import {useParams} from "react-router-dom";
+import {getOrderDetails, RESET_ORDER_DETAILS} from "../../services/actions/order-details";
+import Preloader from "../preloader/preloader";
 
 function OrderDetails() {
   const {orderNumber} = useParams();
@@ -15,17 +16,19 @@ function OrderDetails() {
     dispatch(
       getOrderDetails(orderNumber)
     )
+    return () => {
+      dispatch({type: RESET_ORDER_DETAILS});
+    }
   }, [])
 
   const orderDetails = useSelector((store) => store.orderDetails);
   const ingredients = useSelector(state => state.burgerIngredients.items);
 
   if (!orderDetails.data) {
-    return null;
+    return <Preloader type={'modal' }/>;
   }
 
   const order = orderDetails.data.orders[0];
-  console.log(orderDetails)
 
 
   const quantity = {};
@@ -79,7 +82,7 @@ function OrderDetails() {
           <FormattedDate date={new Date(order.createdAt)}/>
         </p>
         <p className={`${styles.totalBlock}`}>
-          <span className={`pr-2 ${styles.price}`}>{total}</span>
+          <span className={`text text_type_digits-default pr-2 ${styles.price}`}>{total}</span>
           <CurrencyIcon type="primary"/>
         </p>
       </div>

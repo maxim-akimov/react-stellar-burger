@@ -38,7 +38,9 @@ function AppHeader() {
             </li>
           </ul>
         </nav>
-        <Logo/>
+        <Link to={'/'}>
+          <Logo/>
+        </Link>
         <NavLink to={'/profile'}
                  className={({isActive}) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
                    + styles.link + (isActive ? ' ' + styles.link_active : '')}>

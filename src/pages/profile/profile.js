@@ -1,8 +1,7 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 
 import styles from "./profile.module.css";
-import {Link, NavLink, redirect} from "react-router-dom";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
 import {sendUserUpdateRequest} from "../../utils/api";
@@ -11,25 +10,22 @@ import {
   SET_USER_UPDATE_REQUEST,
   SET_USER_UPDATE_SUCCESS
 } from "../../services/actions/user-update";
-import {logOut, setUser} from "../../services/actions/autentication";
+import {setUser} from "../../services/actions/autentication";
+import {useForm} from "../../hooks/useForm";
 
 
 function Profile() {
   const dispatch = useDispatch();
-  const {name, email} = useSelector((store) => store.user.user);
-
-  const initialFormState = {
-    name: name,
-    email: email,
-    password: ''
-  }
-  const [form, setValues] = useState(initialFormState)
-
+  const user = useSelector((store) => store.user.user);
+  const [values, handleChange, setValues] = useForm({});
   const [isChange, setChange] = useState(false);
 
+  useEffect(() => {
+    setValues({...user, password: ''})
+  }, [])
 
   const handleFormChange = (e) => {
-    setValues({...form, [e.target.name]: e.target.value})
+    handleChange(e);
     setChange(true);
   }
 
@@ -41,11 +37,7 @@ function Profile() {
       type: SET_USER_UPDATE_REQUEST
     })
 
-    sendUserUpdateRequest({
-      name: form.name,
-      email: form.email,
-      password: form.password,
-    })
+    sendUserUpdateRequest(values)
       .then((res) => {
         if (res && res.success) {
           setUser(res.user)
@@ -64,10 +56,8 @@ function Profile() {
 
 
   const handleCancelClick = () => {
-    setValues(initialFormState)
     setChange(false);
   }
-
 
 
   return (
@@ -76,7 +66,7 @@ function Profile() {
         type={'text'}
         placeholder={'Имя'}
         onChange={handleFormChange}
-        value={form.name}
+        value={values.name || ''}
         name={'name'}
         icon="EditIcon"
         error={false}
@@ -86,7 +76,7 @@ function Profile() {
 
       <EmailInput
         onChange={handleFormChange}
-        value={form.email}
+        value={values.email || ''}
         name={'email'}
         extraClass="pt-6"
         icon="EditIcon"
@@ -95,7 +85,7 @@ function Profile() {
 
       <PasswordInput
         onChange={handleFormChange}
-        value={form.password}
+        value={values.password || ''}
         name={'password'}
         extraClass="pt-6"
         icon="EditIcon"
