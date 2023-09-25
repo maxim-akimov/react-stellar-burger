@@ -38,9 +38,9 @@ function OrderItem(props) {
         className={`text text_type_main-default pt-2 ${styles.status} ${(status === 'done' ? styles.status_done : '')}`}>{statuses[status]}</p>}
       <div className={`pt-6 ${styles.details}`}>
         <ul className={styles.ingredientsList}>
-          {burgerIngredients.map((ingredient) => (
-            <li key={ingredient._id} className={styles.ingredientItem}>
-              <IngredientIcon src={ingredient.image_mobile} alt={ingredient.name}/>
+          {burgerIngredients.map((ingredient, i) => (
+            <li key={ingredient._id} className={styles.ingredientItem} style={{zIndex: (burgerIngredients.length - i)}}>
+              <IngredientIcon src={ingredient.image_mobile} alt={ingredient.name} />
             </li>
           ))}
         </ul>
