@@ -11,6 +11,7 @@ import {
 import {sendRegisterRequest} from "../../utils/api";
 import {setUser} from "../../services/actions/autentication";
 import {useForm} from "../../hooks/useForm";
+import {ERROR_MESSAGES} from "../../utils/constaints";
 
 
 function Register() {
@@ -39,12 +40,12 @@ function Register() {
           navigate('/');
         }
       })
-      .catch((e, res) => {
+      .catch((err) => {
         dispatch({
           type: SET_REGISTER_FAILED,
-          data: e.message
+          data: ERROR_MESSAGES[err.message]
         })
-        console.error(e)
+        console.error(err)
       })
   }
 
@@ -57,7 +58,7 @@ function Register() {
         {
           (registerFailed) &&
           <p className={'text text_type_main-default pt-6 pb-6'}>
-            Во время выполнения запроса произошла ошибка. {registerErrorMessage}
+            {registerErrorMessage}
           </p>
         }
         <Input

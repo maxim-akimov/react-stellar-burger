@@ -9,6 +9,7 @@ const initialState = {
   resetPasswordRequest: false,
   resetPasswordFailed: false,
   resetPasswordData: {},
+  resetPasswordError: '',
 };
 
 export const resetPasswordReducer = (state = initialState, action) => {
@@ -40,6 +41,7 @@ export const resetPasswordReducer = (state = initialState, action) => {
         ...state,
         resetPasswordFailed: true,
         resetPasswordRequest: false,
+        resetPasswordError: action.data
       };
     }
 

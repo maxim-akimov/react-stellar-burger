@@ -5,7 +5,7 @@ import styles from "./orders.module.css";
 import OrderItem from "../../components/order-item/order-item";
 import {useDispatch, useSelector} from "react-redux";
 import {connect, disconnect} from "../../services/actions/ws";
-import {WS_URL} from "../../utils/api";
+import {WS_URL} from "../../utils/constaints";
 import {Link, useLocation} from "react-router-dom";
 
 

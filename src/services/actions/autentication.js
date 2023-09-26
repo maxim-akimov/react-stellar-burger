@@ -10,7 +10,6 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 
 
-
 export const setAuthChecked = (value) => ({
   type: SET_AUTH_CHECKED,
   payload: value
@@ -32,26 +31,6 @@ const getUser = () => {
         // Запись информации о пользователе в хранилище
         dispatch(setUser(res.user))
       })
-      .catch((error) => {
-          // Если пришло соообщение об истечении срока действия токена
-          if (error.message === "jwt expired") {
-            // Выполняем обновление токена
-            return refreshToken()
-              .then((refreshRes) => {
-                if (refreshRes.success) {
-                  localStorage.setItem('accessToken', refreshRes.accessToken);
-                  localStorage.setItem('refreshToken', refreshRes.refreshToken);
-                  getUserRequest()
-                    .then((res) => {
-                      dispatch(setUser(res.user))
-                    })
-                } else {
-                  return Promise.reject(error);
-                }
-              })
-          }
-        }
-      )
   }
 }
 
@@ -85,14 +64,26 @@ export const logOut = () => {
 };
 
 
-// Обновление токена
-const refreshToken = () => {
-  return sendRefreshTokenRequest();
-}
-
-
-//Проверка факта авторизации пользователя
 export const checkUserAuth = () => {
+  return (dispatch) => {
+    if (localStorage.getItem("accessToken")) {
+      dispatch(getUser())
+        .catch(() => {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          dispatch(setUser(null));
+        })
+        .finally(() => dispatch(setAuthChecked(true)));
+    } else {
+      dispatch(setUser(null));
+      dispatch(setAuthChecked(true));
+    }
+  };
+};
+
+/**
+ //Проверка факта авторизации пользователя
+ export const checkUserAuth = () => {
   return (dispatch) => {
     //Если в локальном хранилище уже имеется токен
     if (localStorage.getItem('accessToken')) {
@@ -111,3 +102,5 @@ export const checkUserAuth = () => {
     }
   }
 }
+
+ */

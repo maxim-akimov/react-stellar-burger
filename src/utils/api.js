@@ -1,25 +1,17 @@
-const API_URL = 'https://norma.nomoreparties.space/api';
-export const WS_URL = 'wss://norma.nomoreparties.space/orders';
-const API_OPTIONS = {
-  method: 'GET',
-  mode: 'cors',
-  cache: 'no-cache',
-  credentials: 'same-origin',
-  headers: {
-    'Content-Type': 'application/json',
-    authorization: localStorage.getItem('accessToken'),
-  },
-  redirect: 'follow',
-  referrerPolicy: 'no-referrer',
-}
+import {API_URL, API_OPTIONS} from "./constaints";
 
 
 function checkResponse(response) {
   if (response.ok) {
     return response.json();
   }
-
-  return Promise.reject(`Ошибка: ${response.status}`);
+  return response.json()
+    .then((res) => {
+      if (res.message) {
+        return res;
+      }
+      return Promise.reject(`Ошибка: ${response.status}`);
+    })
 }
 
 
@@ -27,7 +19,8 @@ function checkSuccess(response) {
   if (response.success) {
     return response;
   }
-  return Promise.reject(`Запрос к серверу завершился ошибкой: ${response}`);
+
+  return Promise.reject(response);
 }
 
 
@@ -38,12 +31,57 @@ function request(endpoint, options) {
 }
 
 
+export const sendRefreshTokenRequest = () => request('auth/token', {
+  method: 'POST',
+  body: JSON.stringify({
+    token: localStorage.getItem('refreshToken')
+  })
+})
+
+
+// Обертка для запросов, требующих проверку токена
+function requestWithAuth(endpoint, options) {
+  // Отправка запроса на сервер
+  return request(endpoint, {
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: localStorage.getItem('accessToken'),
+    },
+    ...options,
+  })
+    .catch((err) => {
+      // Запрос вернулся с ошибкой
+      // Ошибка - просроченный токен
+      if (err.message === "jwt expired") {
+        // Отправка запроса на обновление токена
+        return sendRefreshTokenRequest()
+          .then((response) => {
+            // Токен успешно обновлен
+            // Запись обновленного токена в хранилище
+            localStorage.setItem("refreshToken", response.refreshToken);
+            localStorage.setItem("accessToken", response.accessToken);
+
+            // Повторная попытка выполнить первоначальный запрос
+            return request(endpoint, {
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: localStorage.getItem('accessToken'),
+              },
+              ...options,
+            })
+          }) // then
+      } // if (err.message === "jwt expired")
+
+      return Promise.reject(err);
+    }) // catch
+}
+
 export const getBurgerIngredientsRequest = () => request('ingredients');
-export const getUserRequest = () => request('auth/user')
+export const getUserRequest = () => requestWithAuth('auth/user')
 export const getOrderDetailsRequest = (number) => request(`orders/${number}`)
 
 
-export const sendOrderRequest = (data) => request('orders', {
+export const sendOrderRequest = (data) => requestWithAuth('orders', {
   method: 'POST',
   body: JSON.stringify(data),
 });
@@ -67,17 +105,9 @@ export const sendRegisterRequest = (data) => request('auth/register', {
 })
 
 
-export const sendUserUpdateRequest = (data) => request('auth/user', {
+export const sendUserUpdateRequest = (data) => requestWithAuth('auth/user', {
   method: 'PATCH',
   body: JSON.stringify(data),
-})
-
-
-export const sendRefreshTokenRequest = () => request('auth/token', {
-  method: 'POST',
-  body: JSON.stringify({
-    token: localStorage.getItem('refreshToken')
-  })
 })
 
 

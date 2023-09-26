@@ -3,7 +3,6 @@
   flex-direction: column;
   width: 100%;
   max-width: 640px;
-
 }
 
 .number {
@@ -39,4 +38,8 @@
   display: flex;
   align-items: center;
   margin-left: auto;
+}
+
+.status_done {
+  color: #00CCCC;
 }

@@ -10,12 +10,13 @@ import {
 } from "../../services/actions/reset-password";
 import {sendResetPasswordRequest} from "../../utils/api";
 import {useForm} from "../../hooks/useForm";
+import {ERROR_MESSAGES} from "../../utils/constaints";
 
 
 function ResetPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {resetPasswordFailed} = useSelector(state => state.resetPassword);
+  const {resetPasswordFailed, resetPasswordError} = useSelector(state => state.resetPassword);
   const [values, handleChange] = useForm({});
 
 
@@ -45,11 +46,12 @@ function ResetPassword() {
           navigate('/login');
         }
       })
-      .catch((e) => {
+      .catch((err) => {
         dispatch({
-          type: SET_RESET_PASSWORD_FAILED
+          type: SET_RESET_PASSWORD_FAILED,
+          data: ERROR_MESSAGES[err.message]
         })
-        console.error(e)
+        console.error(err)
       })
   }
 
@@ -63,7 +65,7 @@ function ResetPassword() {
         {
           (resetPasswordFailed) &&
           <p className={'text text_type_main-default'}>
-            Во время выполнения запроса произошла ошибка. Проверьте данные в форме и повторите попытку.
+            {resetPasswordError}
           </p>
         }
         <PasswordInput

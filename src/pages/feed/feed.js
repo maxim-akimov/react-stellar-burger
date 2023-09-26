@@ -4,7 +4,7 @@ import Statistics from "../../components/statistics/statistics";
 import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {connect, disconnect} from "../../services/actions/ws";
-import {WS_URL} from "../../utils/api";
+import {WS_URL} from "../../utils/constaints";
 
 
 function Feed() {

@@ -2,6 +2,7 @@ import styles from './order-item.module.css';
 import {useSelector} from "react-redux";
 import {FormattedDate, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientIcon from "../ingredient-icon/ingredient-icon";
+import PropTypes from "prop-types";
 
 
 function OrderItem(props) {
@@ -39,8 +40,9 @@ function OrderItem(props) {
       <div className={`pt-6 ${styles.details}`}>
         <ul className={styles.ingredientsList}>
           {burgerIngredients.map((ingredient, i) => (
+            i < 6 &&
             <li key={ingredient._id} className={styles.ingredientItem} style={{zIndex: (burgerIngredients.length - i)}}>
-              <IngredientIcon src={ingredient.image_mobile} alt={ingredient.name} />
+              <IngredientIcon src={ingredient.image_mobile} alt={ingredient.name} more={(i === 5) ? (ingredients.length - 7) : false} />
             </li>
           ))}
         </ul>
@@ -51,6 +53,17 @@ function OrderItem(props) {
       </div>
   )
 }
+
+
+OrderItem.propTypes = {
+  _id: PropTypes.string.isRequired,
+  showStatus: PropTypes.bool,
+  status: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  ingredients: PropTypes.array.isRequired,
+};
 
 
 export default OrderItem;

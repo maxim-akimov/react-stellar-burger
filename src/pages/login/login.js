@@ -9,6 +9,7 @@ import {
   LOGIN_REQUEST,
 } from "../../services/actions/autentication";
 import {useForm} from "../../hooks/useForm";
+import {ERROR_MESSAGES} from "../../utils/constaints";
 
 
 function Login() {
@@ -26,7 +27,7 @@ function Login() {
       .catch((err) => {
         dispatch({
           type: LOGIN_FAILED,
-          payload: (err === 'Ошибка: 401') ? 'Неверно указан email или пароль' : err
+          payload: ERROR_MESSAGES[err.message]
         })
       });
   }
