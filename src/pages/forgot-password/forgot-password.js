@@ -1,7 +1,6 @@
 import styles from "./forgot-password.module.css";
-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
-import React, {useState} from "react";
 import {sendForgotPasswordRequest} from "../../utils/api";
 import {
   SET_FORGOT_PASSWORD, SET_FORGOT_PASSWORD_FAILED,
@@ -9,18 +8,13 @@ import {
   SET_FORGOT_PASSWORD_SUCCESS
 } from "../../services/actions/forgot-password";
 import {useDispatch} from "react-redux";
-
+import {useForm} from "../../hooks/useForm";
 
 
 function ForgotPassword() {
-  const [form, setValues] = useState({
-    email: '',
-  })
-
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
+  const [values, handleChange] = useForm({});
 
 
   const handleForgotPasswordSubmit = (e) => {
@@ -31,7 +25,7 @@ function ForgotPassword() {
     })
 
     sendForgotPasswordRequest({
-      email: form.email,
+      email: values.email,
     })
       .then((res) => {
         if (res && res.success) {
@@ -57,30 +51,27 @@ function ForgotPassword() {
   }
 
 
-
   return (
-    <>
-      <main className={styles.main}>
-        <h1 className={`text text_type_main-medium pt-10 pb-5`}>
-          Восстановление пароля
-        </h1>
-        <form onSubmit={handleForgotPasswordSubmit}>
-          <EmailInput
-            onChange={e => setValues({...form, email: e.target.value})}
-            value={form.email}
-            name={'email'}
-            isIcon={false}
-            extraClass="pt-6"
-          />
-          <Button htmlType="submit" type="primary" size="medium" extraClass={'mt-6 mb-20'}>
-            Восстановить
-          </Button>
-        </form>
-        <p className={'text text_type_main-default text_color_inactive'}>
-          Вспомнили пароль? <Link to={'/login'} className={styles.link}>Войти</Link>
-        </p>
-      </main>
-    </>
+    <main className={styles.main}>
+      <h1 className={`text text_type_main-medium pt-10 pb-5`}>
+        Восстановление пароля
+      </h1>
+      <form onSubmit={handleForgotPasswordSubmit}>
+        <EmailInput
+          onChange={handleChange}
+          value={values.email || ''}
+          name={'email'}
+          isIcon={false}
+          extraClass="pt-6"
+        />
+        <Button htmlType="submit" type="primary" size="medium" extraClass={'mt-6 mb-20'}>
+          Восстановить
+        </Button>
+      </form>
+      <p className={'text text_type_main-default text_color_inactive'}>
+        Вспомнили пароль? <Link to={'/login'} className={styles.link}>Войти</Link>
+      </p>
+    </main>
   );
 }
 

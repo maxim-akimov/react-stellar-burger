@@ -1,4 +1,4 @@
-import {sendLoginRequest, sendLogoutRequest, sendRefreshTokenRequest, sendUserRequest} from "../../utils/api";
+import {sendLoginRequest, sendLogoutRequest, sendRefreshTokenRequest, getUserRequest} from "../../utils/api";
 
 export const SET_USER = 'SET_USER';
 export const SET_AUTH_CHECKED = 'SET_AUTH_CHECKED';
@@ -8,7 +8,6 @@ export const GET_USER_FAILED = 'GET_USER_FAILED';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
-
 
 
 export const setAuthChecked = (value) => ({
@@ -27,31 +26,11 @@ export const setUser = (userData) => ({
 const getUser = () => {
   return (dispatch) => {
     // Отправка запроса на получение информации с сервера
-    return sendUserRequest()
+    return getUserRequest()
       .then((res) => {
         // Запись информации о пользователе в хранилище
         dispatch(setUser(res.user))
       })
-      .catch((error) => {
-          // Если пришло соообщение об истечении срока действия токена
-          if (error.message === "jwt expired") {
-            // Выполняем обновление токена
-            return refreshToken()
-              .then((refreshRes) => {
-                if (refreshRes.success) {
-                  localStorage.setItem('accessToken', refreshRes.accessToken);
-                  localStorage.setItem('refreshToken', refreshRes.refreshToken);
-                  sendUserRequest()
-                    .then((res) => {
-                      dispatch(setUser(res.user))
-                    })
-                } else {
-                  return Promise.reject(error);
-                }
-              })
-          }
-        }
-      )
   }
 }
 
@@ -85,14 +64,26 @@ export const logOut = () => {
 };
 
 
-// Обновление токена
-const refreshToken = () => {
-  return sendRefreshTokenRequest();
-}
-
-
-//Проверка факта авторизации пользователя
 export const checkUserAuth = () => {
+  return (dispatch) => {
+    if (localStorage.getItem("accessToken")) {
+      dispatch(getUser())
+        .catch(() => {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          dispatch(setUser(null));
+        })
+        .finally(() => dispatch(setAuthChecked(true)));
+    } else {
+      dispatch(setUser(null));
+      dispatch(setAuthChecked(true));
+    }
+  };
+};
+
+/**
+ //Проверка факта авторизации пользователя
+ export const checkUserAuth = () => {
   return (dispatch) => {
     //Если в локальном хранилище уже имеется токен
     if (localStorage.getItem('accessToken')) {
@@ -111,3 +102,5 @@ export const checkUserAuth = () => {
     }
   }
 }
+
+ */

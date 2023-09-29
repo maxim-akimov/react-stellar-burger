@@ -1,12 +1,45 @@
-.number {
-  text-shadow: 0 0 16px rgba(51, 51, 255, 0.25),
-  0 0 8px rgba(51, 51, 255, 0.25),
-  0 4px 32px rgba(51, 51, 255, 0.5);
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 640px;
 }
 
-.confirm_icon {
-  background: url(../../images/order-confirm.svg) no-repeat center center;
-  background-size: contain;
-  width: 120px;
-  height: 120px;
+.number {
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  max-height: 260px;
+  overflow-y: auto;
+  row-gap: 16px;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.totalBlock {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.status_done {
+  color: #00CCCC;
 }

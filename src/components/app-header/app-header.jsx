@@ -14,8 +14,8 @@ function AppHeader() {
           <ul className={styles.menu__list}>
             <li className={styles.menu__item}>
               <NavLink to={'/'} end
-                className={({isActive}) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
-                  + styles.link + (isActive ? ' ' + styles.link_active : '')}>
+                       className={({isActive}) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
+                         + styles.link + (isActive ? ' ' + styles.link_active : '')}>
                 {({isActive}) => (
                   <>
                     <BurgerIcon type={(isActive) ? 'primary' : 'secondary'}/>
@@ -25,18 +25,25 @@ function AppHeader() {
               </NavLink>
             </li>
             <li className={styles.menu__item}>
-              <a href="#"
-                 className={`text text_type_main-small pl-5 pr-5 pb-4 pt-4 ${styles.link}`}>
-                <ListIcon type="secondary"/>
-                Лента заказов
-              </a>
+              <NavLink to={'/feed'} end
+                       className={({isActive}) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
+                         + styles.link + (isActive ? ' ' + styles.link_active : '')}>
+                {({isActive}) => (
+                  <>
+                    <ListIcon type={(isActive) ? 'primary' : 'secondary'}/>
+                    Лента заказов
+                  </>
+                )}
+              </NavLink>
             </li>
           </ul>
         </nav>
-        <Logo/>
+        <Link to={'/'}>
+          <Logo/>
+        </Link>
         <NavLink to={'/profile'}
-          className={({isActive}) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
-            + styles.link + (isActive ? ' ' + styles.link_active : '')}>
+                 className={({isActive}) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
+                   + styles.link + (isActive ? ' ' + styles.link_active : '')}>
           {({isActive}) => (
             <>
               <ProfileIcon type={(isActive) ? 'primary' : 'secondary'}/>

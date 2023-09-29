@@ -1,5 +1,10 @@
 import {v4 as uuidV4} from 'uuid';
-import {ADD_IN_CONSTRUCTOR, DELETE_FROM_CONSTRUCTOR, ORDER_INGREDIENTS} from "../actions/burger-constructor";
+import {
+  ADD_IN_CONSTRUCTOR,
+  DELETE_FROM_CONSTRUCTOR,
+  ORDER_INGREDIENTS,
+  RESET_CONSTRUCTOR
+} from "../actions/burger-constructor";
 
 
 const initialState = {
@@ -45,6 +50,10 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         ...state,
         other: ingredients,
       }
+    }
+
+    case RESET_CONSTRUCTOR: {
+      return initialState;
     }
 
     default: {

@@ -1,235 +1,123 @@
-export const API_URL = 'https://norma.nomoreparties.space';
+import {API_URL, API_OPTIONS} from "./constaints";
 
 
-
-export function getBurgerIngredientsRequest() {
-  return fetch(`${API_URL}/api/ingredients`)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
+function checkResponse(response) {
+  if (response.ok) {
+    return response.json();
+  }
+  return response.json()
+    .then((res) => {
+      if (res.message) {
+        return res;
       }
       return Promise.reject(`Ошибка: ${response.status}`);
     })
 }
 
 
+function checkSuccess(response) {
+  if (response.success) {
+    return response;
+  }
 
-export function sendOrderRequest(data) {
-  return fetch(`${API_URL}/api/orders`, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
+  return Promise.reject(response);
+}
+
+
+function request(endpoint, options) {
+  return fetch(`${API_URL}/${endpoint}`, {...API_OPTIONS, ...options})
+    .then(checkResponse)
+    .then(checkSuccess)
+}
+
+
+export const sendRefreshTokenRequest = () => request('auth/token', {
+  method: 'POST',
+  body: JSON.stringify({
+    token: localStorage.getItem('refreshToken')
+  })
+})
+
+
+// Обертка для запросов, требующих проверку токена
+function requestWithAuth(endpoint, options) {
+  // Отправка запроса на сервер
+  return request(endpoint, {
     headers: {
       'Content-Type': 'application/json',
       authorization: localStorage.getItem('accessToken'),
     },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data),
+    ...options,
   })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Ошибка: ${response.status}`);
-    })
+    .catch((err) => {
+      // Запрос вернулся с ошибкой
+      // Ошибка - просроченный токен
+      if (err.message === "jwt expired") {
+        // Отправка запроса на обновление токена
+        return sendRefreshTokenRequest()
+          .then((response) => {
+            // Токен успешно обновлен
+            // Запись обновленного токена в хранилище
+            localStorage.setItem("refreshToken", response.refreshToken);
+            localStorage.setItem("accessToken", response.accessToken);
+
+            // Повторная попытка выполнить первоначальный запрос
+            return request(endpoint, {
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: localStorage.getItem('accessToken'),
+              },
+              ...options,
+            })
+          }) // then
+      } // if (err.message === "jwt expired")
+
+      return Promise.reject(err);
+    }) // catch
 }
 
+export const getBurgerIngredientsRequest = () => request('ingredients');
+export const getUserRequest = () => requestWithAuth('auth/user')
+export const getOrderDetailsRequest = (number) => request(`orders/${number}`)
 
 
-export function sendForgotPasswordRequest(data) {
-  return fetch(`${API_URL}/api/password-reset`, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Ошибка: ${response.status}`);
-    })
-}
+export const sendOrderRequest = (data) => requestWithAuth('orders', {
+  method: 'POST',
+  body: JSON.stringify(data),
+});
 
 
-
-export function sendResetPasswordRequest(data) {
-  return fetch(`${API_URL}/api/password-reset/reset`, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Ошибка: ${response.status}`);
-    })
-}
+export const sendForgotPasswordRequest = (data) => request('password-reset', {
+  method: 'POST',
+  body: JSON.stringify(data),
+});
 
 
-
-export function sendRegisterRequest(data) {
-  return fetch(`${API_URL}/api/auth/register `, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(response);
-    })
-}
+export const sendResetPasswordRequest = (data) => request('password-reset/reset', {
+  method: 'POST',
+  body: JSON.stringify(data),
+})
 
 
-
-export function sendUserUpdateRequest(data) {
-  return fetch(`${API_URL}/api/auth/user`, {
-    method: 'PATCH',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: localStorage.getItem('accessToken'),
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-        .then((err) => {
-          return Promise.reject(err);
-        })    })
-}
+export const sendRegisterRequest = (data) => request('auth/register', {
+  method: 'POST',
+  body: JSON.stringify(data),
+})
 
 
-
-export function sendUserRequest() {
-  return fetch(`${API_URL}/api/auth/user`, {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: localStorage.getItem('accessToken'),
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer'
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-        .then((err) => {
-          return Promise.reject(err);
-        })
-    })
-}
+export const sendUserUpdateRequest = (data) => requestWithAuth('auth/user', {
+  method: 'PATCH',
+  body: JSON.stringify(data),
+})
 
 
-
-export function sendRefreshTokenRequest() {
-  return fetch(`${API_URL}/api/auth/token `, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({
-      token: localStorage.getItem('refreshToken')
-    })
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Ошибка: ${response.status}`);
-    })
-}
+export const sendLoginRequest = (data) => request('auth/login', {
+  method: 'POST',
+  body: JSON.stringify(data),
+})
 
 
-
-export function sendLoginRequest(data) {
-  return fetch(`${API_URL}/api/auth/login `, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-        .then((err) => {
-          return Promise.reject(err);
-        })
-    })
-}
-
-
-
-export function sendLogoutRequest(data) {
-  return fetch(`${API_URL}/api/auth/logout`, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-        .then((err) => {
-          return Promise.reject(err);
-        })
-    })
-}
+export const sendLogoutRequest = (data) => request('auth/logout', {
+  method: 'POST',
+  body: JSON.stringify(data),
+})

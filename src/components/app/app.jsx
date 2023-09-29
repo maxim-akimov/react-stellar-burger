@@ -19,6 +19,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
 import Orders from "../../pages/orders/orders";
 import User from "../../pages/profile/user";
+import Feed from "../../pages/feed/feed";
+import OrderDetails from "../order-details/order-details";
 
 
 
@@ -28,6 +30,7 @@ function App() {
   const dispatch = useDispatch();
   const background = location.state && location.state.background;
   const burgerIngredients = useSelector((store) => store.burgerIngredients.items)
+
 
   useEffect(() => {
     dispatch(
@@ -83,6 +86,19 @@ function App() {
         </Route>
 
         <Route
+          path="/profile/orders/:orderNumber"
+          element={<OnlyAuth element={<OrderDetails/>}/>}/>
+
+        <Route
+          path="/feed"
+          element={<Feed />}>
+        </Route>
+
+        <Route
+          path="/feed/:orderNumber"
+          element={<OrderDetails />}/>
+
+        <Route
           path='/ingredients/:ingredientId'
           element={<IngredientDetails />}/>
 
@@ -97,6 +113,24 @@ function App() {
             element={
               <Modal onClose={handleCloseModal}>
                 {<IngredientDetails />}
+              </Modal>
+            }
+          />
+
+          <Route
+            path='/profile/orders/:orderNumber'
+            element={
+              <Modal onClose={handleCloseModal}>
+                {<OrderDetails />}
+              </Modal>
+            }
+          />
+
+          <Route
+            path='/feed/:orderNumber'
+            element={
+              <Modal onClose={handleCloseModal}>
+                {<OrderDetails />}
               </Modal>
             }
           />

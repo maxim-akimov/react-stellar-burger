@@ -1,19 +1,17 @@
 import React, {useEffect, useMemo, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 import styles from './burger-ingredients.module.css';
 
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientCard from "../ingredient-card/ingredient-card";
 
-import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
+import Preloader from "../preloader/preloader";
 
 
 function BurgerIngredients() {
   const {items, ingredientsRequest, ingredientsFailed} = useSelector(state => state.burgerIngredients);
 
-
-  const dispatch = useDispatch();
   const tabsRef = useRef();
   const scrollContainerRef = useRef();
 
@@ -35,6 +33,8 @@ function BurgerIngredients() {
     })
     setTitlesPositions(tp)
   }
+
+
   useEffect(() => {
     const tabsNames = ['one', 'two', 'three'];
     const results = [];
@@ -106,6 +106,10 @@ function BurgerIngredients() {
       </ul>
     </div>
   </section>;
+
+  if (ingredientsRequest) {
+    return <Preloader />;
+  }
 
   return (
     <>

@@ -1,5 +1,7 @@
 import {Navigate, useLocation} from 'react-router-dom';
 import {useSelector} from "react-redux";
+import Preloader from "../preloader/preloader";
+import PropTypes from "prop-types";
 
 
 
@@ -17,9 +19,7 @@ function ProtectedRouteElement({ onlyGuest = false,  element }) {
 
   // Если проверка авторизации еще не производитась
   if (!isAuthChecked) {
-    //TODO
-    // Запуск прелоадера
-    return null;
+    return <Preloader />;
   }
 
 
@@ -45,8 +45,13 @@ function ProtectedRouteElement({ onlyGuest = false,  element }) {
 }
 
 
-export const OnlyAuth = ProtectedRouteElement;
+ProtectedRouteElement.propTypes = {
+  onlyGuest: PropTypes.bool,
+  element: PropTypes.element,
+};
 
+
+export const OnlyAuth = ProtectedRouteElement;
 export const OnlyGuest = ({ element }) => (
   <ProtectedRouteElement onlyGuest={true} element={element} />
 );
