@@ -1,7 +1,8 @@
 import {API_URL, API_OPTIONS} from "./constaints";
 
 
-function checkResponse(response) {
+export const checkResponse = (response) => {
+  console.info(response)
   if (response.ok) {
     return response.json();
   }

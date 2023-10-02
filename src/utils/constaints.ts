@@ -1,3 +1,13 @@
+import {
+  WS_CLOSE,
+  WS_CONNECT,
+  WS_CONNECTING,
+  WS_DISCONNECT,
+  WS_ERROR,
+  WS_MESSAGE,
+  WS_OPEN
+} from "../services/actions/ws";
+
 export const modalRoot = document.getElementById('modal-root');
 
 export const WebsocketStatus  = {
@@ -5,6 +15,16 @@ export const WebsocketStatus  = {
   ONLINE: 'ONLINE',
   OFFLINE: 'OFFLINE'
 }
+
+export const websocketActions = {
+  wsConnect: WS_CONNECT,
+  wsDisconnect: WS_DISCONNECT,
+  wsConnecting: WS_CONNECTING,
+  onOpen: WS_OPEN,
+  onClose: WS_CLOSE,
+  onError: WS_ERROR,
+  onMessage: WS_MESSAGE
+};
 
 export const API_URL = 'https://norma.nomoreparties.space/api';
 export const WS_URL = 'wss://norma.nomoreparties.space/orders';
