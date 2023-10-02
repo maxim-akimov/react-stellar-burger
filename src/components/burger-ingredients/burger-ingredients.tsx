@@ -131,6 +131,3 @@ export const BurgerIngredients: FC = () => {
         </>
     )
 }
-
-
-export default BurgerIngredients;

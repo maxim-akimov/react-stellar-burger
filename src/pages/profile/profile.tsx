@@ -1,27 +1,28 @@
-import React, {useEffect, useState} from "react";
+import React, { FC, FormEvent, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../../hooks/useForm";
 
+import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./profile.module.css";
-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
-import {sendUserUpdateRequest} from "../../utils/api";
+
 import {
   SET_USER_UPDATE_FAILED,
   SET_USER_UPDATE_REQUEST,
   SET_USER_UPDATE_SUCCESS
 } from "../../services/actions/user-update";
-import {setUser} from "../../services/actions/autentication";
-import {useForm} from "../../hooks/useForm";
+import { sendUserUpdateRequest } from "../../utils/api";
+import { setUser } from "../../services/actions/autentication";
 
 
-function Profile() {
+export const Profile: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user.user);
   const [values, handleChange, setValues] = useForm({});
   const [isChange, setChange] = useState(false);
 
   useEffect(() => {
-    setValues({...user, password: ''})
+    setValues({ ...user, password: '' })
   }, [])
 
   const handleFormChange = (e) => {
@@ -30,7 +31,7 @@ function Profile() {
   }
 
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     dispatch({
@@ -41,11 +42,11 @@ function Profile() {
       .then((res) => {
         if (res && res.success) {
           setUser(res.user)
-          dispatch({type: SET_USER_UPDATE_SUCCESS})
+          dispatch({ type: SET_USER_UPDATE_SUCCESS })
           setChange(false);
         }
       })
-      .catch((e, res) => {
+      .catch((e) => {
         dispatch({
           type: SET_USER_UPDATE_FAILED,
           data: e.message
@@ -101,6 +102,3 @@ function Profile() {
     </form>
   );
 }
-
-
-export default Profile;

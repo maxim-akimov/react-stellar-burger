@@ -1,15 +1,23 @@
-import styles from './order-details.module.css'
-import {useDispatch, useSelector} from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
+import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientIcon } from "../ingredient-icon/ingredient-icon";
-import React, {useEffect} from "react";
-import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useParams} from "react-router-dom";
-import {getOrderDetails, RESET_ORDER_DETAILS} from "../../services/actions/order-details";
 import { Preloader } from "../preloader/preloader";
 
-function OrderDetails() {
-  const {orderNumber} = useParams();
+import styles from './order-details.module.css'
+
+import { getOrderDetails, RESET_ORDER_DETAILS } from "../../services/actions/order-details";
+import { IIngredient } from "../../types/data";
+
+export const OrderDetails = () => {
+  const { orderNumber } = useParams();
+
   const dispatch = useDispatch();
+
+  const orderDetails = useSelector((store) => store.orderDetails);
+  const ingredients = useSelector(state => state.burgerIngredients.items);
 
 
   useEffect(() => {
@@ -17,29 +25,25 @@ function OrderDetails() {
       getOrderDetails(orderNumber)
     )
     return () => {
-      dispatch({type: RESET_ORDER_DETAILS});
+      dispatch({ type: RESET_ORDER_DETAILS });
     }
   }, [])
 
-  const orderDetails = useSelector((store) => store.orderDetails);
-  const ingredients = useSelector(state => state.burgerIngredients.items);
 
   if (!orderDetails.data) {
-    return <Preloader type={'modal' }/>;
+    return <Preloader type={'modal'}/>;
   }
 
   const order = orderDetails.data.orders[0];
-
-
   const quantity = {};
 
-  order.ingredients.forEach((ingredientId) => {
+  order.ingredients.forEach((ingredientId: string) => {
     (quantity[ingredientId]) ? quantity[ingredientId] += 1 : quantity[ingredientId] = 1;
   })
 
 
-  const burgerIngredients = ingredients.filter((ingredient) => {
-    return order.ingredients.some((ingredientId) => {
+  const burgerIngredients = ingredients.filter((ingredient: IIngredient) => {
+    return order.ingredients.some((ingredientId: string) => {
       return ingredientId === ingredient._id;
     })
   });
@@ -90,4 +94,3 @@ function OrderDetails() {
   );
 }
 
-export default OrderDetails;

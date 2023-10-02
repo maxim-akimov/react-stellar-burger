@@ -1,13 +1,13 @@
-import React from "react";
+import React, { FC } from "react";
+import { Link, NavLink, Outlet, redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
+import { logOut } from "../../services/actions/autentication";
 
 import styles from "./user.module.css";
-import {Link, NavLink, Outlet, redirect} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {logOut} from "../../services/actions/autentication";
 
 
-function User() {
+export const User: FC = () => {
   const dispatch = useDispatch();
 
 
@@ -27,19 +27,20 @@ function User() {
             <NavLink
               end
               to={`/profile`}
-              className={({isActive}) => 'text text_type_main-medium ' + styles.menu__link + (isActive ? ' ' + styles.menu__link_active : '')}>
+              className={({ isActive }) => 'text text_type_main-medium ' + styles.menu__link + (isActive ? ' ' + styles.menu__link_active : '')}>
               Профиль
             </NavLink>
           </li>
           <li className={`text text_type_main-medium ${styles.menu__item}`}>
             <NavLink
               to={'/profile/orders'}
-              className={({isActive}) => 'text text_type_main-medium ' + styles.menu__link + (isActive ? ' ' + styles.menu__link_active : '')}>
+              className={({ isActive }) => 'text text_type_main-medium ' + styles.menu__link + (isActive ? ' ' + styles.menu__link_active : '')}>
               История заказов
             </NavLink>
           </li>
           <li className={`text text_type_main-medium ${styles.menu__item}`}>
             <Link
+              to={''}
               onClick={handleLogoutClick}
               className={`text text_type_main-medium ${styles.menu__link}`}
             >Выход</Link>
@@ -57,5 +58,3 @@ function User() {
   );
 }
 
-
-export default User;

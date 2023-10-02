@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { Preloader } from "../preloader/preloader";
 
 
-const ProtectedRouteElement: FC<{ onlyGuest: boolean, element: ReactElement }> = ({ onlyGuest = false, element }) => {
+const ProtectedRouteElement: FC<{ onlyGuest?: boolean, element: ReactElement }> = ({ onlyGuest = false, element }) => {
   const location = useLocation();
 
   // Получение из хранилища значение флага, фиксирующего факт проведения процесса авторизации

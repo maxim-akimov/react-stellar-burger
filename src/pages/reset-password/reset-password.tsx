@@ -1,22 +1,25 @@
-import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC, FormEvent } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../../hooks/useForm";
+
+import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "../register/register.module.css";
-import {Link, Navigate, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+
 import {
-  SET_RESET_PASSWORD, SET_RESET_PASSWORD_FAILED,
-  SET_RESET_PASSWORD_REQUEST,
-  SET_RESET_PASSWORD_SUCCESS
+  SET_RESET_PASSWORD, SET_RESET_PASSWORD_FAILED, SET_RESET_PASSWORD_REQUEST, SET_RESET_PASSWORD_SUCCESS
 } from "../../services/actions/reset-password";
-import {sendResetPasswordRequest} from "../../utils/api";
-import {useForm} from "../../hooks/useForm";
-import {ERROR_MESSAGES} from "../../utils/constaints";
+import { ERROR_MESSAGES } from "../../utils/constaints";
+import { sendResetPasswordRequest } from "../../utils/api";
 
 
-function ResetPassword() {
+export const ResetPassword: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {resetPasswordFailed, resetPasswordError} = useSelector(state => state.resetPassword);
+
+  const { resetPasswordFailed, resetPasswordError } = useSelector(state => state.resetPassword);
+
   const [values, handleChange] = useForm({});
 
 
@@ -25,7 +28,7 @@ function ResetPassword() {
   }
 
 
-  const handleResetPasswordSubmit = (e) => {
+  const handleResetPasswordSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     dispatch({
@@ -91,6 +94,3 @@ function ResetPassword() {
     </main>
   );
 }
-
-
-export default ResetPassword;

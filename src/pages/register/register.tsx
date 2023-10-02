@@ -1,27 +1,28 @@
-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC, FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../../hooks/useForm";
+
+import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./register.module.css";
-import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {
-  SET_REGISTER_FAILED,
-  SET_REGISTER_REQUEST,
-  SET_REGISTER_SUCCESS
-} from "../../services/actions/register";
-import {sendRegisterRequest} from "../../utils/api";
-import {setUser} from "../../services/actions/autentication";
-import {useForm} from "../../hooks/useForm";
-import {ERROR_MESSAGES} from "../../utils/constaints";
+
+import { SET_REGISTER_FAILED, SET_REGISTER_REQUEST, SET_REGISTER_SUCCESS } from "../../services/actions/register";
+import { ERROR_MESSAGES } from "../../utils/constaints";
+import { sendRegisterRequest } from "../../utils/api";
+import { setUser } from "../../services/actions/autentication";
 
 
-function Register() {
+export const Register: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {registerErrorMessage, registerFailed} = useSelector(state => state.register);
+
+  const { registerErrorMessage, registerFailed } = useSelector(state => state.register);
+
   const [values, handleChange] = useForm({});
 
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     dispatch({
@@ -36,7 +37,7 @@ function Register() {
           localStorage.setItem('accessToken', res.accessToken);
           localStorage.setItem('refreshToken', res.refreshToken);
 
-          dispatch({type: SET_REGISTER_SUCCESS})
+          dispatch({ type: SET_REGISTER_SUCCESS })
           navigate('/');
         }
       })
@@ -97,6 +98,3 @@ function Register() {
     </main>
   );
 }
-
-
-export default Register;

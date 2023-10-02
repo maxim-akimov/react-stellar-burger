@@ -1,12 +1,14 @@
-import { FeedList } from "../../components/feed-list/feed-list";
-import { Statistics } from "../../components/statistics/statistics";
 import { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { connect, disconnect } from "../../services/actions/ws";
+
+import { FeedList } from "../../components/feed-list/feed-list";
+import { Statistics } from "../../components/statistics/statistics";
 
 import styles from "./feed.module.css";
 
 import { WS_URL } from "../../utils/constaints";
+import { connect, disconnect } from "../../services/actions/ws";
+
 
 
 export const Feed: FC = () => {

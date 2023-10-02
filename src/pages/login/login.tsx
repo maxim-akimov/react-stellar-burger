@@ -1,27 +1,26 @@
-import {Button, EmailInput, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
+import { FC, FormEvent } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../../hooks/useForm";
+
+import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from "./login.module.css";
-import {Link} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {
-  logIn,
-  LOGIN_FAILED,
-  LOGIN_REQUEST,
-} from "../../services/actions/autentication";
-import {useForm} from "../../hooks/useForm";
-import {ERROR_MESSAGES} from "../../utils/constaints";
+
+import { logIn, LOGIN_FAILED, LOGIN_REQUEST } from "../../services/actions/autentication";
+import { ERROR_MESSAGES } from "../../utils/constaints";
 
 
-function Login() {
+export const Login: FC = () => {
   const dispatch = useDispatch();
   const [values, handleChange] = useForm({});
   const user = useSelector(state => state.user);
 
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    dispatch({type: LOGIN_REQUEST});
+    dispatch({ type: LOGIN_REQUEST });
 
     dispatch(logIn(values))
       .catch((err) => {
@@ -69,6 +68,3 @@ function Login() {
     </main>
   );
 }
-
-
-export default Login;

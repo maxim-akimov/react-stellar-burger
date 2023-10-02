@@ -1,8 +1,10 @@
+import { FC } from "react";
+
 import styles from "./not-found-404.module.css";
 
 
 
-function NotFound404() {
+export const NotFound404: FC = () => {
   return (
     <>
       <h1 className={`text text_type_main-large pt-10 pb-5`}>
@@ -12,6 +14,3 @@ function NotFound404() {
     </>
   );
 }
-
-
-export default NotFound404;

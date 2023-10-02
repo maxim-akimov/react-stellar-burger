@@ -1,3 +1,4 @@
+import { FC, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useForm } from "../../hooks/useForm";
@@ -16,13 +17,13 @@ import { sendForgotPasswordRequest } from "../../utils/api";
 
 
 
-function ForgotPassword() {
+export const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [values, handleChange] = useForm({});
 
 
-  const handleForgotPasswordSubmit = (e) => {
+  const handleForgotPasswordSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     dispatch({
@@ -79,6 +80,3 @@ function ForgotPassword() {
     </main>
   );
 }
-
-
-export default ForgotPassword;
