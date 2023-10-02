@@ -1,15 +1,16 @@
-import React from "react";
-
-import styles from './statistics.module.css';
+import { FC } from "react";
 import {useSelector} from "react-redux";
 
+import styles from './statistics.module.css';
+import { IOrder } from "../../types/data";
 
-function Statistics() {
+
+export const Statistics: FC = () => {
   const orders = useSelector((store) => store.ws.ordersData);
 
 
   if (!orders) {
-    return null
+    return null;
   }
 
 
@@ -17,19 +18,17 @@ function Statistics() {
   const inProcessOrders = orders.orders.filter((order) => order.status === 'pending').slice(0, 10);
 
 
-
   return (
-    orders &&
     <section className={styles.container}>
       <h2 className={`text text_type_main-medium pb-6 ${styles.doneHeading}`}>Готовы:</h2>
       <ul className={`${styles.numbersList} ${styles.done}`}>
-        {doneOrders.map((order) => (
+        {doneOrders.map((order: IOrder) => (
           <li key={order._id} className={`text text_type_digits-default`}>{order.number}</li>
         ))}
       </ul>
       <h2 className={`text text_type_main-medium pb-6 ${styles.processHeading}`}>В работе:</h2>
       <ul className={`${styles.numbersList} ${styles.process}`}>
-        {inProcessOrders.map((order) => (
+        {inProcessOrders.map((order: IOrder) => (
           <li key={order._id} className={`text text_type_digits-default`}>{order.number}</li>
         ))}      </ul>
       <h2 className={`text text_type_main-medium pt-15 ${styles.totalHeading}`}>Выполнено за все время:</h2>
@@ -39,6 +38,3 @@ function Statistics() {
     </section>
   )
 }
-
-
-export default Statistics;

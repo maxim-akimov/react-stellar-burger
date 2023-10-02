@@ -1,11 +1,14 @@
-import {Navigate, useLocation} from 'react-router-dom';
-import {useSelector} from "react-redux";
-import Preloader from "../preloader/preloader";
-import PropTypes from "prop-types";
+import { FC, ReactElement } from "react";
+
+import { Navigate, useLocation } from 'react-router-dom';
+import { useSelector } from "react-redux";
+
+import { Preloader } from "../preloader/preloader";
 
 
+const ProtectedRouteElement: FC<{ onlyGuest: boolean, element: ReactElement }> = ({ onlyGuest = false, element }) => {
+  const location = useLocation();
 
-function ProtectedRouteElement({ onlyGuest = false,  element }) {
   // Получение из хранилища значение флага, фиксирующего факт проведения процесса авторизации
   // без учета результата проверки
   const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
@@ -14,14 +17,10 @@ function ProtectedRouteElement({ onlyGuest = false,  element }) {
   const user = useSelector((store) => store.user.user);
 
 
-  const location = useLocation();
-
-
   // Если проверка авторизации еще не производитась
   if (!isAuthChecked) {
-    return <Preloader />;
+    return <Preloader/>;
   }
-
 
 
   // Авторизованный пользователь пытается попасть в раздел,
@@ -29,14 +28,14 @@ function ProtectedRouteElement({ onlyGuest = false,  element }) {
   if (onlyGuest && user) {
     // Перенаправляем пользователя на предыдущий адрес, записанный в истории или на гравную страницу
     const { from } = location.state || { from: { pathname: "/" } };
-    return <Navigate to={from} />
+    return <Navigate to={from}/>
   }
 
 
   // Пользователь не авторизован, маршрут предназначен только для авторизованных
   if (!onlyGuest && !user) {
     // Перенаправление на страницу авторизации
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to="/login" state={{ from: location }}/>;
   }
 
   // Остальные случаи подразумевают, что пользователь авторизован и маршрут
@@ -44,14 +43,7 @@ function ProtectedRouteElement({ onlyGuest = false,  element }) {
   return element;
 }
 
-
-ProtectedRouteElement.propTypes = {
-  onlyGuest: PropTypes.bool,
-  element: PropTypes.element,
-};
-
-
 export const OnlyAuth = ProtectedRouteElement;
-export const OnlyGuest = ({ element }) => (
-  <ProtectedRouteElement onlyGuest={true} element={element} />
+export const OnlyGuest: FC<{element: ReactElement}> = ({ element }) => (
+  <ProtectedRouteElement onlyGuest={true} element={element}/>
 );

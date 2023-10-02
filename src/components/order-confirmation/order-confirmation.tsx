@@ -1,8 +1,10 @@
-import styles from './order-confirmation.module.css';
+import { FC } from "react";
 import {useSelector} from "react-redux";
 
+import styles from './order-confirmation.module.css';
 
-function OrderConfirmation() {
+
+export const OrderConfirmation: FC = () => {
   const order = useSelector((state) => state.order.orderData);
 
   return (
@@ -17,6 +19,3 @@ function OrderConfirmation() {
     </>
   )
 }
-
-
-export default OrderConfirmation;

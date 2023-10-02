@@ -1,13 +1,15 @@
+import { FeedList } from "../../components/feed-list/feed-list";
+import { Statistics } from "../../components/statistics/statistics";
+import { FC, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { connect, disconnect } from "../../services/actions/ws";
+
 import styles from "./feed.module.css";
-import FeedList from "../../components/feed-list/feed-list";
-import Statistics from "../../components/statistics/statistics";
-import {useEffect} from "react";
-import {useDispatch} from "react-redux";
-import {connect, disconnect} from "../../services/actions/ws";
-import {WS_URL} from "../../utils/constaints";
+
+import { WS_URL } from "../../utils/constaints";
 
 
-function Feed() {
+export const Feed: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,5 +32,3 @@ function Feed() {
   );
 }
 
-
-export default Feed;

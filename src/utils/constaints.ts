@@ -8,7 +8,7 @@ import {
   WS_OPEN
 } from "../services/actions/ws";
 
-export const modalRoot = document.getElementById('modal-root');
+export const modalRoot: HTMLElement | null = document.getElementById('modal-root');
 
 export const WebsocketStatus  = {
   CONNECTING:  'CONNECTING...',

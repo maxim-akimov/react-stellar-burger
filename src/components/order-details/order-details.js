@@ -1,11 +1,11 @@
 import styles from './order-details.module.css'
 import {useDispatch, useSelector} from "react-redux";
-import IngredientIcon from "../ingredient-icon/ingredient-icon";
+import { IngredientIcon } from "../ingredient-icon/ingredient-icon";
 import React, {useEffect} from "react";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useParams} from "react-router-dom";
 import {getOrderDetails, RESET_ORDER_DETAILS} from "../../services/actions/order-details";
-import Preloader from "../preloader/preloader";
+import { Preloader } from "../preloader/preloader";
 
 function OrderDetails() {
   const {orderNumber} = useParams();

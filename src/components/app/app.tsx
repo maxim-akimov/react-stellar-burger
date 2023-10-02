@@ -1,10 +1,10 @@
+// Библиотеки
 import React, {FC, useEffect} from "react";
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
-import styles from "./app.module.css";
-
+// Компоненты
 import AppHeader from "../app-header/app-header";
-import Modal from "../modal/modal";
+import { Modal } from "../modal/modal";
 import Home from "../../pages/home/home";
 import Register from "../../pages/register/register";
 import ForgotPassword from "../../pages/forgot-password/forgot-password";
@@ -15,12 +15,15 @@ import { OnlyGuest, OnlyAuth } from "../protected-route-element/protected-rote-e
 import Login from "../../pages/login/login";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUserAuth } from "../../services/actions/autentication";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { getBurgerIngredients } from "../../services/actions/burger-ingredients";
 import Orders from "../../pages/orders/orders";
 import User from "../../pages/profile/user";
 import Feed from "../../pages/feed/feed";
 import OrderDetails from "../order-details/order-details";
+
+// Стили
+import styles from "./app.module.css";
 
 
 export const App: FC = () => {

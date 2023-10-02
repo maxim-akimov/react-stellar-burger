@@ -10,6 +10,7 @@ import {authenticationReducer} from "./authentication";
 import {userUpdateReducer} from "./user-update";
 import {ordersReducer} from "./ws";
 import {orderDetailsReducer} from "./order-details";
+import { any } from "prop-types";
 
 export const rootReducer = combineReducers({
   burgerIngredients: burgerIngredientsReducer,

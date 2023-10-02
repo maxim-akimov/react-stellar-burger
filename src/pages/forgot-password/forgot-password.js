@@ -1,14 +1,19 @@
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useForm } from "../../hooks/useForm";
+
+import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import styles from "./forgot-password.module.css";
-import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useNavigate} from "react-router-dom";
-import {sendForgotPasswordRequest} from "../../utils/api";
+
 import {
   SET_FORGOT_PASSWORD, SET_FORGOT_PASSWORD_FAILED,
   SET_FORGOT_PASSWORD_REQUEST,
   SET_FORGOT_PASSWORD_SUCCESS
 } from "../../services/actions/forgot-password";
-import {useDispatch} from "react-redux";
-import {useForm} from "../../hooks/useForm";
+
+import { sendForgotPasswordRequest } from "../../utils/api";
+
 
 
 function ForgotPassword() {
