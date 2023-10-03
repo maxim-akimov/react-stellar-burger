@@ -1,8 +1,9 @@
-import {getBurgerIngredientsRequest} from "../../utils/api";
-
-export const GET_BURGER_INGREDIENTS_REQUEST = 'GET_BURGER_INGREDIENTS_REQUEST';
-export const GET_BURGER_INGREDIENTS_SUCCESS = 'GET_BURGER_INGREDIENTS_SUCCESS';
-export const GET_BURGER_INGREDIENTS_FAILED = 'GET_BURGER_INGREDIENTS_FAILED';
+import {
+  GET_BURGER_INGREDIENTS_REQUEST,
+  GET_BURGER_INGREDIENTS_SUCCESS,
+  GET_BURGER_INGREDIENTS_FAILED
+} from "../constaints/burger-ingredients";
+import { getBurgerIngredientsRequest } from "../../utils/api";
 
 
 export function getBurgerIngredients() {

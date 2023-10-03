@@ -11,7 +11,7 @@ import {
   SET_FORGOT_PASSWORD, SET_FORGOT_PASSWORD_FAILED,
   SET_FORGOT_PASSWORD_REQUEST,
   SET_FORGOT_PASSWORD_SUCCESS
-} from "../../services/actions/forgot-password";
+} from "../../services/constaints/forgot-password";
 
 import { sendForgotPasswordRequest } from "../../utils/api";
 

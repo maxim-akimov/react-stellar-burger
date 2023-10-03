@@ -14,13 +14,13 @@ import { NotFound404 } from "../../pages/not-found-404/not-found-404";
 import { OnlyGuest, OnlyAuth } from "../protected-route-element/protected-rote-element";
 import { Login } from "../../pages/login/login";
 import { useDispatch, useSelector } from "react-redux";
-import { checkUserAuth } from "../../services/actions/autentication";
+import { checkUserAuthThunk } from "../../services/thunks/user";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { getBurgerIngredients } from "../../services/actions/burger-ingredients";
 import { Orders } from "../../pages/orders/orders";
 import { User } from "../../pages/profile/user";
 import { Feed } from "../../pages/feed/feed";
-import OrderDetails from "../order-details/order-details";
+import { OrderDetails } from "../order-details/order-details";
 
 // Стили
 import styles from "./app.module.css";
@@ -36,7 +36,7 @@ export const App: FC = () => {
 
   useEffect(() => {
     dispatch(getBurgerIngredients());
-    dispatch(checkUserAuth());
+    dispatch(checkUserAuthThunk());
   }, []);
 
 

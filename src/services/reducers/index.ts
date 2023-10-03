@@ -6,11 +6,12 @@ import {orderReducer} from "./order";
 import {forgotPasswordReducer} from "./forgot-password";
 import {resetPasswordReducer} from "./reset-password";
 import {registerReducer} from "./register";
-import {authenticationReducer} from "./authentication";
+import { userReducer } from "./user";
 import {userUpdateReducer} from "./user-update";
 import {ordersReducer} from "./ws";
 import {orderDetailsReducer} from "./order-details";
-import { any } from "prop-types";
+
+
 
 export const rootReducer = combineReducers({
   burgerIngredients: burgerIngredientsReducer,
@@ -20,7 +21,7 @@ export const rootReducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
   resetPassword: resetPasswordReducer,
   register: registerReducer,
-  user: authenticationReducer,
+  user: userReducer,
   userUpdate: userUpdateReducer,
   ws: ordersReducer,
   orderDetails: orderDetailsReducer,

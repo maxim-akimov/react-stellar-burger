@@ -9,7 +9,7 @@ import styles from "../register/register.module.css";
 
 import {
   SET_RESET_PASSWORD, SET_RESET_PASSWORD_FAILED, SET_RESET_PASSWORD_REQUEST, SET_RESET_PASSWORD_SUCCESS
-} from "../../services/actions/reset-password";
+} from "../../services/constaints/reset-password";
 import { ERROR_MESSAGES } from "../../utils/constaints";
 import { sendResetPasswordRequest } from "../../utils/api";
 

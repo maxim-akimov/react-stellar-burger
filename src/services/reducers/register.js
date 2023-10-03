@@ -2,7 +2,7 @@ import {
   SET_REGISTER_REQUEST,
   SET_REGISTER_SUCCESS,
   SET_REGISTER_FAILED
-} from "../actions/register";
+} from "../constaints/register";
 
 const initialState = {
   registerRequest: false,

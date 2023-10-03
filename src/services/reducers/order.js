@@ -1,4 +1,4 @@
-import {SET_ORDER, SET_ORDER_FAILED, SET_ORDER_REQUEST, SET_ORDER_SUCCESS} from "../actions/order";
+import {SET_ORDER, SET_ORDER_FAILED, SET_ORDER_REQUEST, SET_ORDER_SUCCESS} from "../constaints/order";
 
 const initialState = {
   orderRequest: false,

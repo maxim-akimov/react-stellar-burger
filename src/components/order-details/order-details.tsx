@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -11,7 +11,7 @@ import styles from './order-details.module.css'
 import { getOrderDetails, RESET_ORDER_DETAILS } from "../../services/actions/order-details";
 import { IIngredient } from "../../types/data";
 
-export const OrderDetails = () => {
+export const OrderDetails: FC = () => {
   const { orderNumber } = useParams();
 
   const dispatch = useDispatch();
@@ -35,7 +35,9 @@ export const OrderDetails = () => {
   }
 
   const order = orderDetails.data.orders[0];
-  const quantity = {};
+  const quantity: {
+    [key: string]: number
+  } = {};
 
   order.ingredients.forEach((ingredientId: string) => {
     (quantity[ingredientId]) ? quantity[ingredientId] += 1 : quantity[ingredientId] = 1;
@@ -49,12 +51,14 @@ export const OrderDetails = () => {
   });
 
 
-  const total = burgerIngredients.reduce((sum, current) => {
+  const total = burgerIngredients.reduce((sum: number, current: IIngredient) => {
     return sum + current.price;
   }, 0)
 
 
-  const statuses = {
+  const statuses: {
+    [key: string]: string
+  } = {
     created: 'Новый',
     pending: 'Готовится',
     done: 'Выполнен'
@@ -69,7 +73,7 @@ export const OrderDetails = () => {
         className={`text text_type_main-default pb-15 ${styles.status} ${(order.status === 'done' ? styles.status_done : '')}`}>{statuses[order.status]}</p>
       <h2 className={`text text_type_main-medium pb-6 ${styles.title}`}>Состав:</h2>
       <ul className={`${styles.list} custom-scroll`}>
-        {burgerIngredients.map((ingredient) => (
+        {burgerIngredients.map((ingredient: IIngredient) => (
           <li key={ingredient._id} className={`${styles.item}`}>
             <IngredientIcon src={ingredient.image_mobile} alt={ingredient.name}/>
             <p className={`text text_type_main-default`}>{ingredient.name}</p>

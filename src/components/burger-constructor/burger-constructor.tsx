@@ -19,16 +19,16 @@ import {
     ADD_IN_CONSTRUCTOR,
     ORDER_INGREDIENTS,
     RESET_CONSTRUCTOR
-} from "../../services/actions/burger-constructor";
+} from "../../services/constaints/burger-constructor";
 import {
     SET_ORDER,
     SET_ORDER_FAILED,
     SET_ORDER_REQUEST,
     SET_ORDER_SUCCESS
-} from "../../services/actions/order";
+} from "../../services/constaints/order";
 
 import {sendOrderRequest} from "../../utils/api";
-import {checkUserAuth} from "../../services/actions/autentication";
+import {checkUserAuthThunk} from "../../services/thunks/user";
 
 // Типы
 import {IIngredient, IIngredientConstructor} from "../../types/data";
@@ -94,7 +94,7 @@ export const BurgerConstructor: FC = () => {
     }
 
     const handleOrderSend = () => {
-        dispatch(checkUserAuth());
+        dispatch(checkUserAuthThunk());
 
         if (!user) {
             return navigate('/login');

@@ -7,8 +7,9 @@ import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer
 
 import styles from "./login.module.css";
 
-import { logIn, LOGIN_FAILED, LOGIN_REQUEST } from "../../services/actions/autentication";
+import { LOGIN_FAILED, LOGIN_REQUEST } from "../../services/actions/user";
 import { ERROR_MESSAGES } from "../../utils/constaints";
+import { loginThunk } from "../../services/thunks/user";
 
 
 export const Login: FC = () => {
@@ -22,7 +23,7 @@ export const Login: FC = () => {
 
     dispatch({ type: LOGIN_REQUEST });
 
-    dispatch(logIn(values))
+    dispatch(loginThunk(values))
       .catch((err) => {
         dispatch({
           type: LOGIN_FAILED,

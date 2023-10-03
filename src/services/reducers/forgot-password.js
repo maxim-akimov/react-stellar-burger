@@ -3,7 +3,7 @@ import {
   SET_FORGOT_PASSWORD_REQUEST,
   SET_FORGOT_PASSWORD_SUCCESS,
   SET_FORGOT_PASSWORD_FAILED
-} from "../actions/forgot-password";
+} from "../constaints/forgot-password";
 
 const initialState = {
   forgotPasswordRequest: false,

@@ -2,7 +2,7 @@ import {
   SET_USER_UPDATE_REQUEST,
   SET_USER_UPDATE_SUCCESS,
   SET_USER_UPDATE_FAILED
-} from "../actions/user-update";
+} from "../constaints/user-update";
 
 const initialState = {
   userUpdateRequest: false,

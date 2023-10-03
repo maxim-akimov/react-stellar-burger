@@ -3,7 +3,7 @@ import {
   SET_RESET_PASSWORD_REQUEST,
   SET_RESET_PASSWORD_SUCCESS,
   SET_RESET_PASSWORD_FAILED
-} from "../actions/reset-password";
+} from "../constaints/reset-password";
 
 const initialState = {
   resetPasswordRequest: false,

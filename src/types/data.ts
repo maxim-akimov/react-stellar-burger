@@ -13,7 +13,6 @@ export interface IIngredient {
   readonly __v: number
 }
 
-
 export interface IIngredientConstructor extends IIngredient {
   readonly uuid: string
 }
@@ -44,4 +43,24 @@ export interface IOrder {
 
 export interface IOrderItem extends IOrder {
   showStatus?: boolean
+}
+
+export interface IUser {
+  email: string,
+  name: string
+}
+
+export interface IUserTokensResponse {
+  success: boolean,
+  accessToken: string,
+  refreshToken: string
+}
+
+export interface IUserResponse extends IUserTokensResponse {
+  user: IUser,
+}
+
+export interface IUserLogin {
+  email: string,
+  password: string
 }

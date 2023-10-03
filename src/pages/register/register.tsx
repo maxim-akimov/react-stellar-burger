@@ -7,10 +7,10 @@ import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-de
 
 import styles from "./register.module.css";
 
-import { SET_REGISTER_FAILED, SET_REGISTER_REQUEST, SET_REGISTER_SUCCESS } from "../../services/actions/register";
+import { SET_REGISTER_FAILED, SET_REGISTER_REQUEST, SET_REGISTER_SUCCESS } from "../../services/constaints/register";
 import { ERROR_MESSAGES } from "../../utils/constaints";
 import { sendRegisterRequest } from "../../utils/api";
-import { setUser } from "../../services/actions/autentication";
+import { setUserAction } from "../../services/actions/user";
 
 
 export const Register: FC = () => {
@@ -32,7 +32,7 @@ export const Register: FC = () => {
     sendRegisterRequest(values)
       .then((res) => {
         if (res && res.success) {
-          setUser(res.user)
+          setUserAction(res.user)
 
           localStorage.setItem('accessToken', res.accessToken);
           localStorage.setItem('refreshToken', res.refreshToken);

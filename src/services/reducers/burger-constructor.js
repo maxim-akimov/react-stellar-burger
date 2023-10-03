@@ -4,7 +4,7 @@ import {
   DELETE_FROM_CONSTRUCTOR,
   ORDER_INGREDIENTS,
   RESET_CONSTRUCTOR
-} from "../actions/burger-constructor";
+} from "../constaints/burger-constructor";
 
 
 const initialState = {

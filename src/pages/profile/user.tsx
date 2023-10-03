@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Link, NavLink, Outlet, redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { logOut } from "../../services/actions/autentication";
+import { logoutThunk } from "../../services/thunks/user";
 
 import styles from "./user.module.css";
 
@@ -12,7 +12,7 @@ export const User: FC = () => {
 
 
   const handleLogoutClick = () => {
-    dispatch(logOut())
+    dispatch(logoutThunk())
       .then(() => {
         redirect('/login');
       });

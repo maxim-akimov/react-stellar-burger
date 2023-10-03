@@ -1,9 +1,10 @@
-import {getOrderDetailsRequest} from "../../utils/api";
-
-export const GET_ORDER_DETAILS_REQUEST = 'GET_ORDER_DETAILS_REQUEST';
-export const GET_ORDER_DETAILS_SUCCESS = 'GET_ORDER_DETAILS_SUCCESS';
-export const GET_ORDER_DETAILS_FAILED = 'GET_ORDER_DETAILS_FAILED';
-export const RESET_ORDER_DETAILS = 'RESET_ORDER_DETAILS';
+import {
+  GET_ORDER_DETAILS_REQUEST,
+  GET_ORDER_DETAILS_FAILED,
+  GET_ORDER_DETAILS_SUCCESS,
+  RESET_ORDER_DETAILS
+} from "../constaints/order-details";
+import { getOrderDetailsRequest } from "../../utils/api";
 
 
 export function getOrderDetails(number) {

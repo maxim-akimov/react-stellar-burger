@@ -10,9 +10,9 @@ import {
   SET_USER_UPDATE_FAILED,
   SET_USER_UPDATE_REQUEST,
   SET_USER_UPDATE_SUCCESS
-} from "../../services/actions/user-update";
+} from "../../services/constaints/user-update";
 import { sendUserUpdateRequest } from "../../utils/api";
-import { setUser } from "../../services/actions/autentication";
+import { setUserAction } from "../../services/actions/user";
 
 
 export const Profile: FC = () => {
@@ -41,7 +41,7 @@ export const Profile: FC = () => {
     sendUserUpdateRequest(values)
       .then((res) => {
         if (res && res.success) {
-          setUser(res.user)
+          setUserAction(res.user)
           dispatch({ type: SET_USER_UPDATE_SUCCESS })
           setChange(false);
         }
