@@ -1,50 +1,44 @@
+import { getUserRequest, updateUserRequest } from "../../utils/api";
+import {
+  getUserFailedAction,
+  getUserRequestAction,
+  getUserSuccessAction,
+  setUserAction,
+  updateUserFailedAction,
+  updateUserRequestAction,
+  updateUserSuccessAction
+} from "../actions/user";
+
 import { AppDispatch, AppThunk } from "../types";
-import { getUserRequest, sendLoginRequest, sendLogoutRequest } from "../../utils/api";
-import { setAuthCheckedAction, setUserAction } from "../actions/user";
+
 
 
 export const getUserThunk: AppThunk = () => (dispatch: AppDispatch) => {
+  dispatch(getUserRequestAction());
+
   return getUserRequest()
     .then((res) => {
-      dispatch(setUserAction(res.user))
+      dispatch(getUserSuccessAction());
+      dispatch(setUserAction(res.user));
+    })
+    .catch((e) => {
+      dispatch(getUserFailedAction(e));
     })
 }
 
 
-export const loginThunk: AppThunk = (data) => (dispatch: AppDispatch) => {
-  return sendLoginRequest(data)
+export const updateUserThunk: AppThunk = (data) => (dispatch: AppDispatch) => {
+  dispatch(updateUserRequestAction());
+
+  return updateUserRequest(data)
     .then((res) => {
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
+      dispatch(updateUserSuccessAction());
       dispatch(setUserAction(res.user));
-      dispatch(setAuthCheckedAction(true));
-    });
-};
+    })
+    .catch((e) => {
+      dispatch(updateUserFailedAction(e));
+    })
+}
 
 
-export const logoutThunk: AppThunk = () => (dispatch: AppDispatch) => {
-    return sendLogoutRequest({
-      token: localStorage.getItem('refreshToken')
-    }).then(() => {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      dispatch(setUserAction(null));
-    });
-  };
-
-
-export const checkUserAuthThunk: AppDispatch = () => (dispatch: AppDispatch) => {
-    if (localStorage.getItem("accessToken")) {
-      dispatch(getUserThunk())
-        .catch(() => {
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
-          dispatch(setUserAction(null));
-        })
-        .finally(() => dispatch(setAuthCheckedAction(true)));
-    } else {
-      dispatch(setUserAction(null));
-      dispatch(setAuthCheckedAction(true));
-    }
-  };
 

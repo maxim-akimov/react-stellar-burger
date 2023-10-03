@@ -106,19 +106,19 @@ export const sendRegisterRequest = (data) => request('auth/register', {
 })
 
 
-export const sendUserUpdateRequest = (data) => requestWithAuth('auth/user', {
+export const updateUserRequest = (data) => requestWithAuth('auth/user', {
   method: 'PATCH',
   body: JSON.stringify(data),
 })
 
 
-export const sendLoginRequest = (data) => request('auth/login', {
+export const loginRequest = (data) => request('auth/login', {
   method: 'POST',
   body: JSON.stringify(data),
 })
 
 
-export const sendLogoutRequest = (data) => request('auth/logout', {
+export const logoutRequest = (data) => request('auth/logout', {
   method: 'POST',
   body: JSON.stringify(data),
 })

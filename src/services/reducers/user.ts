@@ -1,55 +1,39 @@
 import {
   SET_USER,
-  SET_AUTH_CHECKED,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILED,
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILED
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED
 } from "../constaints/user";
 import { IUser } from "../../types/data";
 import { TUserActions } from "../types/user";
 import { IRequestState } from "../types";
 
+
+
 interface IUserState {
   user: IUser | null,
   requestState: IRequestState,
-  authentication: {
-    isAuthChecked: boolean,
-    login: {
-      requestState: IRequestState
-    },
-    logout: {
-      requestState: IRequestState
-    }
-  }
+  updateRequestState: IRequestState,
 }
+
 
 const initialState: IUserState = {
   user: null,
   requestState: {
     request: false,
     success: false,
-    failed: false
+    failed: false,
+    errorMessage: ''
   },
-  authentication: {
-    isAuthChecked: false,
-    login: {
-      requestState: {
-        request: false,
-        success: false,
-        failed: false
-      },
-    },
-    logout: {
-      requestState: {
-        request: false,
-        success: false,
-        failed: false
-      },
-    }
-  }
+  updateRequestState: {
+    request: false,
+    success: false,
+    failed: false,
+    errorMessage: ''
+  },
 };
 
 
@@ -60,16 +44,6 @@ export const userReducer = (state = initialState, action: TUserActions) => {
         ...state,
         user: action.payload
       }
-    }
-
-    case SET_AUTH_CHECKED: {
-      return {
-        ...state,
-        authentication: {
-          ...state.authentication,
-          iasAuthChecked: action.payload
-        }
-      };
     }
 
     case GET_USER_REQUEST: {
@@ -89,7 +63,6 @@ export const userReducer = (state = initialState, action: TUserActions) => {
           ...state.requestState,
           request: false,
           success: true,
-          failed: false,
         }
       };
     }
@@ -100,62 +73,45 @@ export const userReducer = (state = initialState, action: TUserActions) => {
         requestState: {
           ...state.requestState,
           request: false,
-          success: false,
           failed: true,
           errorMessage: action.payload
         }
       };
     }
 
-    case LOGIN_REQUEST: {
+    case UPDATE_USER_REQUEST: {
       return {
         ...state,
-        authentication: {
-          ...state.authentication,
-          login: {
-            ...state.authentication.login,
-            requestState: {
-              ...state.authentication.login.requestState,
-              request: true,
-            }
-          }
+        updateRequestState: {
+          ...state.updateRequestState,
+          request: true,
         }
       };
     }
 
-    case LOGIN_SUCCESS: {
+    case UPDATE_USER_SUCCESS: {
       return {
         ...state,
-        authentication: {
-          ...state.authentication,
-          login: {
-            ...state.authentication.login,
-            requestState: {
-              ...state.authentication.login.requestState,
-              request: false,
-              success: true,
-            }
-          }
+        updateRequestState: {
+          ...state.updateRequestState,
+          request: false,
+          success: true,
         }
       };
     }
 
-    case LOGIN_FAILED: {
+    case UPDATE_USER_FAILED: {
       return {
         ...state,
-        authentication: {
-          ...state.authentication,
-          login: {
-            ...state.authentication.login,
-            requestState: {
-              ...state.authentication.login.requestState,
-              request: false,
-              failed: true,
-            }
-          }
+        updateRequestState: {
+          ...state.updateRequestState,
+          request: false,
+          failed: true,
+          errorMessage: action.payload
         }
       };
     }
+
 
     default: {
       return state;

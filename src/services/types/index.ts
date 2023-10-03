@@ -1,19 +1,9 @@
 import { TUserActions } from "./user";
 import { store } from '../store'
-import { Action, ActionCreator } from "redux";
+import { Action, ActionCreator, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
+import { TAuthenticationActions } from "./authentication";
 
-
-
-type RootState = ReturnType<typeof store.getState>;
-
-type TApplicationActions = TUserActions;
-
-export type AppThunk<ReturnType = void> = ActionCreator<
-  ThunkAction<ReturnType, Action, RootState, TApplicationActions>
-  >;
-
-export type AppDispatch = typeof store.dispatch;
 
 export interface IRequestState {
   request: boolean,
@@ -21,3 +11,13 @@ export interface IRequestState {
   failed: boolean,
   errorMessage?: string
 }
+
+
+type TApplicationActions = TUserActions
+  | TAuthenticationActions;
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TApplicationActions>>;
+export type AppDispatch = Dispatch<TApplicationActions>;
+
+// export type AppDispatch = typeof store.dispatch;

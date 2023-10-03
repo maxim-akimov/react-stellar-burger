@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { Link, NavLink, Outlet, redirect } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks/useDispatch";
 
-import { logoutThunk } from "../../services/thunks/user";
+import { logoutThunk } from "../../services/thunks/authentication";
 
 import styles from "./user.module.css";
 
@@ -11,7 +11,9 @@ export const User: FC = () => {
   const dispatch = useDispatch();
 
 
-  const handleLogoutClick = () => {
+  const handleLogoutClick = (e: Event) => {
+    e.preventDefault();
+
     dispatch(logoutThunk())
       .then(() => {
         redirect('/login');

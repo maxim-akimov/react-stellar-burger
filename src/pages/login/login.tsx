@@ -1,26 +1,28 @@
 import { FC, FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "../../hooks/useForm";
+import { useDispatch } from "../../services/hooks/useDispatch";
+import { useSelector } from "../../services/hooks/useSelector";
+import { useForm } from "../../services/hooks/useForm";
 
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from "./login.module.css";
 
-import { LOGIN_FAILED, LOGIN_REQUEST } from "../../services/actions/user";
-import { ERROR_MESSAGES } from "../../utils/constaints";
-import { loginThunk } from "../../services/thunks/user";
+import { loginThunk } from "../../services/thunks/authentication";
 
 
 export const Login: FC = () => {
   const dispatch = useDispatch();
   const [values, handleChange] = useForm({});
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.user.user);
+  const loginRequestState = useSelector(state => state.authentication.loginRequestState);
 
 
   const handleLoginSubmit = (e: FormEvent) => {
     e.preventDefault();
 
+    dispatch(loginThunk(values));
+    /**
     dispatch({ type: LOGIN_REQUEST });
 
     dispatch(loginThunk(values))
@@ -29,7 +31,7 @@ export const Login: FC = () => {
           type: LOGIN_FAILED,
           payload: ERROR_MESSAGES[err.message]
         })
-      });
+      });*/
   }
 
   return (

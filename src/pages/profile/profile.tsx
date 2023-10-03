@@ -1,23 +1,18 @@
 import React, { FC, FormEvent, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "../../hooks/useForm";
+import { useSelector } from "../../services/hooks/useSelector";
+import { useDispatch } from "../../services/hooks/useDispatch";
+import { useForm } from "../../services/hooks/useForm";
 
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./profile.module.css";
 
-import {
-  SET_USER_UPDATE_FAILED,
-  SET_USER_UPDATE_REQUEST,
-  SET_USER_UPDATE_SUCCESS
-} from "../../services/constaints/user-update";
-import { sendUserUpdateRequest } from "../../utils/api";
-import { setUserAction } from "../../services/actions/user";
+import { updateUserThunk } from "../../services/thunks/user";
 
 
 export const Profile: FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector((store) => store.user.user);
+  const { user, updateRequestState } = useSelector((store) => store.user);
   const [values, handleChange, setValues] = useForm({});
   const [isChange, setChange] = useState(false);
 
@@ -25,7 +20,7 @@ export const Profile: FC = () => {
     setValues({ ...user, password: '' })
   }, [])
 
-  const handleFormChange = (e) => {
+  const handleFormChange = (e: FormEvent) => {
     handleChange(e);
     setChange(true);
   }
@@ -34,6 +29,9 @@ export const Profile: FC = () => {
   const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
 
+    dispatch(updateUserThunk(values));
+
+    /**
     dispatch({
       type: SET_USER_UPDATE_REQUEST
     })
@@ -52,7 +50,12 @@ export const Profile: FC = () => {
           data: e.message
         })
         console.error(e)
-      })
+      })*/
+  }
+
+
+  if (updateRequestState.success) {
+    setChange(false);
   }
 
 
@@ -80,7 +83,6 @@ export const Profile: FC = () => {
         value={values.email || ''}
         name={'email'}
         extraClass="pt-6"
-        icon="EditIcon"
         isIcon={true}
       />
 

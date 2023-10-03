@@ -1,7 +1,7 @@
 import { FC, FormEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "../../hooks/useForm";
+import { useForm } from "../../services/hooks/useForm";
 
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 

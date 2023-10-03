@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { IUseFormHook, IUseFormHookReturn } from "../types/main";
+import { IUseFormHook, IUseFormHookReturn } from "../../types/main";
 
 export const useForm = (inputValues: IUseFormHook = {}): IUseFormHookReturn => {
   const [values, setValues] = useState(inputValues);
