@@ -6,8 +6,8 @@ import styles from './constructor-list-item.module.css'
 
 import {DragIcon, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 
-import {DELETE_FROM_CONSTRUCTOR} from "../../services/constaints/constructor";
 import {IConstructorListItemProps} from "../../types/data";
+import { deleteIngredientAction } from "../../services/actions/constructor";
 
 
 export const ConstructorListItem: FC<IConstructorListItemProps> = (props) => {
@@ -50,10 +50,7 @@ export const ConstructorListItem: FC<IConstructorListItemProps> = (props) => {
 
 
     const handleRemove = (uuid: string) => {
-        dispatch({
-            type: DELETE_FROM_CONSTRUCTOR,
-            payload: uuid
-        });
+        dispatch(deleteIngredientAction(uuid));
     }
 
 

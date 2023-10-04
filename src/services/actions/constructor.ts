@@ -12,7 +12,7 @@ import {
   IResetConstructorAction
 } from "../types/constructor";
 
-export const addIngredientAction = (value: IIngredient): IAddIngredientAction => ({
+export const addIngredientAction = (value: any): IAddIngredientAction => ({
   type: ADD_INGREDIENT,
   payload: value,
 })
@@ -24,9 +24,12 @@ export const deleteIngredientAction = (value: string): IDeleteIngredientAction =
 })
 
 
-export const rearrangeIngredientAction = (value: number): IRearrangeIngredientAction => ({
+export const rearrangeIngredientAction = ({from, to}: {from: number, to: number}): IRearrangeIngredientAction => ({
   type: REARRANGE_INGREDIENTS,
-  payload: value,
+  payload: {
+    from: from,
+    to: to,
+  },
 })
 
 

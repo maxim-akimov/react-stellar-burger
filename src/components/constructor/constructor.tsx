@@ -1,47 +1,32 @@
-// Библиотеки
 import React, { FC, useCallback, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "../../services/hooks/useDispatch";
+import { useSelector } from "../../services/hooks/useSelector";
 import { useDrop } from "react-dnd";
 import { useNavigate } from 'react-router-dom';
 import { Button, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
-// Компоненты
 import { Modal } from "../modal/modal";
 import { ConstructorListItem } from "../constructor-list-item/constructor-list-item";
 import { OrderConfirmation } from "../order-confirmation/order-confirmation";
 import { Preloader } from "../preloader/preloader";
 
-// Стили
-import styles from './burger-constructor.module.css';
+import styles from './constructor.module.css';
 
-// Api
-import {
-  ADD_IN_CONSTRUCTOR,
-  ORDER_INGREDIENTS,
-  RESET_CONSTRUCTOR
-} from "../../services/constaints/constructor";
-import {
-  SET_ORDER,
-  SET_ORDER_FAILED,
-  SET_ORDER_REQUEST,
-  SET_ORDER_SUCCESS
-} from "../../services/constaints/order";
-
-import { sendOrderRequest } from "../../utils/api";
 import { checkUserAuthThunk } from "../../services/thunks/authentication";
 
-// Типы
 import { IIngredient, IIngredientConstructor } from "../../types/data";
+import { addIngredientAction, rearrangeIngredientAction } from "../../services/actions/constructor";
+import { createOrderThunk } from "../../services/thunks/create-order";
 
 
-export const BurgerConstructor: FC = () => {
+export const Constructor: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.user.user);
-  const { orderRequest } = useSelector((store) => store.order);
-  const { bun, other } = useSelector(store => store.burgerConstructor);
-  const cards = useSelector((state) => state.burgerConstructor.other)
+  const { requestState } = useSelector((store) => store.order);
+  const { bun, other } = useSelector((store) => store.constructor);
+  const cards = useSelector((state) => state.constructor.other)
 
   const [, orderingDropRef] = useDrop(() => ({ accept: 'ingredients-ordering' }))
 
@@ -51,10 +36,7 @@ export const BurgerConstructor: FC = () => {
   const [{ isHover, isTarget }, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
-      dispatch({
-        type: ADD_IN_CONSTRUCTOR,
-        payload: item
-      })
+      dispatch(addIngredientAction(item));
     },
     collect: monitor => ({
       isHover: monitor.isOver(),
@@ -65,9 +47,9 @@ export const BurgerConstructor: FC = () => {
 
   const findCard = useCallback(
     (uuid: string) => {
-      const card: IIngredientConstructor = cards.filter((c: IIngredientConstructor) => `${c.uuid}` === uuid)[0]
+      const card: IIngredient = cards.filter((c: IIngredient) => c.uuid === uuid)[0]
       return {
-        card,
+        ...card,
         index: cards.indexOf(card) as number,
       }
     },
@@ -78,13 +60,7 @@ export const BurgerConstructor: FC = () => {
   const moveCard = useCallback(
     (uuid: string, atIndex: number) => {
       const { card, index } = findCard(uuid)
-      dispatch({
-        type: ORDER_INGREDIENTS,
-        payload: {
-          from: index,
-          to: atIndex
-        }
-      })
+      dispatch(rearrangeIngredientAction({ from: index, to: atIndex }))
     },
     [findCard, cards],
   )
@@ -94,46 +70,26 @@ export const BurgerConstructor: FC = () => {
     setIsOpenedModal(false);
   }
 
+
   const handleOrderSend = () => {
     dispatch(checkUserAuthThunk());
 
-    if (!user) {
-      return navigate('/login');
-    }
+    if (!user) return navigate('/login');
+    if (!bun) return null;
 
-    dispatch({
-      type: SET_ORDER_REQUEST
-    })
-    sendOrderRequest({
-      ingredients: [
-        bun._id,
-        ...other.map((ingredient: IIngredient) => ingredient._id),
-        bun._id,
-      ],
-    })
-      .then((res) => {
-        if (res && res.success) {
-          dispatch({
-            type: SET_ORDER,
-            orderData: res
-          })
-          dispatch({
-            type: SET_ORDER_SUCCESS
-          })
-          dispatch({
-            type: RESET_CONSTRUCTOR
-          })
-
-          setIsOpenedModal(true);
-        }
+    dispatch(
+      createOrderThunk({
+        ingredients: [
+          bun._id,
+          ...other.map((ingredient: IIngredient) => ingredient._id),
+          bun._id,
+        ],
       })
-      .catch((e) => {
-        dispatch({
-          type: SET_ORDER_FAILED
-        })
-        console.error(e)
-      })
+    );
   }
+
+
+  if (requestState.success) setIsOpenedModal(true);
 
 
   const modal = (
@@ -166,7 +122,7 @@ export const BurgerConstructor: FC = () => {
 
   return (
     <>
-      {(orderRequest && <Preloader/>)}
+      {(requestState.request && <Preloader/>)}
       <section className={styles.list}>
         <div className={`${styles.drag_target} ${backgroundClass}`} ref={dropTarget}>
 
@@ -184,7 +140,7 @@ export const BurgerConstructor: FC = () => {
           {other && other.length > 0 &&
             <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`}
                 ref={orderingDropRef}>
-              {other.map((ingredient: IIngredientConstructor) => (
+              {other.map((ingredient: IIngredient) => (
                 <ConstructorListItem
                   key={ingredient.uuid}
                   {...ingredient}

@@ -9,8 +9,8 @@ import { IIngredient } from "../../types/data";
 export const IngredientDetails: FC = () => {
   const { ingredientId } = useParams();
 
-  const burgerIngredients = useSelector((state) => state.burgerIngredients.items);
-  const ingredientData = burgerIngredients.find((ingredient: IIngredient) => ingredient._id === ingredientId);
+  const ingredients = useSelector((state) => state.ingredients.items);
+  const ingredientData = ingredients.find((ingredient: IIngredient) => ingredient._id === ingredientId);
 
 
   return (

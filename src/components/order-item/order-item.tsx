@@ -16,14 +16,14 @@ import { IIngredient, IOrderItem } from "../../types/data";
 export const OrderItem: FC<IOrderItem> = (props) => {
   const { showStatus, status, name, number, createdAt, ingredients } = props;
 
-  const burgerIngredients = useSelector(state => state.burgerIngredients.items)
+  const burgerIngredients = useSelector(state => state.ingredients.items)
     .filter((ingredient: IIngredient) => {
       return ingredients.some((ingredientId) => {
         return ingredientId === ingredient._id
       })
     });
 
-  const total = burgerIngredients.reduce((sum: number, current: IIngredient) => {
+  const total = ingredients.reduce((sum: number, current: IIngredient) => {
     return sum + current.price;
   }, 0);
 
@@ -50,10 +50,10 @@ export const OrderItem: FC<IOrderItem> = (props) => {
           ? styles.status_done : ''}`}>{statuses[status]}</p>}
       <div className={`pt-6 ${styles.details}`}>
         <ul className={styles.ingredientsList}>
-          {burgerIngredients.map((ingredient: IIngredient, i: number) => (
+          {ingredients.map((ingredient: IIngredient, i: number) => (
             i < 6 &&
             <li key={ingredient._id} className={styles.ingredientItem}
-                style={{ zIndex: (burgerIngredients.length - i) }}>
+                style={{ zIndex: (ingredients.length - i) }}>
               <IngredientIcon src={ingredient.image_mobile} alt={ingredient.name}
                               more={(i === 5) ? (ingredients.length - 7) : false}/>
             </li>

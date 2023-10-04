@@ -17,7 +17,7 @@ export const OrderDetails: FC = () => {
   const dispatch = useDispatch();
 
   const orderDetails = useSelector((store) => store.orderDetails);
-  const ingredients = useSelector(state => state.burgerIngredients.items);
+  const ingredients = useSelector(state => state.ingredients.items);
 
 
   useEffect(() => {
@@ -44,14 +44,14 @@ export const OrderDetails: FC = () => {
   })
 
 
-  const burgerIngredients = ingredients.filter((ingredient: IIngredient) => {
+  const ingredients = ingredients.filter((ingredient: IIngredient) => {
     return order.ingredients.some((ingredientId: string) => {
       return ingredientId === ingredient._id;
     })
   });
 
 
-  const total = burgerIngredients.reduce((sum: number, current: IIngredient) => {
+  const total = ingredients.reduce((sum: number, current: IIngredient) => {
     return sum + current.price;
   }, 0)
 
@@ -73,7 +73,7 @@ export const OrderDetails: FC = () => {
         className={`text text_type_main-default pb-15 ${styles.status} ${(order.status === 'done' ? styles.status_done : '')}`}>{statuses[order.status]}</p>
       <h2 className={`text text_type_main-medium pb-6 ${styles.title}`}>Состав:</h2>
       <ul className={`${styles.list} custom-scroll`}>
-        {burgerIngredients.map((ingredient: IIngredient) => (
+        {ingredients.map((ingredient: IIngredient) => (
           <li key={ingredient._id} className={`${styles.item}`}>
             <IngredientIcon src={ingredient.image_mobile} alt={ingredient.name}/>
             <p className={`text text_type_main-default`}>{ingredient.name}</p>

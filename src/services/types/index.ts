@@ -5,6 +5,8 @@ import { ThunkAction } from "redux-thunk";
 import { TAuthenticationActions } from "./authentication";
 import { TIngredientsActions } from "./ingredients";
 import { TConstructorActions } from "./constructor";
+import { TForgotPasswordActions } from "./forgot-password";
+import { TCreateOrderActions } from "./create-order";
 
 
 export interface IRequestState {
@@ -18,7 +20,9 @@ export interface IRequestState {
 type TApplicationActions = TUserActions
   | TAuthenticationActions
   | TIngredientsActions
-  | TConstructorActions;
+  | TConstructorActions
+  | TForgotPasswordActions
+  | TCreateOrderActions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TApplicationActions>>;

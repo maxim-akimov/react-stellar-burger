@@ -17,7 +17,7 @@ import { OnlyGuest, OnlyAuth } from "../protected-route-element/protected-rote-e
 import { Login } from "../../pages/login/login";
 import { checkUserAuthThunk } from "../../services/thunks/authentication";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
-import { getBurgerIngredients } from "../../services/actions/ingredients";
+import { getIngredients } from "../../services/actions/ingredients";
 import { Orders } from "../../pages/orders/orders";
 import { User } from "../../pages/profile/user";
 import { Feed } from "../../pages/feed/feed";
@@ -33,7 +33,7 @@ export const App: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const background = location.state && location.state.background;
-  const burgerIngredients = useSelector((store) => store.burgerIngredients.items)
+  const ingredients = useSelector((store) => store.ingredients.items)
 
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export const App: FC = () => {
 
 
   return (
-    (burgerIngredients && burgerIngredients.length > 0 &&
+    (ingredients && ingredients.length > 0 &&
       <div className={styles.app}>
         <AppHeader/>
         <Routes location={background || location}>

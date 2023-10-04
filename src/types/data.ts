@@ -10,26 +10,37 @@ export interface IIngredient {
   readonly image: string,
   readonly image_mobile: string,
   readonly image_large: string,
-  readonly uuid?: string
+  readonly uuid?: string,
+  readonly index?: number
 }
+
+
+export interface IIngredientsList {
+  readonly ingredients: ReadonlyArray<string>
+}
+
 
 export interface IIngredientConstructor extends IIngredient {
   readonly uuid: string
 }
 
+
 export interface IConstructorListItemProps extends Omit<IIngredientConstructor,
   '_id' | 'type' | 'proteins' | 'fat' | 'carbohydrates' | 'calories' | 'image_mobile' | 'image_large' | '__v'> {
-  readonly findCard: (uuid: string) => IFindCard,
+  readonly findCard: (uuid: string) => IIngredient,
   readonly moveCard: (uuid: string, atIndex: number) => void
 }
+
 
 export interface IIngredientCard extends Omit<IIngredientConstructor,
   'proteins' | 'fat' | 'carbohydrates' | 'calories' | 'image_mobile' | 'image_large' | '__v'> {
 }
 
+
 export interface IFindCard extends IIngredientConstructor {
   readonly index: number
 }
+
 
 export interface IOrder {
   _id: string,
@@ -41,9 +52,11 @@ export interface IOrder {
   ingredients: string[]
 }
 
+
 export interface IOrderItem extends IOrder {
   showStatus?: boolean
 }
+
 
 export interface IUser {
   email: string,

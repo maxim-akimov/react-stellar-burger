@@ -2,8 +2,8 @@ import { FC } from "react";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 
-import { BurgerIngredients } from "../../components/burger-ingredients/burger-ingredients";
-import { BurgerConstructor } from "../../components/burger-constructor/burger-constructor";
+import { Ingredients } from "../../components/ingredients/ingredients";
+import { Constructor } from "../../components/constructor/constructor";
 
 import styles from "./home.module.css";
 
@@ -16,8 +16,8 @@ export const Home: FC = () => {
         Собери бургер
       </h1>
       <DndProvider backend={HTML5Backend}>
-        <BurgerIngredients/>
-        <BurgerConstructor/>
+        <Ingredients/>
+        <Constructor/>
       </DndProvider>
     </main>
   );

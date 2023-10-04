@@ -5,7 +5,7 @@ import { TConstructorActions } from "../types/constructor";
 
 
 interface IConstructorState {
-  bun: IIngredient | null
+  bun: IIngredient | null,
   other: ReadonlyArray<IIngredient>
 }
 
@@ -16,7 +16,7 @@ const initialState: IConstructorState = {
 };
 
 
-export const burgerConstructorReducer = (state = initialState, action: TConstructorActions) => {
+export const constructorReducer = (state = initialState, action: TConstructorActions) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       if (action.payload.type === 'bun') {
@@ -43,7 +43,7 @@ export const burgerConstructorReducer = (state = initialState, action: TConstruc
     case DELETE_INGREDIENT: {
       return {
         ...state,
-        other: state.other.filter((element) => element.uuid !== action.uuid)
+        other: state.other.filter((element) => element.uuid !== action.payload)
       }
     }
 

@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useMemo, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 
-import styles from './burger-ingredients.module.css';
+import styles from './ingredients.module.css';
 
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import { IngredientCard } from "../ingredient-card/ingredient-card";
@@ -9,8 +9,8 @@ import { Preloader } from "../preloader/preloader";
 import {ITitlesPosition} from "../../types/main";
 
 
-export const BurgerIngredients: FC = () => {
-    const {items, ingredientsRequest, ingredientsFailed} = useSelector(state => state.burgerIngredients);
+export const Ingredients: FC = () => {
+    const {items, ingredientsRequest, ingredientsFailed} = useSelector(state => state.ingredients);
 
     const tabsRef = useRef(null);
     const scrollContainerRef = useRef(null);

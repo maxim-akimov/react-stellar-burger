@@ -82,13 +82,13 @@ export const getUserRequest = () => requestWithAuth('auth/user')
 export const getOrderDetailsRequest = (number) => request(`orders/${number}`)
 
 
-export const sendOrderRequest = (data) => requestWithAuth('orders', {
+export const createOrderRequest = (data) => requestWithAuth('orders', {
   method: 'POST',
   body: JSON.stringify(data),
 });
 
 
-export const sendForgotPasswordRequest = (data) => request('password-reset', {
+export const forgotPasswordRequest = (data) => request('password-reset', {
   method: 'POST',
   body: JSON.stringify(data),
 });

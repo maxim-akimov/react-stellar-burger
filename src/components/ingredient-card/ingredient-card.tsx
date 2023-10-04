@@ -25,7 +25,7 @@ export const IngredientCard: FC<IIngredientCard> = (props) => {
     item: props
   });
 
-  const {bun, other} = useSelector(state => state.burgerConstructor);
+  const {bun, other} = useSelector(state => state.constructor);
 
 
   const quantity = useMemo(() => {

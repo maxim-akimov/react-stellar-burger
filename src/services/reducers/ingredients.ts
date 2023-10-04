@@ -26,7 +26,7 @@ const initialState: IIngredientsState = {
   }
 }
 
-export const burgerIngredientsReducer = (state = initialState, action: TIngredientsActions) => {
+export const ingredientsReducer = (state = initialState, action: TIngredientsActions) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {

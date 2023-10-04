@@ -1,60 +1,30 @@
 import { FC, FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useDispatch } from "../../services/hooks/useDispatch";
+import { useSelector } from "../../services/hooks/useSelector";
 import { useForm } from "../../services/hooks/useForm";
 
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./forgot-password.module.css";
 
-import {
-  SET_FORGOT_PASSWORD, SET_FORGOT_PASSWORD_FAILED,
-  SET_FORGOT_PASSWORD_REQUEST,
-  SET_FORGOT_PASSWORD_SUCCESS
-} from "../../services/constaints/forgot-password";
 
-import { sendForgotPasswordRequest } from "../../utils/api";
-
+import { forgotPasswordThunk } from "../../services/thunks/forgot-password";
 
 
 export const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [values, handleChange] = useForm({});
+  const { requestState } = useSelector((store) => store.forgotPassword);
 
 
   const handleForgotPasswordSubmit = (e: FormEvent) => {
     e.preventDefault();
-
-    dispatch({
-      type: SET_FORGOT_PASSWORD_REQUEST
-    })
-
-    sendForgotPasswordRequest({
-      email: values.email,
-    })
-      .then((res) => {
-        if (res && res.success) {
-          dispatch({
-            type: SET_FORGOT_PASSWORD,
-            data: res
-          })
-
-          dispatch({
-            type: SET_FORGOT_PASSWORD_SUCCESS
-          })
-
-          localStorage.setItem('isEmailChecked', 'true');
-          navigate('/reset-password');
-        }
-      })
-      .catch((e) => {
-        dispatch({
-          type: SET_FORGOT_PASSWORD_FAILED
-        })
-        console.error(e)
-      })
+    dispatch(forgotPasswordThunk(values));
   }
+
+
+  if (requestState.success) return <Navigate to={'/reset-password'} />;
 
 
   return (
