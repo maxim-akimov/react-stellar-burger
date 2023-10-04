@@ -1,6 +1,7 @@
-import React, { FC } from "react";
+import React, { FC, MouseEventHandler, useState } from "react";
 import { Link, NavLink, Outlet, redirect } from "react-router-dom";
 import { useDispatch } from "../../services/hooks/useDispatch";
+import { useSelector } from "../../services/hooks/useSelector";
 
 import { logoutThunk } from "../../services/thunks/authentication";
 
@@ -9,15 +10,18 @@ import styles from "./user.module.css";
 
 export const User: FC = () => {
   const dispatch = useDispatch();
+  const { logoutRequestState } = useSelector((store) => store.authentication)
 
 
-  const handleLogoutClick = (e: Event) => {
+  const handleLogoutClick: MouseEventHandler = (e) => {
     e.preventDefault();
 
     dispatch(logoutThunk())
-      .then(() => {
-        redirect('/login');
-      });
+  }
+
+
+  if (logoutRequestState.success) {
+    redirect('/login');
   }
 
 

@@ -1,6 +1,8 @@
 // Библиотеки
 import React, { FC, useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from '../../services/hooks/useDispatch'
+import { useSelector } from '../../services/hooks/useSelector'
 
 // Компоненты
 import AppHeader from "../app-header/app-header";
@@ -13,10 +15,9 @@ import { Profile } from "../../pages/profile/profile";
 import { NotFound404 } from "../../pages/not-found-404/not-found-404";
 import { OnlyGuest, OnlyAuth } from "../protected-route-element/protected-rote-element";
 import { Login } from "../../pages/login/login";
-import { useDispatch, useSelector } from "react-redux";
-import { checkUserAuthThunk } from "../../services/thunks/user";
+import { checkUserAuthThunk } from "../../services/thunks/authentication";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
-import { getBurgerIngredients } from "../../services/actions/burger-ingredients";
+import { getBurgerIngredients } from "../../services/actions/ingredients";
 import { Orders } from "../../pages/orders/orders";
 import { User } from "../../pages/profile/user";
 import { Feed } from "../../pages/feed/feed";
@@ -24,6 +25,7 @@ import { OrderDetails } from "../order-details/order-details";
 
 // Стили
 import styles from "./app.module.css";
+import { getIngredientsThunk } from "../../services/thunks/ingredients";
 
 
 export const App: FC = () => {
@@ -35,7 +37,7 @@ export const App: FC = () => {
 
 
   useEffect(() => {
-    dispatch(getBurgerIngredients());
+    dispatch(getIngredientsThunk());
     dispatch(checkUserAuthThunk());
   }, []);
 

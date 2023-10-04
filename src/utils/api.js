@@ -77,7 +77,7 @@ function requestWithAuth(endpoint, options) {
     }) // catch
 }
 
-export const getBurgerIngredientsRequest = () => request('ingredients');
+export const getIngredientsRequest = () => request('ingredients');
 export const getUserRequest = () => requestWithAuth('auth/user')
 export const getOrderDetailsRequest = (number) => request(`orders/${number}`)
 

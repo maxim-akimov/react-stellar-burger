@@ -11,7 +11,10 @@ import {
   ILoginRequestAction,
   ILoginSuccessAction,
   ILoginFailedAction,
-  ISetAuthCheckedAction, ILogoutRequestAction, ILogoutSuccessAction, ILogoutFailedAction,
+  ISetAuthCheckedAction,
+  ILogoutRequestAction,
+  ILogoutSuccessAction,
+  ILogoutFailedAction,
 } from "../types/authentication";
 
 

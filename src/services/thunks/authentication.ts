@@ -1,6 +1,6 @@
 import { AppDispatch, AppThunk } from "../types";
-import { loginRequest, logoutRequest } from "../../utils/api";
-import { setUserAction } from "../actions/user";
+import { getUserRequest, loginRequest, logoutRequest } from "../../utils/api";
+import { getUserFailedAction, getUserSuccessAction, setUserAction } from "../actions/user";
 import {
   loginFailedAction,
   loginRequestAction,
@@ -48,15 +48,23 @@ export const logoutThunk: AppThunk = () => (dispatch: AppDispatch) => {
 };
 
 
-export const checkUserAuthThunk: AppDispatch = () => (dispatch: AppDispatch) => {
+export const checkUserAuthThunk: AppThunk = () => (dispatch: AppDispatch) => {
   if (localStorage.getItem("accessToken")) {
-    dispatch(getUserThunk())
-      .catch(() => {
+    return getUserRequest()
+      .then((res) => {
+        dispatch(getUserSuccessAction())
+        dispatch(setUserAction(res.user));
+      })
+      .catch((e) => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+
+        dispatch(getUserFailedAction(e));
         dispatch(setUserAction(null));
       })
-      .finally(() => dispatch(setAuthCheckedAction(true)));
+      .finally(() => {
+        dispatch(setAuthCheckedAction(true))
+      });
   } else {
     dispatch(setUserAction(null));
     dispatch(setAuthCheckedAction(true));

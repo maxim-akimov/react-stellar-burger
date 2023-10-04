@@ -10,7 +10,7 @@ export interface IIngredient {
   readonly image: string,
   readonly image_mobile: string,
   readonly image_large: string,
-  readonly __v: number
+  readonly uuid?: string
 }
 
 export interface IIngredientConstructor extends IIngredient {
@@ -50,17 +50,3 @@ export interface IUser {
   name: string
 }
 
-export interface IUserTokensResponse {
-  success: boolean,
-  accessToken: string,
-  refreshToken: string
-}
-
-export interface IUserResponse extends IUserTokensResponse {
-  user: IUser,
-}
-
-export interface IUserLogin {
-  email: string,
-  password: string
-}
