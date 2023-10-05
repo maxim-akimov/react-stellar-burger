@@ -6,11 +6,11 @@ import styles from './constructor-list-item.module.css'
 
 import {DragIcon, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 
-import {IConstructorListItemProps} from "../../types/data";
+import {IDraggableIngredient} from "../../types/data";
 import { deleteIngredientAction } from "../../services/actions/constructor";
 
 
-export const ConstructorListItem: FC<IConstructorListItemProps> = (props) => {
+export const ConstructorListItem: FC<IDraggableIngredient> = (props) => {
     const {uuid, name, image, price, findCard, moveCard} = props;
 
     const dispatch = useDispatch();

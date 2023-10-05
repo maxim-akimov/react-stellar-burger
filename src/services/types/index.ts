@@ -7,6 +7,8 @@ import { TIngredientsActions } from "./ingredients";
 import { TConstructorActions } from "./constructor";
 import { TForgotPasswordActions } from "./forgot-password";
 import { TCreateOrderActions } from "./create-order";
+import { TOrderDetailsActions } from "./order-details";
+import { TRegisterUserActions } from "./register";
 
 
 export interface IRequestState {
@@ -22,7 +24,9 @@ type TApplicationActions = TUserActions
   | TIngredientsActions
   | TConstructorActions
   | TForgotPasswordActions
-  | TCreateOrderActions;
+  | TCreateOrderActions
+  | TOrderDetailsActions
+  | TRegisterUserActions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TApplicationActions>>;

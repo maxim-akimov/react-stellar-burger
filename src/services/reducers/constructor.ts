@@ -1,12 +1,12 @@
 import { v4 as uuidV4 } from 'uuid';
 import { ADD_INGREDIENT, DELETE_INGREDIENT, REARRANGE_INGREDIENTS, RESET_CONSTRUCTOR } from "../constaints/constructor";
-import { IIngredient } from "../../types/data";
+import { IConstructorIngredient, IIngredient } from "../../types/data";
 import { TConstructorActions } from "../types/constructor";
 
 
 interface IConstructorState {
   bun: IIngredient | null,
-  other: ReadonlyArray<IIngredient>
+  other: ReadonlyArray<IConstructorIngredient>
 }
 
 

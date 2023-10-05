@@ -1,3 +1,6 @@
+import { string } from "prop-types";
+import { retry } from "@reduxjs/toolkit/query";
+
 export interface IIngredient {
   readonly _id: string,
   readonly name: string,
@@ -9,9 +12,7 @@ export interface IIngredient {
   readonly price: number,
   readonly image: string,
   readonly image_mobile: string,
-  readonly image_large: string,
-  readonly uuid?: string,
-  readonly index?: number
+  readonly image_large: string
 }
 
 
@@ -20,25 +21,15 @@ export interface IIngredientsList {
 }
 
 
-export interface IIngredientConstructor extends IIngredient {
+export interface IConstructorIngredient extends IIngredient {
   readonly uuid: string
 }
 
 
-export interface IConstructorListItemProps extends Omit<IIngredientConstructor,
-  '_id' | 'type' | 'proteins' | 'fat' | 'carbohydrates' | 'calories' | 'image_mobile' | 'image_large' | '__v'> {
-  readonly findCard: (uuid: string) => IIngredient,
+export interface IDraggableIngredient extends IConstructorIngredient {
+  readonly index?: number,
+  readonly findCard: (uuid: string) => { card: IIngredient, index: number },
   readonly moveCard: (uuid: string, atIndex: number) => void
-}
-
-
-export interface IIngredientCard extends Omit<IIngredientConstructor,
-  'proteins' | 'fat' | 'carbohydrates' | 'calories' | 'image_mobile' | 'image_large' | '__v'> {
-}
-
-
-export interface IFindCard extends IIngredientConstructor {
-  readonly index: number
 }
 
 

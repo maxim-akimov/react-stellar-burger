@@ -11,6 +11,7 @@ import { SET_REGISTER_FAILED, SET_REGISTER_REQUEST, SET_REGISTER_SUCCESS } from 
 import { ERROR_MESSAGES } from "../../utils/constaints";
 import { sendRegisterRequest } from "../../utils/api";
 import { setUserAction } from "../../services/actions/user";
+import { registerThunk } from "../../services/thunks/register";
 
 
 export const Register: FC = () => {
@@ -25,30 +26,12 @@ export const Register: FC = () => {
   const handleRegisterSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    dispatch({
-      type: SET_REGISTER_REQUEST
-    })
-
-    sendRegisterRequest(values)
-      .then((res) => {
-        if (res && res.success) {
-          setUserAction(res.user)
-
-          localStorage.setItem('accessToken', res.accessToken);
-          localStorage.setItem('refreshToken', res.refreshToken);
-
-          dispatch({ type: SET_REGISTER_SUCCESS })
-          navigate('/');
-        }
-      })
-      .catch((err) => {
-        dispatch({
-          type: SET_REGISTER_FAILED,
-          data: ERROR_MESSAGES[err.message]
-        })
-        console.error(err)
-      })
+    dispatch(registerThunk(values))
   }
+
+
+  if (requestState.success) return navigate('/');
+
 
   return (
     <main className={styles.main}>

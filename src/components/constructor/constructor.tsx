@@ -14,7 +14,7 @@ import styles from './constructor.module.css';
 
 import { checkUserAuthThunk } from "../../services/thunks/authentication";
 
-import { IIngredient, IIngredientConstructor } from "../../types/data";
+import { IConstructorIngredient, IIngredient } from "../../types/data";
 import { addIngredientAction, rearrangeIngredientAction } from "../../services/actions/constructor";
 import { createOrderThunk } from "../../services/thunks/create-order";
 
@@ -46,10 +46,10 @@ export const Constructor: FC = () => {
 
 
   const findCard = useCallback(
-    (uuid: string) => {
-      const card: IIngredient = cards.filter((c: IIngredient) => c.uuid === uuid)[0]
+    (uuid: string): { card: IIngredient,  index: number } => {
+      const card: IConstructorIngredient = cards.filter((c: IConstructorIngredient) => c.uuid === uuid)[0]
       return {
-        ...card,
+        card: card,
         index: cards.indexOf(card) as number,
       }
     },
@@ -58,8 +58,8 @@ export const Constructor: FC = () => {
 
 
   const moveCard = useCallback(
-    (uuid: string, atIndex: number) => {
-      const { card, index } = findCard(uuid)
+    (uuid: string, atIndex: number): void => {
+      const { index } = findCard(uuid)
       dispatch(rearrangeIngredientAction({ from: index, to: atIndex }))
     },
     [findCard, cards],
@@ -140,7 +140,7 @@ export const Constructor: FC = () => {
           {other && other.length > 0 &&
             <ul className={`${styles.scroll_constructor_container} ${styles.list} custom-scroll`}
                 ref={orderingDropRef}>
-              {other.map((ingredient: IIngredient) => (
+              {other.map((ingredient: IConstructorIngredient) => (
                 <ConstructorListItem
                   key={ingredient.uuid}
                   {...ingredient}

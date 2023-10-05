@@ -100,7 +100,7 @@ export const sendResetPasswordRequest = (data) => request('password-reset/reset'
 })
 
 
-export const sendRegisterRequest = (data) => request('auth/register', {
+export const registerRequest = (data) => request('auth/register', {
   method: 'POST',
   body: JSON.stringify(data),
 })
