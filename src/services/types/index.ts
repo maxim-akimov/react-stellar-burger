@@ -9,6 +9,9 @@ import { TForgotPasswordActions } from "./forgot-password";
 import { TCreateOrderActions } from "./create-order";
 import { TOrderDetailsActions } from "./order-details";
 import { TRegisterUserActions } from "./register";
+import { TIngredientDetailsActions } from "./ingredient-details";
+import { TResetPasswordActions } from "./reset-password";
+import { TWebsocketActions } from "./websocket";
 
 
 export interface IRequestState {
@@ -26,7 +29,10 @@ type TApplicationActions = TUserActions
   | TForgotPasswordActions
   | TCreateOrderActions
   | TOrderDetailsActions
-  | TRegisterUserActions;
+  | TRegisterUserActions
+  | TIngredientDetailsActions
+  | TResetPasswordActions
+  | TWebsocketActions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TApplicationActions>>;

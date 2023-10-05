@@ -22,7 +22,7 @@ export interface IIngredientsList {
 
 
 export interface IConstructorIngredient extends IIngredient {
-  readonly uuid: string
+  readonly uuid?: string
 }
 
 
@@ -54,3 +54,7 @@ export interface IUser {
   name: string
 }
 
+export interface IResetPassword {
+  password: string,
+  token: string
+}

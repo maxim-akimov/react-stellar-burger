@@ -6,7 +6,7 @@ import {
   WS_ERROR,
   WS_MESSAGE,
   WS_OPEN
-} from "../services/actions/ws";
+} from "../services/constaints/websocket";
 
 export const modalRoot: HTMLElement | null = document.getElementById('modal-root');
 

@@ -25,8 +25,9 @@ export const Constructor: FC = () => {
 
   const user = useSelector((store) => store.user.user);
   const { requestState } = useSelector((store) => store.order);
-  const { bun, other } = useSelector((store) => store.constructor);
-  const cards = useSelector((state) => state.constructor.other)
+  const { bun, other } = useSelector((store) => store.burgerConstructor);
+  const cards = useSelector((state) => state.burgerConstructor.other)
+
 
   const [, orderingDropRef] = useDrop(() => ({ accept: 'ingredients-ordering' }))
 

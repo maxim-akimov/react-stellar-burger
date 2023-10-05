@@ -17,7 +17,6 @@ import { OnlyGuest, OnlyAuth } from "../protected-route-element/protected-rote-e
 import { Login } from "../../pages/login/login";
 import { checkUserAuthThunk } from "../../services/thunks/authentication";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
-import { getIngredients } from "../../services/actions/ingredients";
 import { Orders } from "../../pages/orders/orders";
 import { User } from "../../pages/profile/user";
 import { Feed } from "../../pages/feed/feed";
@@ -26,6 +25,7 @@ import { OrderDetails } from "../order-details/order-details";
 // Стили
 import styles from "./app.module.css";
 import { getIngredientsThunk } from "../../services/thunks/ingredients";
+import { Preloader } from "../preloader/preloader";
 
 
 export const App: FC = () => {
@@ -33,7 +33,8 @@ export const App: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const background = location.state && location.state.background;
-  const ingredients = useSelector((store) => store.ingredients.items)
+
+  const ingredients = useSelector((store) => store.ingredients.data)
 
 
   useEffect(() => {
@@ -48,8 +49,10 @@ export const App: FC = () => {
   }
 
 
+  if (!ingredients || ingredients.length === 0) return <Preloader />
+
+
   return (
-    (ingredients && ingredients.length > 0 &&
       <div className={styles.app}>
         <AppHeader/>
         <Routes location={background || location}>
@@ -130,7 +133,8 @@ export const App: FC = () => {
             />
           </Routes>
         )}
-      </div>)
+        )
+      </div>
   );
 }
 

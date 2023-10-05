@@ -9,7 +9,7 @@ import { OrderItem } from "../../components/order-item/order-item";
 import styles from "./orders.module.css";
 
 import { WS_URL } from "../../utils/constaints";
-import { connect, disconnect } from "../../services/actions/ws";
+import { connect, disconnect } from "../../services/actions/websocket";
 import { IOrder } from "../../types/data";
 
 

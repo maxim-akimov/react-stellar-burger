@@ -1,61 +1,31 @@
 import { FC, FormEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "../../services/hooks/useDispatch";
+import { useSelector } from "../../services/hooks/useSelector";
 import { useForm } from "../../services/hooks/useForm";
 
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "../register/register.module.css";
 
-import {
-  SET_RESET_PASSWORD, SET_RESET_PASSWORD_FAILED, SET_RESET_PASSWORD_REQUEST, SET_RESET_PASSWORD_SUCCESS
-} from "../../services/constaints/reset-password";
-import { ERROR_MESSAGES } from "../../utils/constaints";
-import { sendResetPasswordRequest } from "../../utils/api";
+import { resetPasswordThunk } from "../../services/thunks/reset-password";
 
 
 export const ResetPassword: FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { resetPasswordFailed, resetPasswordError } = useSelector(state => state.resetPassword);
-
   const [values, handleChange] = useForm({});
 
+  const { requestState } = useSelector((state) => state.resetPassword);
 
-  if (!localStorage.getItem('isEmailChecked')) {
-    return <Navigate to={'/'}/>
-  }
+
+  if (!localStorage.getItem('isEmailChecked')) return <Navigate to={'/'}/>;
+  if (requestState.success) return <Navigate to={'/login'} />;
 
 
   const handleResetPasswordSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    dispatch({
-      type: SET_RESET_PASSWORD_REQUEST
-    })
-
-    sendResetPasswordRequest(values)
-      .then((res) => {
-        if (res && res.success) {
-          dispatch({
-            type: SET_RESET_PASSWORD,
-            data: res
-          })
-          dispatch({
-            type: SET_RESET_PASSWORD_SUCCESS
-          })
-          localStorage.removeItem('isEmailChecked');
-          navigate('/login');
-        }
-      })
-      .catch((err) => {
-        dispatch({
-          type: SET_RESET_PASSWORD_FAILED,
-          data: ERROR_MESSAGES[err.message]
-        })
-        console.error(err)
-      })
+    dispatch(resetPasswordThunk(values));
   }
 
 
@@ -66,9 +36,9 @@ export const ResetPassword: FC = () => {
       </h1>
       <form onSubmit={handleResetPasswordSubmit}>
         {
-          (resetPasswordFailed) &&
+          (requestState.failed) &&
           <p className={'text text_type_main-default'}>
-            {resetPasswordError}
+            {requestState.errorMessage}
           </p>
         }
         <PasswordInput

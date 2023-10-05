@@ -94,7 +94,7 @@ export const forgotPasswordRequest = (data) => request('password-reset', {
 });
 
 
-export const sendResetPasswordRequest = (data) => request('password-reset/reset', {
+export const resetPasswordRequest = (data) => request('password-reset/reset', {
   method: 'POST',
   body: JSON.stringify(data),
 })

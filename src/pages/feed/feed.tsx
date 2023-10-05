@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks/useDispatch";
 
 import { FeedList } from "../../components/feed-list/feed-list";
 import { Statistics } from "../../components/statistics/statistics";
@@ -7,7 +7,7 @@ import { Statistics } from "../../components/statistics/statistics";
 import styles from "./feed.module.css";
 
 import { WS_URL } from "../../utils/constaints";
-import { connect, disconnect } from "../../services/actions/ws";
+import { websocketConnectAction, websocketDisconnectAction } from "../../services/actions/websocket";
 
 
 
@@ -15,10 +15,10 @@ export const Feed: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(connect(WS_URL + '/all'));
+    dispatch(websocketConnectAction(WS_URL + '/all'));
 
     return () => {
-      dispatch(disconnect());
+      dispatch(websocketDisconnectAction());
     }
   }, [])
 
