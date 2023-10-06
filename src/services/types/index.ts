@@ -12,12 +12,21 @@ import { TRegisterUserActions } from "./register";
 import { TIngredientDetailsActions } from "./ingredient-details";
 import { TResetPasswordActions } from "./reset-password";
 import { TWebsocketActions } from "./websocket";
+import { rootReducer } from "../reducers";
 
 
 export interface IRequestState {
   request: boolean,
   success: boolean,
   failed: boolean,
+  errorMessage?: string
+}
+
+
+export interface IWebsocketConnectingState {
+  open: boolean,
+  close: boolean,
+  error: boolean,
   errorMessage?: string
 }
 
@@ -34,7 +43,8 @@ type TApplicationActions = TUserActions
   | TResetPasswordActions
   | TWebsocketActions;
 
-export type RootState = ReturnType<typeof store.getState>;
+//export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TApplicationActions>>;
 export type AppDispatch = Dispatch<TApplicationActions>;
 

@@ -1,24 +1,20 @@
 import { FC, FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
+import {useDispatch} from "../../services/hooks/useDispatch";
+import {useSelector} from "../../services/hooks/useSelector";
 import { useForm } from "../../services/hooks/useForm";
 
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./register.module.css";
 
-import { SET_REGISTER_FAILED, SET_REGISTER_REQUEST, SET_REGISTER_SUCCESS } from "../../services/constaints/register";
-import { ERROR_MESSAGES } from "../../utils/constaints";
-import { sendRegisterRequest } from "../../utils/api";
-import { setUserAction } from "../../services/actions/user";
 import { registerThunk } from "../../services/thunks/register";
 
 
 export const Register: FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const { registerErrorMessage, registerFailed } = useSelector(state => state.register);
+  const { requestState } = useSelector(state => state.register);
 
   const [values, handleChange] = useForm({});
 
@@ -30,7 +26,7 @@ export const Register: FC = () => {
   }
 
 
-  if (requestState.success) return navigate('/');
+  if (requestState.success) return <Navigate to={'/'} />;
 
 
   return (
@@ -40,9 +36,9 @@ export const Register: FC = () => {
       </h1>
       <form onSubmit={handleRegisterSubmit}>
         {
-          (registerFailed) &&
+          (requestState.failed) &&
           <p className={'text text_type_main-default pt-6 pb-6'}>
-            {registerErrorMessage}
+            {requestState.errorMessage}
           </p>
         }
         <Input

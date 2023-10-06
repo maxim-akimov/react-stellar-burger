@@ -1,45 +1,88 @@
 
 
 import { WebsocketStatus } from '../../utils/constaints';
+import { TWebsocketActions } from "../types/websocket";
+import {
+  APP_WS_CONNECT, WEBSOCKET_CLOSE,
+  WEBSOCKET_CONNECTING, WEBSOCKET_ERROR, WEBSOCKET_MESSAGE, WEBSOCKET_OPEN,
+  WS_CLOSE,
+  WS_CONNECTING,
+  WS_ERROR,
+  WS_MESSAGE,
+  WS_OPEN
+} from "../constaints/websocket";
+import { IOrder } from "../../types/data";
+import { IWebsocketConnectingState } from "../types";
 
 
+interface IWebsocketState {
+  data: ReadonlyArray<IOrder>,
+  status: string,
+  connectingState: IWebsocketConnectingState
+}
 
-
-const initialState = {
+const initialState: IWebsocketState = {
+  data: [],
   status: WebsocketStatus.OFFLINE,
-  table: [],
-  connectingError: ''
+  connectingState: {
+    open: false,
+    close: false,
+    error: false,
+    errorMessage: ''
+  }
 };
 
-export const ordersReducer = (state = initialState, action) => {
+export const websocketReducer = (state = initialState, action: TWebsocketActions) => {
   switch (action.type)
   {
-    case WS_CONNECTING:
+    case WEBSOCKET_CONNECTING:
       return {
         ...state,
         status: WebsocketStatus.CONNECTING
       };
-    case WS_OPEN:
+
+    case WEBSOCKET_OPEN:
       return {
         ...state,
         status: WebsocketStatus.ONLINE,
-        connectingError: ''
+        connectingState: {
+          ...state.connectingState,
+          open: true,
+          close: false,
+          error: false,
+          errorMessage: '',
+        }
       };
-    case WS_CLOSE:
+
+    case WEBSOCKET_CLOSE:
       return {
         ...state,
         status: WebsocketStatus.OFFLINE,
+        connectingState: {
+          ...state.connectingState,
+          open: false,
+          close: true,
+          error: false,
+          errorMessage: '',
+        }
       };
-    case WS_ERROR:
+
+    case WEBSOCKET_ERROR:
       return {
         ...state,
-        connectingError: action.payload
+        status: WebsocketStatus.ONLINE,
+        connectingState: {
+          ...state.connectingState,
+          open: false,
+          error: true,
+          errorMessage: action.payload,
+        }
       };
-    case WS_MESSAGE:
+
+    case WEBSOCKET_MESSAGE:
       return {
         ...state,
-        // table: ordersUpdate(state.table, action.payload),
-        ordersData: action.payload,
+        data: action.payload,
       }
     default:
       return state;

@@ -7,6 +7,17 @@ import {
   WS_MESSAGE,
   WS_OPEN
 } from "../services/constaints/websocket";
+import { TWebsocketActionTypes } from "../services/types/websocket";
+import {
+  websocketCloseAction,
+  websocketConnectAction,
+  websocketConnectingAction,
+  websocketDisconnectAction,
+  websocketFailedAction,
+  websocketMessageAction,
+  websocketOpenAction,
+  websocketSendMessageAction
+} from "../services/actions/websocket";
 
 export const modalRoot: HTMLElement | null = document.getElementById('modal-root');
 
@@ -16,15 +27,7 @@ export const WebsocketStatus  = {
   OFFLINE: 'OFFLINE'
 }
 
-export const websocketActions = {
-  wsConnect: WS_CONNECT,
-  wsDisconnect: WS_DISCONNECT,
-  wsConnecting: WS_CONNECTING,
-  onOpen: WS_OPEN,
-  onClose: WS_CLOSE,
-  onError: WS_ERROR,
-  onMessage: WS_MESSAGE
-};
+
 
 export const API_URL = 'https://norma.nomoreparties.space/api';
 export const WS_URL = 'wss://norma.nomoreparties.space/orders';
