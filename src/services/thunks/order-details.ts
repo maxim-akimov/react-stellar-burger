@@ -17,11 +17,11 @@ import {
 export const getOrderDetailsThunk: AppThunk = (value) => (dispatch: AppDispatch) => {
   dispatch(getOrderDetailsRequestAction());
 
-  getOrderDetailsRequest()
+  getOrderDetailsRequest(value)
     .then((res) => {
-      dispatch(getOrderDetailsSuccessAction(res.data.orders[0]));
+      dispatch(getOrderDetailsSuccessAction(res.orders[0]));
     })
     .catch((e) => {
-      dispatch(getOrderDetailsFailedAction(e));
+      dispatch(getOrderDetailsFailedAction(e.message));
     })
 }

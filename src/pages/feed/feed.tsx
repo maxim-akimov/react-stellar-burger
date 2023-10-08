@@ -7,7 +7,7 @@ import { Statistics } from "../../components/statistics/statistics";
 import styles from "./feed.module.css";
 
 import { WS_URL } from "../../utils/constaints";
-import { websocketConnectAction, websocketDisconnectAction } from "../../services/actions/websocket";
+import { appWebsocketConnectAction, appWebsocketDisconnectAction } from "../../services/actions/websocket";
 
 
 
@@ -15,10 +15,10 @@ export const Feed: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(websocketConnectAction(WS_URL + '/all'));
+    dispatch(appWebsocketConnectAction(WS_URL + '/all'));
 
     return () => {
-      dispatch(websocketDisconnectAction());
+      dispatch(appWebsocketDisconnectAction());
     }
   }, [])
 

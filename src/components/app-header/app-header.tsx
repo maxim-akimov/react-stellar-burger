@@ -3,8 +3,10 @@ import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-devel
 
 import styles from "./app-header.module.css";
 import {Link, NavLink} from "react-router-dom";
+import { useSelector } from "../../services/hooks/useSelector";
 
 function AppHeader() {
+  const { user } = useSelector((store) => store.user);
 
 
   return (
@@ -47,7 +49,7 @@ function AppHeader() {
           {({isActive}) => (
             <>
               <ProfileIcon type={(isActive) ? 'primary' : 'secondary'}/>
-              Личный кабинет
+              {(user && user.name) ? (user.name) : ('Личный кабинет')}
             </>
           )}
         </NavLink>

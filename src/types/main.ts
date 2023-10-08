@@ -1,7 +1,8 @@
 import { Dispatch, FormEvent, SetStateAction } from "react";
+import { IConstructorIngredient } from "./data";
 
 export interface ITitlesPosition {
-  readonly [key: number]: number
+  [key: number]: number
 }
 
 export interface IUseFormHook {
@@ -9,7 +10,12 @@ export interface IUseFormHook {
 }
 
 export type IUseFormHookReturn = [
-  IUseFormHook,
-  (event: FormEvent) => void,
-  Dispatch<SetStateAction<IUseFormHook>>
+  values: IUseFormHook,
+  handleChange: (event: FormEvent) => void,
+  setValues: Dispatch<SetStateAction<IUseFormHook>>,
 ];
+
+export interface IFindCardReturn {
+  card: IConstructorIngredient,
+  index: number
+}

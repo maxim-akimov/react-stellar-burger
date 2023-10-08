@@ -133,7 +133,6 @@ export const App: FC = () => {
             />
           </Routes>
         )}
-        )
       </div>
   );
 }

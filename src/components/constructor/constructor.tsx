@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "../../services/hooks/useDispatch";
 import { useSelector } from "../../services/hooks/useSelector";
 import { useDrop } from "react-dnd";
@@ -17,6 +17,8 @@ import { checkUserAuthThunk } from "../../services/thunks/authentication";
 import { IConstructorIngredient, IIngredient } from "../../types/data";
 import { addIngredientAction, rearrangeIngredientAction } from "../../services/actions/constructor";
 import { createOrderThunk } from "../../services/thunks/create-order";
+import { IFindCardReturn } from "../../types/main";
+import { resetOrderAction } from "../../services/actions/create-order";
 
 
 export const Constructor: FC = () => {
@@ -24,7 +26,7 @@ export const Constructor: FC = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.user.user);
-  const { requestState } = useSelector((store) => store.order);
+  const { requestState, data } = useSelector((store) => store.order);
   const { bun, other } = useSelector((store) => store.burgerConstructor);
   const cards = useSelector((state) => state.burgerConstructor.other)
 
@@ -34,9 +36,14 @@ export const Constructor: FC = () => {
   const [isOpenedModal, setIsOpenedModal] = useState(false);
 
 
+  useEffect(() => {
+    if (data) setIsOpenedModal(true);
+  }, [requestState.success])
+
+
   const [{ isHover, isTarget }, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item: IIngredient) {
       dispatch(addIngredientAction(item));
     },
     collect: monitor => ({
@@ -47,11 +54,11 @@ export const Constructor: FC = () => {
 
 
   const findCard = useCallback(
-    (uuid: string): { card: IIngredient,  index: number } => {
+    (uuid: string): IFindCardReturn => {
       const card: IConstructorIngredient = cards.filter((c: IConstructorIngredient) => c.uuid === uuid)[0]
       return {
         card: card,
-        index: cards.indexOf(card) as number,
+        index: cards.indexOf(card),
       }
     },
     [cards],
@@ -60,7 +67,7 @@ export const Constructor: FC = () => {
 
   const moveCard = useCallback(
     (uuid: string, atIndex: number): void => {
-      const { index } = findCard(uuid)
+      const { card, index } = findCard(uuid)
       dispatch(rearrangeIngredientAction({ from: index, to: atIndex }))
     },
     [findCard, cards],
@@ -69,6 +76,7 @@ export const Constructor: FC = () => {
 
   const handleCloseModal = () => {
     setIsOpenedModal(false);
+    dispatch(resetOrderAction());
   }
 
 
@@ -90,7 +98,6 @@ export const Constructor: FC = () => {
   }
 
 
-  if (requestState.success) setIsOpenedModal(true);
 
 
   const modal = (

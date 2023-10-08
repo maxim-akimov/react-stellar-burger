@@ -20,6 +20,8 @@ export const OrderDetails: FC = () => {
   const { data, requestState } = useSelector((store) => store.orderDetails);
   const ingredients = useSelector((state) => state.ingredients.data);
 
+  const od = useSelector((store) => store.orderDetails);
+
 
   useEffect(() => {
     dispatch(getOrderDetailsThunk(orderNumber))

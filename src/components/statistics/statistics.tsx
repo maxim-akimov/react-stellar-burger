@@ -1,21 +1,19 @@
 import { FC } from "react";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/hooks/useSelector";
 
 import styles from './statistics.module.css';
 import { IOrder } from "../../types/data";
 
 
 export const Statistics: FC = () => {
-  const orders = useSelector((store) => store.ws.ordersData);
+  const orders = useSelector((store) => store.websocket.data);
 
 
-  if (!orders) {
-    return null;
-  }
+  if (!orders || orders.length === 0) return null;
 
 
-  const doneOrders = orders.orders.filter((order) => order.status === 'done').slice(0, 10);
-  const inProcessOrders = orders.orders.filter((order) => order.status === 'pending').slice(0, 10);
+  const doneOrders = orders.orders.filter((order: IOrder) => order.status === 'done').slice(0, 10);
+  const inProcessOrders = orders.orders.filter((order: IOrder) => order.status === 'pending').slice(0, 10);
 
 
   return (

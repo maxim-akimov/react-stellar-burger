@@ -1,5 +1,4 @@
 import { TUserActions } from "./user";
-import { store } from '../store'
 import { Action, ActionCreator, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { TAuthenticationActions } from "./authentication";

@@ -16,7 +16,7 @@ export const getIngredientsThunk: AppThunk = () => (dispatch: AppDispatch) => {
       dispatch(getIngredientsSuccessAction(res.data));
     })
     .catch((e) => {
-      dispatch(getIngredientsFailedAction(e));
+      dispatch(getIngredientsFailedAction(e.message));
     })
 }
 

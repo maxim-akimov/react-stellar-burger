@@ -3,12 +3,14 @@ import {
   ICreateOrderFailedAction,
   ICreateOrderRequestAction,
   ICreateOrderSuccessAction,
+  IResetOrderAction,
   ISetCreatedOrderAction
 } from "../types/create-order";
 import {
   CREATE_ORDER_FAILED,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
+  RESET_ORDER,
   SET_CREATED_ORDER
 } from "../constaints/create-order";
 
@@ -32,4 +34,9 @@ export const createOrderSuccessAction = (): ICreateOrderSuccessAction => ({
 export const createOrderFailedAction = (value: string): ICreateOrderFailedAction => ({
   type: CREATE_ORDER_FAILED,
   payload: value
+})
+
+
+export const resetOrderAction = (): IResetOrderAction => ({
+  type: RESET_ORDER
 })

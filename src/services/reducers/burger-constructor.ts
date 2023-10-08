@@ -1,32 +1,29 @@
 import { v4 as uuidV4 } from 'uuid';
-import { ADD_INGREDIENT, DELETE_INGREDIENT, REARRANGE_INGREDIENTS, RESET_CONSTRUCTOR } from "../constaints/constructor";
-import { IConstructorIngredient } from "../../types/data";
+import { IConstructorIngredient, IIngredient } from "../../types/data";
 import { TConstructorActions } from "../types/constructor";
+import { ADD_INGREDIENT, DELETE_INGREDIENT, REARRANGE_INGREDIENTS, RESET_CONSTRUCTOR } from "../constaints/constructor";
 
 
-interface IConstructorState {
-  bun: IConstructorIngredient | null,
-  other: Array<IConstructorIngredient> | []
-  // other: []
+interface IBurgerConstructorState {
+  bun: IIngredient | null,
+  other: IConstructorIngredient[]
 }
 
 
-const initialState: IConstructorState = {
+const initialState: IBurgerConstructorState = {
   bun: null,
   other: []
-};
+}
 
 
-export const constructorReducer = (state = initialState, action: TConstructorActions) => {
+export const burgerConstructorReducer = (state = initialState, action: TConstructorActions) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       if (action.payload.type === 'bun') {
         return {
           ...state,
-          bun: {
-            ...action.payload,
-          }
-        }
+          bun: action.payload,
+        };
       } else {
         return {
           ...state,
@@ -34,13 +31,12 @@ export const constructorReducer = (state = initialState, action: TConstructorAct
             ...state.other,
             {
               ...action.payload,
-              uuid: uuidV4(),
+              uuid: uuidV4()
             }
           ]
-        }
+        };
       }
     }
-
     case DELETE_INGREDIENT: {
       return {
         ...state,
@@ -56,7 +52,6 @@ export const constructorReducer = (state = initialState, action: TConstructorAct
         other: ingredients,
       }
     }
-
     case RESET_CONSTRUCTOR: {
       return initialState;
     }

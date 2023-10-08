@@ -1,24 +1,3 @@
-import {
-  WS_CLOSE,
-  WS_CONNECT,
-  WS_CONNECTING,
-  WS_DISCONNECT,
-  WS_ERROR,
-  WS_MESSAGE,
-  WS_OPEN
-} from "../services/constaints/websocket";
-import { TWebsocketActionTypes } from "../services/types/websocket";
-import {
-  websocketCloseAction,
-  websocketConnectAction,
-  websocketConnectingAction,
-  websocketDisconnectAction,
-  websocketFailedAction,
-  websocketMessageAction,
-  websocketOpenAction,
-  websocketSendMessageAction
-} from "../services/actions/websocket";
-
 export const modalRoot: HTMLElement | null = document.getElementById('modal-root');
 
 export const WebsocketStatus  = {

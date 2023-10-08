@@ -14,53 +14,37 @@ export const Profile: FC = () => {
   const dispatch = useDispatch();
   const { user, updateRequestState } = useSelector((store) => store.user);
   const [values, handleChange, setValues] = useForm({});
-  const [isChange, setChange] = useState(false);
+  const [initialValues, setInitialValues] = useState({})
+  const [isChange, setIsChange] = useState(false);
+
 
   useEffect(() => {
     setValues({ ...user, password: '' })
+    setInitialValues({ ...user, password: '' })
   }, [])
+
+
+  useEffect(() => {
+    setIsChange(false);
+  }, [updateRequestState.success])
+
 
   const handleFormChange = (e: FormEvent) => {
     handleChange(e);
-    setChange(true);
+    setIsChange(true);
+  }
+
+
+  const handleCancelClick = () => {
+    setIsChange(false);
+    setValues(initialValues);
   }
 
 
   const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    dispatch(updateUserThunk(values));
-
-    /**
-    dispatch({
-      type: SET_USER_UPDATE_REQUEST
-    })
-
-    sendUserUpdateRequest(values)
-      .then((res) => {
-        if (res && res.success) {
-          setUserAction(res.user)
-          dispatch({ type: SET_USER_UPDATE_SUCCESS })
-          setChange(false);
-        }
-      })
-      .catch((e) => {
-        dispatch({
-          type: SET_USER_UPDATE_FAILED,
-          data: e.message
-        })
-        console.error(e)
-      })*/
-  }
-
-
-  if (updateRequestState.success) {
-    setChange(false);
-  }
-
-
-  const handleCancelClick = () => {
-    setChange(false);
+    dispatch(updateUserThunk(values))
   }
 
 

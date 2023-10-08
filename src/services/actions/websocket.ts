@@ -1,19 +1,18 @@
 import {
-  WS_CLOSE,
-  WS_CONNECT,
-  WS_CONNECTING,
-  WS_DISCONNECT,
-  WS_ERROR,
-  WS_MESSAGE,
-  WS_OPEN,
-  WS_SEND_MESSAGE
+  APP_WS_CONNECT,
+  APP_WS_DISCONNECT,
+  WEBSOCKET_CONNECTING,
+  WEBSOCKET_ERROR,
+  WEBSOCKET_MESSAGE,
+  WEBSOCKET_OPEN,
+  WEBSOCKET_CLOSE,
+  WEBSOCKET_SEND_MESSAGE
 } from "../constaints/websocket";
 import {
-  IAppWebsocketConnectAction, IAppWebsocketDisconnectAction,
+  IAppWebsocketConnectAction,
+  IAppWebsocketDisconnectAction,
   IWebsocketCloseAction,
-  IWebsocketConnectAction,
   IWebsocketConnectingAction,
-  IWebsocketDisconnectAction,
   IWebsocketFailedAction,
   IWebsocketMessageAction,
   IWebsocketOpenAction,
@@ -21,44 +20,44 @@ import {
 } from "../types/websocket";
 
 export const appWebsocketConnectAction = (url: string): IAppWebsocketConnectAction => ({
-  type: WS_CONNECT,
+  type: APP_WS_CONNECT,
   payload: url
 });
 
 
 export const appWebsocketDisconnectAction = (): IAppWebsocketDisconnectAction => ({
-  type: WS_DISCONNECT
+  type: APP_WS_DISCONNECT
 });
 
 
 export const websocketConnectingAction = (): IWebsocketConnectingAction => ({
-  type: WS_CONNECTING
+  type: WEBSOCKET_CONNECTING
 });
 
 
 export const websocketOpenAction = (): IWebsocketOpenAction => ({
-  type: WS_OPEN
+  type: WEBSOCKET_OPEN
 });
 
 
 export const websocketCloseAction = (): IWebsocketCloseAction => ({
-  type: WS_CLOSE,
+  type: WEBSOCKET_CLOSE,
 });
 
 
-export const websocketFailedAction = (value: string): IWebsocketFailedAction => ({
-  type: WS_ERROR,
+export const websocketFailedAction = (value: any): IWebsocketFailedAction => ({
+  type: WEBSOCKET_ERROR,
   payload: value
 });
 
 
 export const websocketMessageAction = (data: any): IWebsocketMessageAction => ({
-  type: WS_MESSAGE,
+  type: WEBSOCKET_MESSAGE,
   payload: data
 });
 
 
 export const websocketSendMessageAction = (data: any): IWebsocketSendMessageAction => ({
-  type: WS_SEND_MESSAGE,
+  type: WEBSOCKET_SEND_MESSAGE,
   payload: data
 });

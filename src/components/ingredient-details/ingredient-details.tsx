@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {useSelector} from "../../services/hooks/useSelector";
 
 import styles from './ingredient-details.module.css';
 import { IIngredient } from "../../types/data";
@@ -9,7 +9,7 @@ import { IIngredient } from "../../types/data";
 export const IngredientDetails: FC = () => {
   const { ingredientId } = useParams();
 
-  const ingredients = useSelector((state) => state.ingredients.items);
+  const ingredients = useSelector((store) => store.ingredients.data);
   const ingredientData = ingredients.find((ingredient: IIngredient) => ingredient._id === ingredientId);
 
 

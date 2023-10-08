@@ -7,6 +7,7 @@ import {
 } from "../actions/create-order";
 import { createOrderRequest } from "../../utils/api";
 import { IIngredientsList } from "../../types/data";
+import { resetConstructorAction } from "../actions/constructor";
 
 
 export const createOrderThunk: AppThunk = (data: IIngredientsList) => (dispatch: AppDispatch) => {
@@ -14,10 +15,12 @@ export const createOrderThunk: AppThunk = (data: IIngredientsList) => (dispatch:
 
   createOrderRequest(data)
     .then((res) => {
-      dispatch(setCreatedOrderAction(res.data));
+      console.log(res)
+      dispatch(setCreatedOrderAction(res.order));
       dispatch(createOrderSuccessAction());
+      dispatch(resetConstructorAction())
     })
     .catch((e) => {
-      dispatch(createOrderFailedAction(e));
+      dispatch(createOrderFailedAction(e.message));
     })
 }

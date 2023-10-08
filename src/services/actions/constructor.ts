@@ -1,4 +1,4 @@
-import { IIngredient } from "../../types/data";
+import { IConstructorIngredient, IIngredient } from "../../types/data";
 import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
@@ -12,7 +12,7 @@ import {
   IResetConstructorAction
 } from "../types/constructor";
 
-export const addIngredientAction = (value: any): IAddIngredientAction => ({
+export const addIngredientAction = (value: IIngredient): IAddIngredientAction => ({
   type: ADD_INGREDIENT,
   payload: value,
 })
@@ -33,6 +33,6 @@ export const rearrangeIngredientAction = ({from, to}: {from: number, to: number}
 })
 
 
-export const resetConstructorAction = (value: number): IResetConstructorAction => ({
+export const resetConstructorAction = (): IResetConstructorAction => ({
   type: RESET_CONSTRUCTOR,
 })

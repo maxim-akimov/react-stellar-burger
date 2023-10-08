@@ -1,7 +1,7 @@
 import {
   CREATE_ORDER_FAILED,
   CREATE_ORDER_REQUEST,
-  CREATE_ORDER_SUCCESS,
+  CREATE_ORDER_SUCCESS, RESET_ORDER,
   SET_CREATED_ORDER
 } from "../constaints/create-order";
 import { IOrder } from "../../types/data";
@@ -29,7 +29,13 @@ export interface ICreateOrderFailedAction {
 }
 
 
+export interface IResetOrderAction {
+  readonly type: typeof RESET_ORDER
+}
+
+
 export type TCreateOrderActions = ISetCreatedOrderAction
   | ICreateOrderRequestAction
   | ICreateOrderSuccessAction
-  | ICreateOrderFailedAction;
+  | ICreateOrderFailedAction
+  | IResetOrderAction;

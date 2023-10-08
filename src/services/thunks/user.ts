@@ -22,7 +22,7 @@ export const getUserThunk: AppThunk = () => (dispatch: AppDispatch) => {
       dispatch(setUserAction(res.user));
     })
     .catch((e) => {
-      dispatch(getUserFailedAction(e));
+      dispatch(getUserFailedAction(e.message));
     })
 }
 
@@ -36,7 +36,7 @@ export const updateUserThunk: AppThunk = (data) => (dispatch: AppDispatch) => {
       dispatch(setUserAction(res.user));
     })
     .catch((e) => {
-      dispatch(updateUserFailedAction(e));
+      dispatch(updateUserFailedAction(e.message));
     })
 }
 

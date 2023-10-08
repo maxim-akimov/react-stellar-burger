@@ -25,7 +25,7 @@ export const loginThunk: AppThunk = (data) => (dispatch: AppDispatch) => {
       dispatch(setAuthCheckedAction(true));
     })
     .catch((e) => {
-      dispatch(loginFailedAction(e))
+      dispatch(loginFailedAction(e.message))
     });
 };
 
@@ -43,7 +43,7 @@ export const logoutThunk: AppThunk = () => (dispatch: AppDispatch) => {
     dispatch(setUserAction(null));
   })
     .catch((e) => {
-      dispatch(logoutFailedAction(e))
+      dispatch(logoutFailedAction(e.message))
     });
 };
 
@@ -59,7 +59,7 @@ export const checkUserAuthThunk: AppThunk = () => (dispatch: AppDispatch) => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
 
-        dispatch(getUserFailedAction(e));
+        dispatch(getUserFailedAction(e.message));
         dispatch(setUserAction(null));
       })
       .finally(() => {

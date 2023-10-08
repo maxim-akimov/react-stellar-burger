@@ -19,7 +19,7 @@ export const resetPasswordThunk: AppThunk = (data: IResetPassword) => (dispatch:
       localStorage.removeItem('isEmailChecked');
     })
     .catch((e) => {
-      dispatch(resetPasswordFailedAction(e))
+      dispatch(resetPasswordFailedAction(e.message))
     })
 }
 

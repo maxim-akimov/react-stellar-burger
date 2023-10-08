@@ -1,6 +1,6 @@
 // Библиотеки
 import { FC } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks/useSelector";
 
 // Компоненты
 import { FormattedDate, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -16,14 +16,14 @@ import { IIngredient, IOrderItem } from "../../types/data";
 export const OrderItem: FC<IOrderItem> = (props) => {
   const { showStatus, status, name, number, createdAt, ingredients } = props;
 
-  const burgerIngredients = useSelector(state => state.ingredients.items)
+  const burgerIngredients = useSelector(state => state.ingredients.data)
     .filter((ingredient: IIngredient) => {
       return ingredients.some((ingredientId) => {
         return ingredientId === ingredient._id
       })
     });
 
-  const total = ingredients.reduce((sum: number, current: IIngredient) => {
+  const total = burgerIngredients.reduce((sum:number, current) => {
     return sum + current.price;
   }, 0);
 
@@ -50,7 +50,7 @@ export const OrderItem: FC<IOrderItem> = (props) => {
           ? styles.status_done : ''}`}>{statuses[status]}</p>}
       <div className={`pt-6 ${styles.details}`}>
         <ul className={styles.ingredientsList}>
-          {ingredients.map((ingredient: IIngredient, i: number) => (
+          {burgerIngredients.map((ingredient: IIngredient, i: number) => (
             i < 6 &&
             <li key={ingredient._id} className={styles.ingredientItem}
                 style={{ zIndex: (ingredients.length - i) }}>

@@ -12,7 +12,8 @@ export interface IIngredient {
   readonly price: number,
   readonly image: string,
   readonly image_mobile: string,
-  readonly image_large: string
+  readonly image_large: string,
+  readonly __v: number
 }
 
 
@@ -22,7 +23,7 @@ export interface IIngredientsList {
 
 
 export interface IConstructorIngredient extends IIngredient {
-  readonly uuid?: string
+  readonly uuid: string
 }
 
 

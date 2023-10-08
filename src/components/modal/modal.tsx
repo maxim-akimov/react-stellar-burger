@@ -17,10 +17,6 @@ interface Modal {
 export const Modal: FC<Modal> = (props) => {
   const { children, onClose } = props;
 
-  if (!modalRoot) {
-    return null;
-  }
-
 
   useEffect(() => {
     const handleEsc = (evt: KeyboardEvent) => {
@@ -34,6 +30,8 @@ export const Modal: FC<Modal> = (props) => {
       document.removeEventListener('keydown', handleEsc);
     }
   }, []);
+
+  if (!modalRoot) return null;
 
 
   return ReactDOM.createPortal(

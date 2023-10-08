@@ -11,6 +11,7 @@ import styles from './ingredient-card.module.css';
 
 import { IIngredient } from "../../types/data";
 import { setIngredientDetailsAction } from "../../services/actions/ingredient-details";
+import { addIngredientAction } from "../../services/actions/constructor";
 
 
 export const IngredientCard: FC<IIngredient> = (props) => {

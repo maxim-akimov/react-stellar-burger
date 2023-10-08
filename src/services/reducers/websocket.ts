@@ -3,13 +3,11 @@
 import { WebsocketStatus } from '../../utils/constaints';
 import { TWebsocketActions } from "../types/websocket";
 import {
-  APP_WS_CONNECT, WEBSOCKET_CLOSE,
-  WEBSOCKET_CONNECTING, WEBSOCKET_ERROR, WEBSOCKET_MESSAGE, WEBSOCKET_OPEN,
-  WS_CLOSE,
-  WS_CONNECTING,
-  WS_ERROR,
-  WS_MESSAGE,
-  WS_OPEN
+  WEBSOCKET_CLOSE,
+  WEBSOCKET_CONNECTING,
+  WEBSOCKET_ERROR,
+  WEBSOCKET_MESSAGE,
+  WEBSOCKET_OPEN
 } from "../constaints/websocket";
 import { IOrder } from "../../types/data";
 import { IWebsocketConnectingState } from "../types";

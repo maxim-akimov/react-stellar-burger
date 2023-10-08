@@ -14,7 +14,6 @@ import { loginThunk } from "../../services/thunks/authentication";
 export const Login: FC = () => {
   const dispatch = useDispatch();
   const [values, handleChange] = useForm({});
-  const user = useSelector(state => state.user.user);
   const loginRequestState = useSelector(state => state.authentication.loginRequestState);
 
 
@@ -41,9 +40,9 @@ export const Login: FC = () => {
       </h1>
       <form onSubmit={handleLoginSubmit}>
         {
-          (user.loginFailed) &&
+          (loginRequestState.failed) &&
           <p className={'text text_type_main-default pt-6 pb-6'}>
-            {user.loginError}
+            {loginRequestState.errorMessage}
           </p>
         }
         <EmailInput

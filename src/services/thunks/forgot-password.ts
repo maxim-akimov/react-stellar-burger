@@ -16,6 +16,6 @@ export const forgotPasswordThunk: AppThunk = (data) => (dispatch: AppDispatch) =
       localStorage.setItem('isEmailChecked', 'true');
     })
     .catch((e) => {
-      dispatch(forgotPasswordFailedAction(e))
+      dispatch(forgotPasswordFailedAction(e.message))
     })
 }

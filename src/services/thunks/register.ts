@@ -14,7 +14,7 @@ export const registerThunk: AppThunk = (data) => (dispatch: AppDispatch) => {
       dispatch(registerUserSuccessAction());
     })
     .catch((e) => {
-      dispatch(registerUserFailedAction(e));
+      dispatch(registerUserFailedAction(e.message));
     })
 }
 

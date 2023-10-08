@@ -1,14 +1,11 @@
 import {
   APP_WS_CONNECT, APP_WS_DISCONNECT,
-  WS_CLOSE,
-  WS_CONNECT,
-  WS_CONNECTING,
-  WS_DISCONNECT,
-  WS_ERROR,
-  WS_MESSAGE,
-  WS_OPEN, WS_SEND_MESSAGE
+  WEBSOCKET_CLOSE,
+  WEBSOCKET_CONNECTING,
+  WEBSOCKET_ERROR,
+  WEBSOCKET_MESSAGE,
+  WEBSOCKET_OPEN, WEBSOCKET_SEND_MESSAGE
 } from "../constaints/websocket";
-import { appWebsocketConnectAction } from "../actions/websocket";
 
 
 export interface IAppWebsocketConnectAction {
@@ -23,41 +20,39 @@ export interface IAppWebsocketDisconnectAction {
 
 
 export interface IWebsocketConnectingAction {
-  readonly type: typeof WS_CONNECTING
+  readonly type: typeof WEBSOCKET_CONNECTING
 }
 
 
 export interface IWebsocketOpenAction {
-  readonly type: typeof WS_OPEN
+  readonly type: typeof WEBSOCKET_OPEN
 }
 
 
 export interface IWebsocketCloseAction {
-  readonly type: typeof WS_CLOSE
+  readonly type: typeof WEBSOCKET_CLOSE
 }
 
 
 export interface IWebsocketFailedAction {
-  readonly type: typeof WS_ERROR,
+  readonly type: typeof WEBSOCKET_ERROR,
   readonly payload: string
 }
 
 
 export interface IWebsocketMessageAction {
-  readonly type: typeof WS_MESSAGE,
+  readonly type: typeof WEBSOCKET_MESSAGE,
   readonly payload: any
 }
 
 
 export interface IWebsocketSendMessageAction {
-  readonly type: typeof WS_SEND_MESSAGE,
+  readonly type: typeof WEBSOCKET_SEND_MESSAGE,
   readonly payload: any
 }
 
 
-export type TWebsocketActions = IWebsocketConnectAction
-  | IWebsocketConnectingAction
-  | IWebsocketDisconnectAction
+export type TWebsocketActions = IWebsocketConnectingAction
   | IWebsocketOpenAction
   | IWebsocketCloseAction
   | IWebsocketFailedAction

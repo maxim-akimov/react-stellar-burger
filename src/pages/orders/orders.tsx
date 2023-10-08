@@ -1,5 +1,6 @@
 import { FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks/useSelector";
+import { useDispatch } from "../../services/hooks/useDispatch";
 import { Link, useLocation } from "react-router-dom";
 
 import React, { useEffect } from "react";
@@ -9,9 +10,9 @@ import { OrderItem } from "../../components/order-item/order-item";
 import styles from "./orders.module.css";
 
 import { WS_URL } from "../../utils/constaints";
-import { connect, disconnect } from "../../services/actions/websocket";
+import { appWebsocketConnectAction, appWebsocketDisconnectAction } from "../../services/actions/websocket";
 import { IOrder } from "../../types/data";
-
+import { Preloader } from "../../components/preloader/preloader";
 
 
 export const Orders: FC = () => {
@@ -21,27 +22,23 @@ export const Orders: FC = () => {
   const token = localStorage.getItem('accessToken');
   const preparedToken = (token) ? token.split('Bearer ')[1] : null;
 
-  const ordersData = useSelector((store) => store.ws.ordersData);
+  const ordersData = useSelector((store) => store.websocket.data);
 
 
   useEffect(() => {
-    dispatch(connect(WS_URL + '?token=' + preparedToken));
+    dispatch(appWebsocketConnectAction(WS_URL + '?token=' + preparedToken));
     return () => {
-      dispatch(disconnect());
+      dispatch(appWebsocketDisconnectAction());
     }
   }, [])
 
 
-
-  if (!ordersData) {
-    return null
-  }
-
-  const orders = ordersData.orders;
+  if (!ordersData) return <Preloader />;
+  if (!ordersData.orders) return null;
 
   return (
     <ul className={`${styles.list}`}>
-      {orders.map((order:IOrder) => (
+      {ordersData.orders.map((order: IOrder) => (
         <li key={order._id} className={styles.item}>
           <Link
             to={`/profile/orders/${order.number}`}

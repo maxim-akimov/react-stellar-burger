@@ -1,6 +1,6 @@
 // Библиотеки
 import {FC} from "react";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/hooks/useSelector";
 import {Link, useLocation} from "react-router-dom";
 
 // Компоненты
@@ -16,11 +16,12 @@ import {IOrder} from "../../types/data";
 
 export const FeedList: FC = () => {
     const location = useLocation();
-    const ordersData = useSelector((store) => store.ws.ordersData);
+    const ordersData = useSelector((store) => store.websocket.data);
 
-    if (!ordersData) {
-        return <Preloader/>;
-    }
+
+    if (!ordersData) return <Preloader/>;
+    if(ordersData.length === 0) return null;
+
 
     const orders = ordersData.orders;
 

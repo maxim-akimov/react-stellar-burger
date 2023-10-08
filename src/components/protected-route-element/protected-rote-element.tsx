@@ -1,7 +1,7 @@
 import { FC, ReactElement } from "react";
 
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks/useSelector";
 
 import { Preloader } from "../preloader/preloader";
 
@@ -11,7 +11,7 @@ const ProtectedRouteElement: FC<{ onlyGuest?: boolean, element: ReactElement }> 
 
   // Получение из хранилища значение флага, фиксирующего факт проведения процесса авторизации
   // без учета результата проверки
-  const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
+  const isAuthChecked = useSelector((store) => store.authentication.isAuthChecked);
 
   // Получение из хранилища данных пользователя
   const user = useSelector((store) => store.user.user);

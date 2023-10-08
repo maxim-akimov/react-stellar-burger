@@ -1,13 +1,14 @@
 import {API_URL, API_OPTIONS} from "./constaints";
+import { } from "../types/api";
 
 
 export const checkResponse = (response) => {
-  console.info(response)
+  console.log(response)
   if (response.ok) {
     return response.json();
   }
   return response.json()
-    .then((res) => {
+    .then((res:any) => {
       if (res.message) {
         return res;
       }
@@ -16,7 +17,7 @@ export const checkResponse = (response) => {
 }
 
 
-function checkSuccess(response) {
+function checkSuccess(response: any) {
   if (response.success) {
     return response;
   }
@@ -25,7 +26,7 @@ function checkSuccess(response) {
 }
 
 
-function request(endpoint, options) {
+function request(endpoint: string, options?: any) {
   return fetch(`${API_URL}/${endpoint}`, {...API_OPTIONS, ...options})
     .then(checkResponse)
     .then(checkSuccess)
@@ -41,7 +42,7 @@ export const sendRefreshTokenRequest = () => request('auth/token', {
 
 
 // Обертка для запросов, требующих проверку токена
-function requestWithAuth(endpoint, options) {
+function requestWithAuth(endpoint: string, options?: any) {
   // Отправка запроса на сервер
   return request(endpoint, {
     headers: {

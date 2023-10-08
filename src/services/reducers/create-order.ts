@@ -3,7 +3,7 @@ import { IRequestState } from "../types";
 import {
   CREATE_ORDER_FAILED,
   CREATE_ORDER_REQUEST,
-  CREATE_ORDER_SUCCESS,
+  CREATE_ORDER_SUCCESS, RESET_ORDER,
   SET_CREATED_ORDER
 } from "../constaints/create-order";
 import { TCreateOrderActions } from "../types/create-order";
@@ -65,6 +65,10 @@ export const createOrderReducer = (state = initialState, action: TCreateOrderAct
           errorMessage: action.payload,
         }
       };
+    }
+
+    case RESET_ORDER: {
+      return initialState;
     }
 
     default: {
