@@ -1,63 +1,54 @@
-// export interface IResponse {
-//   body: Response,
-//   bodyUsed: boolean,
-//   headers: Headers,
-//   ok: boolean,
-//   redirected: boolean,
-//   status: number,
-//   statusText: string,
-//   type: string,
-//   url: string,
-//   json(): Promise
-// }
+import { IUser } from "./data";
 
-// export type TResponseBody<TRawUser> = {
-//   success: boolean;
-//
-//   user?: TRawUser;
-//   message?: string;
-//   headers?: Headers;
-// };
-
-export interface IFetchOptions {
-  method: string,
-  mode: string,
-  cache: string,
-  credentials: string,
-  headers: {
-    'Content-Type': string
-  },
-  redirect: string,
-  referrerPolicy: string,
-}
-
-export type TCustomFetchOptions<DataType = {}> = {
-  body?: DataType;
+export type TCustomFetchOptions = {
+  body?: BodyInit;
   headers?: Headers;
   method: string
 }
 
 
-export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
+// type TResponseBodyWithKey<TDataKey extends string = '', TDataType = {}> = {
+//   [key in TDataKey]: TDataType
+// };
+//
+// type TResponseBodyWithoutKey<TDataType = {}> = {
+//   [key in TDataType]: TDataType
+// }
+
+
+type TResponseWithKey<TDataKey extends string, TDataType = {}> = {
   [key in TDataKey]: TDataType
-} & {
+}
+
+
+type TResponseWithoutKey<TDataType = {}> = TDataType
+
+
+type TConditionalResponseType<TDataKey extends string | undefined, TDataType> =
+  TDataKey extends string
+  ? TResponseWithKey<TDataKey, TDataType>
+  : TResponseWithoutKey<TDataType>;
+
+
+export type TResponseBody<TDataKey extends string | undefined = '', TDataType = {}> =
+  TConditionalResponseType<TDataKey, TDataType> & {
   success: boolean;
   message?: string;
   headers?: Headers;
 };
 
-export interface ICustomBody<T extends any> extends Body {
-  json(): Promise<T>;
-}
+// export type TResponseBody<TDataKey extends string | undefined = '', TDataType = {}> = {
+//   [key in TDataKey]: TDataType
+// } & {
+//   success: boolean;
+//   message?: string;
+//   headers?: Headers;
+// };
 
-export interface CustomResponse<T> extends ICustomBody<T> {
-  readonly headers: Headers;
-  readonly ok: boolean;
-  readonly redirected: boolean;
-  readonly status: number;
-  readonly statusText: string;
-  readonly trailer: Promise<Headers>;
-  readonly type: ResponseType;
-  readonly url: string;
-  clone(): Response;
+
+
+
+export interface IRefreshTokenResponse {
+  accessToken: string,
+  refreshToken: string
 }

@@ -10,7 +10,7 @@ export const WebsocketStatus  = {
 
 export const API_URL = 'https://norma.nomoreparties.space/api';
 export const WS_URL = 'wss://norma.nomoreparties.space/orders';
-export const API_OPTIONS = {
+export const API_OPTIONS: RequestInit = {
   method: 'GET',
   mode: 'cors',
   cache: 'no-cache',
