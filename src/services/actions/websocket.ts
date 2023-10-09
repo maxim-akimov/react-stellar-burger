@@ -18,7 +18,7 @@ import {
   IWebsocketOpenAction,
   IWebsocketSendMessageAction
 } from "../types/websocket";
-
+ 
 export const appWebsocketConnectAction = (url: string): IAppWebsocketConnectAction => ({
   type: APP_WS_CONNECT,
   payload: url

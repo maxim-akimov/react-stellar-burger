@@ -6,7 +6,7 @@ import { registerUserFailedAction, registerUserRequestAction, registerUserSucces
 export const registerThunk: AppThunk = (data) => (dispatch: AppDispatch) => {
   dispatch(registerUserRequestAction());
 
-  registerRequest()
+  registerRequest(data)
     .then((res) => {
       localStorage.setItem('accessToken', res.accessToken);
       localStorage.setItem('refreshToken', res.refreshToken);

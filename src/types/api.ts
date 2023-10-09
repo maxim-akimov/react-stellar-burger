@@ -1,4 +1,4 @@
-// export interface UResponse {
+// export interface IResponse {
 //   body: Response,
 //   bodyUsed: boolean,
 //   headers: Headers,
@@ -7,8 +7,36 @@
 //   status: number,
 //   statusText: string,
 //   type: string,
-//   url: string
+//   url: string,
+//   json(): Promise
 // }
+
+// export type TResponseBody<TRawUser> = {
+//   success: boolean;
+//
+//   user?: TRawUser;
+//   message?: string;
+//   headers?: Headers;
+// };
+
+export interface IFetchOptions {
+  method: string,
+  mode: string,
+  cache: string,
+  credentials: string,
+  headers: {
+    'Content-Type': string
+  },
+  redirect: string,
+  referrerPolicy: string,
+}
+
+export type TCustomFetchOptions<DataType = {}> = {
+  body?: DataType;
+  headers?: Headers;
+  method: string
+}
+
 
 export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
   [key in TDataKey]: TDataType
@@ -18,11 +46,11 @@ export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
   headers?: Headers;
 };
 
-export interface CustomBody<T extends any> extends Body {
+export interface ICustomBody<T extends any> extends Body {
   json(): Promise<T>;
 }
 
-export interface CustomResponse<T> extends CustomBody<T> {
+export interface CustomResponse<T> extends ICustomBody<T> {
   readonly headers: Headers;
   readonly ok: boolean;
   readonly redirected: boolean;

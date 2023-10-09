@@ -55,7 +55,29 @@ export interface IUser {
   name: string
 }
 
+export interface IRegister extends IUser{
+  password: string
+}
+
+export interface ILogin {
+  email: string,
+  password: string
+}
+
+export interface IForgotPassword {
+  email: string
+}
+
+export interface IAuthResponse {
+  success: boolean,
+  message: string
+}
+
 export interface IResetPassword {
   password: string,
+  token: string
+}
+
+export interface ILogout {
   token: string
 }

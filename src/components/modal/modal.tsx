@@ -31,6 +31,7 @@ export const Modal: FC<Modal> = (props) => {
     }
   }, []);
 
+
   if (!modalRoot) return null;
 
 
