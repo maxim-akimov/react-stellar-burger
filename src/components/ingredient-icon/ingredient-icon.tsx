@@ -1,5 +1,7 @@
+// Библиотеки
 import { FC } from "react";
 
+// Стили
 import styles from './ingredient-icon.module.css'
 
 

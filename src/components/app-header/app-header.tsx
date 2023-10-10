@@ -1,11 +1,18 @@
-import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+// Библиотеки
+import { FC } from "react";
+import { Link, NavLink } from "react-router-dom";
 
-
-import styles from "./app-header.module.css";
-import {Link, NavLink} from "react-router-dom";
+// Хуки
 import { useSelector } from "../../services/hooks/useSelector";
 
-function AppHeader() {
+// Компоненты
+import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+
+// Стили
+import styles from "./app-header.module.css";
+
+
+export const AppHeader: FC = () => {
   const { user } = useSelector((store) => store.user);
 
 
@@ -16,9 +23,9 @@ function AppHeader() {
           <ul className={styles.menu__list}>
             <li className={styles.menu__item}>
               <NavLink to={'/'} end
-                       className={({isActive}) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
+                       className={({ isActive }) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
                          + styles.link + (isActive ? ' ' + styles.link_active : '')}>
-                {({isActive}) => (
+                {({ isActive }) => (
                   <>
                     <BurgerIcon type={(isActive) ? 'primary' : 'secondary'}/>
                     Конструктор
@@ -28,9 +35,9 @@ function AppHeader() {
             </li>
             <li className={styles.menu__item}>
               <NavLink to={'/feed'} end
-                       className={({isActive}) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
+                       className={({ isActive }) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
                          + styles.link + (isActive ? ' ' + styles.link_active : '')}>
-                {({isActive}) => (
+                {({ isActive }) => (
                   <>
                     <ListIcon type={(isActive) ? 'primary' : 'secondary'}/>
                     Лента заказов
@@ -44,9 +51,9 @@ function AppHeader() {
           <Logo/>
         </Link>
         <NavLink to={'/profile'}
-                 className={({isActive}) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
+                 className={({ isActive }) => 'text text_type_main-small pl-5 pr-5 pb-4 pt-4 '
                    + styles.link + (isActive ? ' ' + styles.link_active : '')}>
-          {({isActive}) => (
+          {({ isActive }) => (
             <>
               <ProfileIcon type={(isActive) ? 'primary' : 'secondary'}/>
               {(user && user.name) ? (user.name) : ('Личный кабинет')}
@@ -57,5 +64,3 @@ function AppHeader() {
     </header>
   );
 }
-
-export default AppHeader;

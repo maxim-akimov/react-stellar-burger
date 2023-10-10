@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 import { ingredientsReducer } from './ingredients';
-import {constructorReducer} from "./constructor";
 import {forgotPasswordReducer} from "./forgot-password";
 import {resetPasswordReducer} from "./reset-password";
 import {registerReducer} from "./register";

@@ -1,8 +1,11 @@
+// Библиотеки
 import { FC, ReactElement } from "react";
-
 import { Navigate, useLocation } from 'react-router-dom';
+
+// Хуки
 import { useSelector } from "../../services/hooks/useSelector";
 
+// Компоненты
 import { Preloader } from "../preloader/preloader";
 
 

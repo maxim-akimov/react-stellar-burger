@@ -1,6 +1,10 @@
+// Библиотеки
 import { FC } from "react";
+
+// Хуки
 import {useSelector} from "../../services/hooks/useSelector";
 
+// Стили
 import styles from './order-confirmation.module.css';
 
 

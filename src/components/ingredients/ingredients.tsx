@@ -1,11 +1,18 @@
-import React, { FC, UIEventHandler, useEffect, useMemo, useRef, useState } from "react";
+// Библиотеки
+import { FC, UIEventHandler, useEffect, useMemo, useRef, useState } from "react";
+
+// Хуки
 import { useSelector } from "../../services/hooks/useSelector";
 
-import styles from './ingredients.module.css';
-
+// Компоненты
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { IngredientCard } from "../ingredient-card/ingredient-card";
 import { Preloader } from "../preloader/preloader";
+
+// Стили
+import styles from './ingredients.module.css';
+
+// Типы
 import { ITitlesPosition } from "../../types/main";
 
 

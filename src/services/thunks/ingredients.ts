@@ -10,9 +10,10 @@ import {
 
 export const getIngredientsThunk: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch(getIngredientsRequestAction());
-
+  console.log('ingredientsThunk')
   getIngredientsRequest()
     .then((res) => {
+      console.log('ingredients', res)
       dispatch(getIngredientsSuccessAction(res.data));
     })
     .catch((e) => {

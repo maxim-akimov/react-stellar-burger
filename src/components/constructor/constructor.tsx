@@ -1,24 +1,31 @@
+// Библиотеки
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "../../services/hooks/useDispatch";
-import { useSelector } from "../../services/hooks/useSelector";
 import { useDrop } from "react-dnd";
 import { useNavigate } from 'react-router-dom';
-import { Button, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
+// Хуки
+import { useDispatch } from "../../services/hooks/useDispatch";
+import { useSelector } from "../../services/hooks/useSelector";
+
+// Компоненты
+import { Button, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Modal } from "../modal/modal";
 import { ConstructorListItem } from "../constructor-list-item/constructor-list-item";
 import { OrderConfirmation } from "../order-confirmation/order-confirmation";
 import { Preloader } from "../preloader/preloader";
 
+// Стили
 import styles from './constructor.module.css';
 
-import { checkUserAuthThunk } from "../../services/thunks/authentication";
-
-import { IConstructorIngredient, IIngredient } from "../../types/data";
+// Взаимодействие с хранилищем и сервером
 import { addIngredientAction, rearrangeIngredientAction } from "../../services/actions/constructor";
-import { createOrderThunk } from "../../services/thunks/create-order";
-import { IFindCardReturn } from "../../types/main";
 import { resetOrderAction } from "../../services/actions/create-order";
+import { checkUserAuthThunk } from "../../services/thunks/authentication";
+import { createOrderThunk } from "../../services/thunks/create-order";
+
+// Типы
+import { IConstructorIngredient, IIngredient } from "../../types/data";
+import { IFindCardReturn } from "../../types/main";
 
 
 export const Constructor: FC = () => {
@@ -29,7 +36,6 @@ export const Constructor: FC = () => {
   const { requestState, data } = useSelector((store) => store.order);
   const { bun, other } = useSelector((store) => store.burgerConstructor);
   const cards = useSelector((state) => state.burgerConstructor.other)
-
 
   const [, orderingDropRef] = useDrop(() => ({ accept: 'ingredients-ordering' }))
 

@@ -1,8 +1,14 @@
+// Библиотеки
 import { FC } from "react";
 import { useParams } from "react-router-dom";
+
+// Хуки
 import {useSelector} from "../../services/hooks/useSelector";
 
+// Стили
 import styles from './ingredient-details.module.css';
+
+// Типы
 import { IIngredient } from "../../types/data";
 
 

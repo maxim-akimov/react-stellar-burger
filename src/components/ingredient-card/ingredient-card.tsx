@@ -1,17 +1,23 @@
+// Библиотеки
 import React, { FC, useMemo } from "react";
-import { useDispatch } from "../../services/hooks/useDispatch";
-import { useSelector } from "../../services/hooks/useSelector";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 
+// Хуки
+import { useDispatch } from "../../services/hooks/useDispatch";
+import { useSelector } from "../../services/hooks/useSelector";
+
+// Компоненты
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
+// Стили
 import styles from './ingredient-card.module.css';
 
-
-import { IIngredient } from "../../types/data";
+// Взаимодействие с хранилищем и сервером
 import { setIngredientDetailsAction } from "../../services/actions/ingredient-details";
-import { addIngredientAction } from "../../services/actions/constructor";
+
+// Типы
+import { IIngredient } from "../../types/data";
 
 
 export const IngredientCard: FC<IIngredient> = (props) => {

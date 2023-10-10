@@ -1,7 +1,13 @@
+// Библиотеки
 import { FC } from "react";
+
+// Хуки
 import {useSelector} from "../../services/hooks/useSelector";
 
+// Стили
 import styles from './statistics.module.css';
+
+// Типы
 import { IOrder } from "../../types/data";
 
 

@@ -19,7 +19,7 @@ export const loginThunk: AppThunk = (data) => (dispatch: AppDispatch) => {
     .then((res) => {
       localStorage.setItem("accessToken", res.accessToken);
       localStorage.setItem("refreshToken", res.refreshToken);
-
+      console.log(res)
       dispatch(loginSuccessAction());
       dispatch(setUserAction(res.user));
       dispatch(setAuthCheckedAction(true));
@@ -34,7 +34,7 @@ export const logoutThunk: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch(logoutRequestAction());
 
   return logoutRequest({
-    token: localStorage.getItem('refreshToken')
+    token: localStorage.getItem('refreshToken') as string
   }).then(() => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");

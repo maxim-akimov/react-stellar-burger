@@ -1,7 +1,10 @@
+// Библиотеки
 import { FC } from "react";
 
+// Компоненты
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
+// Стили
 import styles from './preloader.module.css';
 
 

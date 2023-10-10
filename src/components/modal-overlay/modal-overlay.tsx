@@ -1,14 +1,16 @@
+// Библиотеки
 import React, { FC } from "react";
 
+// Стили
 import styles from './modal-overlay.module.css';
 
 
-interface IModalOverlay {
+interface IModalOverlayProps {
   onClose: () => void
 }
 
 
-export const ModalOverlay: FC<IModalOverlay> = (props) => {
+export const ModalOverlay: FC<IModalOverlayProps> = (props) => {
   const { onClose } = props;
 
   return (

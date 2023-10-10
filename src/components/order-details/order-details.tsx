@@ -1,16 +1,25 @@
+// Библиотеки
 import React, { FC, useEffect } from "react";
-import { useDispatch } from "../../services/hooks/useDispatch";
-import { useSelector } from "../../services/hooks/useSelector";
 import { useParams } from "react-router-dom";
 
+// Хуки
+import { useDispatch } from "../../services/hooks/useDispatch";
+import { useSelector } from "../../services/hooks/useSelector";
+
+// Компоненты
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientIcon } from "../ingredient-icon/ingredient-icon";
 import { Preloader } from "../preloader/preloader";
 
+// Стили
 import styles from './order-details.module.css'
 
-import { IIngredient } from "../../types/data";
+// Взаимодействие с хранилищем и сервером
 import { getOrderDetailsThunk } from "../../services/thunks/order-details";
+
+// Типы
+import { IIngredient } from "../../types/data";
+
 
 export const OrderDetails: FC = () => {
   const { orderNumber } = useParams();
@@ -20,15 +29,15 @@ export const OrderDetails: FC = () => {
   const { data, requestState } = useSelector((store) => store.orderDetails);
   const ingredients = useSelector((state) => state.ingredients.data);
 
-  const od = useSelector((store) => store.orderDetails);
-
 
   useEffect(() => {
     dispatch(getOrderDetailsThunk(orderNumber))
   }, [])
 
+
   if (requestState.request) return <Preloader type={'modal'}/>;
   if (!data) return null;
+
 
   //todo reduce
   const quantity: {

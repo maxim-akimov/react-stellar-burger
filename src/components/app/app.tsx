@@ -1,11 +1,13 @@
 // Библиотеки
 import React, { FC, useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+
+// Хуки
 import { useDispatch } from '../../services/hooks/useDispatch'
 import { useSelector } from '../../services/hooks/useSelector'
 
 // Компоненты
-import AppHeader from "../app-header/app-header";
+import { AppHeader } from "../app-header/app-header";
 import { Modal } from "../modal/modal";
 import { Home } from "../../pages/home/home";
 import { Register } from "../../pages/register/register";
@@ -21,11 +23,13 @@ import { Orders } from "../../pages/orders/orders";
 import { User } from "../../pages/profile/user";
 import { Feed } from "../../pages/feed/feed";
 import { OrderDetails } from "../order-details/order-details";
+import { Preloader } from "../preloader/preloader";
 
 // Стили
 import styles from "./app.module.css";
+
+// Взаимодействие с API
 import { getIngredientsThunk } from "../../services/thunks/ingredients";
-import { Preloader } from "../preloader/preloader";
 
 
 export const App: FC = () => {
@@ -34,7 +38,7 @@ export const App: FC = () => {
   const dispatch = useDispatch();
   const background = location.state && location.state.background;
 
-  const ingredients = useSelector((store) => store.ingredients.data)
+  const ingredients = useSelector((store) => store.ingredients)
 
 
   useEffect(() => {
@@ -49,7 +53,7 @@ export const App: FC = () => {
   }
 
 
-  if (!ingredients || ingredients.length === 0) return <Preloader />
+  if (ingredients.requestState.request) return <Preloader />
 
 
   return (

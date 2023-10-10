@@ -30,11 +30,12 @@ type TConditionalResponseType<TDataKey extends string | undefined, TDataType> =
   : TResponseWithoutKey<TDataType>;
 
 
-export type TResponseBody<TDataKey extends string | undefined = '', TDataType = {}> =
+export type TResponseBody<TDataType = {}, TDataKey extends string | undefined = undefined,> =
   TConditionalResponseType<TDataKey, TDataType> & {
   success: boolean;
   message?: string;
   headers?: Headers;
+  json(): Promise<TDataType>
 };
 
 // export type TResponseBody<TDataKey extends string | undefined = '', TDataType = {}> = {

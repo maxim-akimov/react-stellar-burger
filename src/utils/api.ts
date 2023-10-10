@@ -1,51 +1,41 @@
 import { API_URL, API_OPTIONS } from "./constaints";
 import {
-  IForgotPassword, IIngredient,
-  IIngredientsList, ILogin, ILogout, IOrder,
+  IForgotPassword,
+  IIngredient,
+  IIngredientsList,
+  ILogin,
+  ILogout,
+  IOrder,
   IRegister,
-  IResetPassword, IUser
+  IResetPassword,
+  IUser
 } from "../types/data";
 import { IRefreshTokenResponse, TResponseBody } from "../types/api";
 
 
-export const checkResponse = <K extends string | undefined, T>
-(response: Response): Promise<TResponseBody<K, T>> => {
-  console.log(response)
-  if (response.ok) {
-    console.log('json', response.json())
-    return response.json();
-  }
-  return response.json()
-    .then((res) => {
-      if (res.message) {
-        return res;
-      }
-      return Promise.reject(`Ошибка: ${response.status}`);
-    })
-}
+const request = <T = {}, K extends string | undefined = undefined>(endpoint: string, options?: RequestInit)
+  : Promise<TResponseBody<T, K>> => fetch(`${API_URL}/${endpoint}`, { ...API_OPTIONS, ...options })
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return response.json()
+      .then((res) => {
+        if (res.message) {
+          return res;
+        }
+        return Promise.reject(`Ошибка: ${response.status}`);
+      })
+  })
+  .then((response) => {
+    if (response.success) {
+      return response;
+    }
+    return Promise.reject(response);
+  })
 
 
-const checkSuccess = <K extends string | undefined, T>
-(response: TResponseBody<K, T>)
-  : TResponseBody<K, T> | Promise<TResponseBody<K, T>> => {
-  console.log('////////////', response)
-  if (response.success) {
-    return response;
-  }
-
-  return Promise.reject(response);
-}
-
-
-const request = <K extends string | undefined = '', T = {}> (endpoint: string, options?: RequestInit)
-  : Promise<TResponseBody<K, T>> => {
-  return fetch(`${API_URL}/${endpoint}`, { ...API_OPTIONS, ...options })
-    .then(checkResponse<K, T>)
-    .then(checkSuccess<K, T>)
-}
-
-
-export const sendRefreshTokenRequest = () => request<undefined, IRefreshTokenResponse>('auth/token', {
+export const sendRefreshTokenRequest = () => request<IRefreshTokenResponse>('auth/token', {
   method: 'POST',
   body: JSON.stringify({
     token: localStorage.getItem('refreshToken') as string
@@ -53,11 +43,11 @@ export const sendRefreshTokenRequest = () => request<undefined, IRefreshTokenRes
 })
 
 
-const requestWithAuth = <K extends string = '', T = {}>
+const requestWithAuth = <T, K extends string | undefined = undefined>
 (endpoint: string, options?: RequestInit)
-  : Promise<TResponseBody<K, T>> => {
+  : Promise<TResponseBody<T, K>> => {
   // Отправка запроса на сервер
-  return request<K, T>(endpoint, {
+  return request<T, K>(endpoint, {
     headers: {
       'Content-Type': 'application/json',
       authorization: localStorage.getItem('accessToken') as string,
@@ -92,52 +82,52 @@ const requestWithAuth = <K extends string = '', T = {}>
 }
 
 
-export const getIngredientsRequest = () => request<'ingredients', ReadonlyArray<IIngredient>>('ingredients');
+export const getIngredientsRequest = () => request<ReadonlyArray<IIngredient>, 'data'>('ingredients');
 
 
-export const getUserRequest = () => requestWithAuth<'user', IUser>('auth/user')
+export const getUserRequest = () => requestWithAuth<IUser, 'user'>('auth/user')
 
 
-export const getOrderDetailsRequest = (value: number) => request<'orders', ReadonlyArray<IOrder>>(`orders/${value}`)
+export const getOrderDetailsRequest = (value: number) => request<ReadonlyArray<IOrder>, 'orders'>(`orders/${value}`)
 
 
-export const createOrderRequest = (data: IIngredientsList) => requestWithAuth<'order', IOrder>('orders', {
+export const createOrderRequest = (data: IIngredientsList) => requestWithAuth<IOrder, 'order'>('orders', {
   method: 'POST',
   body: JSON.stringify(data),
 });
 
 
-export const forgotPasswordRequest = (data: IForgotPassword) => request<undefined, {}>('password-reset', {
+export const forgotPasswordRequest = (data: IForgotPassword) => request('password-reset', {
   method: 'POST',
   body: JSON.stringify(data),
 });
 
 
-export const resetPasswordRequest = (data: IResetPassword) => request<undefined, {}>('password-reset/reset', {
+export const resetPasswordRequest = (data: IResetPassword) => request('password-reset/reset', {
   method: 'POST',
   body: JSON.stringify(data),
 })
 
 
-export const registerRequest = (data: IRegister) => request<'user', IUser>('auth/register', {
+export const registerRequest = (data: IRegister) => request<IRefreshTokenResponse & { user: IUser }>('auth/register', {
   method: 'POST',
   body: JSON.stringify(data),
 })
 
 
-export const updateUserRequest = (data: IRegister) => requestWithAuth<'user', IUser>('auth/user', {
+export const updateUserRequest = (data: IRegister) => requestWithAuth<IUser, 'user'>('auth/user', {
   method: 'PATCH',
   body: JSON.stringify(data),
 })
 
 
-export const loginRequest = (data: ILogin) => request<'user', IUser>('auth/login', {
+export const loginRequest = (data: ILogin) => request<IRefreshTokenResponse & { user: IUser }>('auth/login', {
   method: 'POST',
   body: JSON.stringify(data),
 })
 
 
-export const logoutRequest = (data: ILogout) => request<undefined, {}>('auth/logout', {
+export const logoutRequest = (data: ILogout) => request('auth/logout', {
   method: 'POST',
   body: JSON.stringify(data),
 })

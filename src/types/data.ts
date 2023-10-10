@@ -1,6 +1,3 @@
-import { string } from "prop-types";
-import { retry } from "@reduxjs/toolkit/query";
-
 export interface IIngredient {
   readonly _id: string,
   readonly name: string,
@@ -66,11 +63,6 @@ export interface ILogin {
 
 export interface IForgotPassword {
   email: string
-}
-
-export interface IAuthResponse {
-  success: boolean,
-  message: string
 }
 
 export interface IResetPassword {
